@@ -309,29 +309,51 @@ function cal_days_in_year($yearact){
 											<tr>
                                                 <td>&emsp;&emsp;% of Occupancy</td>
                                                 
-												<td class="rata-kanan"><?php $occupancy_actual_mtd = ($rs_actual_mtd->TOTAL_ACTUAL / ($dayInMonth * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_actual_mtd,2).'%';?></td>
+												<td class="rata-kanan">
+													<?php $occupancy_actual_mtd = ($rs_actual_mtd->TOTAL_ACTUAL / ($dayInMonth * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_mtd,2).'%';?>
+												</td>
 												<td></td>																								
-                                                <td class="rata-kanan"><?php $occupancy_budget_mtd = ($rs_budget_mtd->TOTAL_BUDGET / ($dayInMonth * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_budget_mtd,2).'%';?> </td> 
+                                                <td class="rata-kanan">
+													<?php $occupancy_budget_mtd = ($rs_budget_mtd->TOTAL_BUDGET / ($dayInMonth * $total_rooms->total_rooms))*100;
+														echo number_format($occupancy_budget_mtd,2).'%';?> 
+												</td> 
                                                 <td></td>
-                                                <td></td> 
+												<td class="rata-kanan">
+													<?php $variance_occ_mtd = $occupancy_actual_mtd - $occupancy_budget_mtd;
+												 	($variance_occ_mtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_mtd,2).'%'; ?></div>
+												</td> 
 
-                                                <td class="rata-kanan"><?php $occupancy_actual_lastmtd = ($rs_actual_lastmtd->TOTAL_ACTUAL / ($dayInMonthLast * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_actual_lastmtd,2).'%';?></td>
+                                                <td class="rata-kanan">
+														<?php $occupancy_actual_lastmtd = ($rs_actual_lastmtd->TOTAL_ACTUAL / ($dayInMonthLast * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_lastmtd,2).'%';?>
+												</td>
 												<td></td>																								
-                                                <td class="rata-kanan"><?php $occupancy_budget_lastmtd = ($rs_budget_lastmtd->TOTAL_BUDGET / ($dayInMonthLast * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_budget_lastmtd,2).'%';?></td> 
+                                                <td class="rata-kanan">
+													<?php $occupancy_budget_lastmtd = ($rs_budget_lastmtd->TOTAL_BUDGET / ($dayInMonthLast * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_budget_lastmtd,2).'%';?>
+												</td> 
                                                 <td></td>
-                                                <td></td> 
+                                                <td class="rata-kanan">
+													<?php $variance_occ_lastmtd = $occupancy_actual_lastmtd - $occupancy_budget_lastmtd;
+												 	($variance_occ_lastmtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_lastmtd,2).'%'; ?></div>
+												</td> 
 
-                                                <td class="rata-kanan"><?php $occupancy_actual_ytd = ($rs_actual_ytd->TOTAL_ACTUAL / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_actual_ytd,2).'%';?></td>
+                                                <td class="rata-kanan">
+													<?php $occupancy_actual_ytd = ($rs_actual_ytd->TOTAL_ACTUAL / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_ytd,2).'%';?></td>
 												<td></td>																								
-                                                <td class="rata-kanan"><?php $occupancy_budget_ytd = ($rs_budget_ytd->TOTAL_BUDGET / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy_budget_ytd,2).'%';?></td> 
+                                                <td class="rata-kanan">
+													<?php $occupancy_budget_ytd = ($rs_budget_ytd->TOTAL_BUDGET / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_budget_ytd,2).'%';?></td> 
                                                 <td></td>
-                                                <td></td> 
+                                                <td class="rata-kanan">
+													<?php $variance_occ_ytd = $occupancy_actual_ytd - $occupancy_budget_ytd;
+												 	($variance_occ_ytd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_ytd,2).'%'; ?></div>
+												</td> 
 												
 											</tr>
 										<?php foreach ($smartreport_pnlcategory_data as $smartreport_pnlcategory){
@@ -386,13 +408,7 @@ function cal_days_in_year($yearact){
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
                                                             <!--START MTD-->
 															<td class="rata-kanan">
-                                                                <?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
-																			if($trr_actual_mtd->TOTAL_ACTUAL!=0 && $rs_actual_mtd->TOTAL_ACTUAL !=0){
-																			echo number_format($trr_actual_mtd->TOTAL_ACTUAL/$rs_actual_mtd->TOTAL_ACTUAL,0);
-																			}
-																		}else{																			 
-																			echo number_format($total_actual_mtd->TOTAL_ACTUAL);
-                                                                        }?>	
+                                                                <?php echo number_format($total_actual_mtd->TOTAL_ACTUAL);?>	
                                                             </td>
 															<td class="rata-kanan">
                                                                 <?php if($smartreport_pnllist->idpnlcategory != 1){
@@ -401,31 +417,23 @@ function cal_days_in_year($yearact){
 																	}
 																}?>
                                                             </td>													
-                                                            <td class="rata-kanan"><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
-																			if($trr_budget_mtd->TOTAL_BUDGET!=0 && $rs_budget_mtd->TOTAL_BUDGET !=0){
-																			echo number_format($trr_budget_mtd->TOTAL_BUDGET/$rs_budget_mtd->TOTAL_BUDGET,0);
-																			}
-																		}else{																			 
-																			echo number_format($total_budget_mtd->TOTAL_BUDGET);
-																		}?>
-															</td> 
+                                                            <td class="rata-kanan"><?php echo number_format($total_budget_mtd->TOTAL_BUDGET);?></td> 
                                                             <td class="rata-kanan"><?php if($smartreport_pnllist->idpnlcategory != 1){
 																	if($total_budget_mtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY !=0 ){
 																		echo number_format(($total_budget_mtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 																	}
-																}?></td> 
-															<td class="rata-kanan">Variance</td>
+																}?>
+															</td> 
+															<td class="rata-kanan">
+																<?php $variance_pnl = $total_actual_mtd->TOTAL_ACTUAL - $total_budget_mtd->TOTAL_BUDGET;
+																($variance_pnl <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_pnl,0); ?></div>
+															</td>
 															<!--END MTD-->
 															
 															<!--START LAST MONTH-->
                                                             <td class="rata-kanan">
-                                                                <?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
-																			if($trr_actual_lastmtd->TOTAL_ACTUAL!=0 && $rs_actual_lastmtd->TOTAL_ACTUAL !=0){
-																			echo number_format($trr_actual_lastmtd->TOTAL_ACTUAL/$rs_actual_lastmtd->TOTAL_ACTUAL,0);
-																			}
-																		}else{																			 
-																			echo number_format($total_actual_lastmtd->TOTAL_ACTUAL);
-                                                                        }?>	
+                                                                <?php echo number_format($total_actual_lastmtd->TOTAL_ACTUAL);?>	
                                                             </td>
 															<td class="rata-kanan">
                                                                 <?php if($smartreport_pnllist->idpnlcategory != 1){
@@ -434,22 +442,27 @@ function cal_days_in_year($yearact){
 																	}
 																}?>
                                                             </td>													
-                                                            <td class="rata-kanan"><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
-																			if($trr_budget_lastmtd->TOTAL_BUDGET!=0 && $rs_budget_lastmtd->TOTAL_BUDGET !=0){
-																			echo number_format($trr_budget_lastmtd->TOTAL_BUDGET/$rs_budget_lastmtd->TOTAL_BUDGET,0);
-																			}
-																		}else{																			 
-																			echo number_format($total_budget_lastmtd->TOTAL_BUDGET);
-                                                                        }?>	</td> 
-                                                            <td class="rata-kanan"></td> 
-															<td class="rata-kanan">Variance LAST MONTH</td>
+                                                            <td class="rata-kanan"><?php echo number_format($total_budget_lastmtd->TOTAL_BUDGET);?>	</td> 
+                                                            <td class="rata-kanan">
+																<?php if($smartreport_pnllist->idpnlcategory != 1){
+																	if($total_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																		echo number_format(($total_budget_lastmtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}
+																}?>
+															</td> 
+															<td class="rata-kanan">
+																<?php $variance_pnllastmtd = $total_actual_lastmtd->TOTAL_ACTUAL - $total_budget_lastmtd->TOTAL_BUDGET;
+																($variance_pnllastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_pnllastmtd,0); ?></div>
+															</td>
 															<!--END LAST MONTH-->
 
 															<!--START YTD-->
                                                             <td class="rata-kanan">
                                                                         <?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
 																			if($trr_actual_ytd->TOTAL_ACTUAL!=0 && $rs_actual_ytd->TOTAL_ACTUAL !=0){
-																			echo number_format($trr_actual_ytd->TOTAL_ACTUAL/$rs_actual_ytd->TOTAL_ACTUAL,0);
+																				$arr_actual_ytd = $trr_actual_ytd->TOTAL_ACTUAL/$rs_actual_ytd->TOTAL_ACTUAL;
+																				echo number_format($arr_actual_ytd,0);
 																			}
 																		}else{																			 
 																			echo number_format($total_actual_ytd->TOTAL_ACTUAL);
@@ -464,7 +477,8 @@ function cal_days_in_year($yearact){
                                                             </td>													
                                                             <td class="rata-kanan"><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
 																			if($trr_budget_ytd->TOTAL_BUDGET!=0 && $rs_budget_ytd->TOTAL_BUDGET !=0){
-																			echo number_format($trr_budget_ytd->TOTAL_BUDGET/$rs_budget_ytd->TOTAL_BUDGET,0);
+																				$arr_budget_ytd = $trr_budget_ytd->TOTAL_BUDGET/$rs_budget_ytd->TOTAL_BUDGET;
+																				echo number_format($arr_budget_ytd,0);
 																			}
 																		}else{																			 
 																			echo number_format($total_budget_ytd->TOTAL_BUDGET);
@@ -477,7 +491,16 @@ function cal_days_in_year($yearact){
 																	}
 																}?>
 															</td> 
-															<td class="rata-kanan">Variance</td>
+															<td class="rata-kanan">
+																<?php if($smartreport_pnllist->idpnl == 1){ 
+																	$variance_pnlytd = $arr_actual_ytd - $arr_budget_ytd;
+																}else{
+																	$variance_pnlytd = $total_actual_ytd->TOTAL_ACTUAL - $total_budget_ytd->TOTAL_BUDGET;
+																}
+																
+																($variance_pnlytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_pnlytd,0); ?></div>
+															</td>
 															<!--END YTD-->
 													  		                                        
                                                         </tr>
@@ -489,19 +512,25 @@ function cal_days_in_year($yearact){
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY,0);?></td>
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>Total Variance MTD</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategory = $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY;
+																																													($variance_grandtotal_pnlcategory <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategory,0); ?></div></td>	
 
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>Total Variance LAST MONTH</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategorylastmtd = $grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY;
+																																													($variance_grandtotal_pnlcategorylastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategorylastmtd,0); ?></div></td>	
 
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>Total Variance YTD</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategoryytd = $grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY;
+																																													($variance_grandtotal_pnlcategoryytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategoryytd,0); ?></div></td>	
 													
 												</tr>	
 											<?php } ?>			

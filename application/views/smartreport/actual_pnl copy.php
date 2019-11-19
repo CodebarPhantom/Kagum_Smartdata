@@ -69,8 +69,8 @@
 	$startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
 	$enddate_mtd = $dateToView;  */
 $total_rooms = $this->Dashboard_model->getDataHotel($user_ho);
-$total_room_revenue = $this->Smartreport_pnl_model->get_total_budget( "4", $user_ho, $dateToView); //4 adalah idpnl Room
-$occupied_room = $this->Smartreport_pnl_model->get_total_budget( "7", $user_ho, $dateToView); //7 adalah idpnl occupied room / room sold
+$total_room_revenue = $this->Smartreport_actual_model->get_total_actual( "4", $user_ho, $dateToView); //4 adalah idpnl Room
+$occupied_room = $this->Smartreport_actual_model->get_total_actual( "7", $user_ho, $dateToView); //7 adalah idpnl occupied room / room sold
 
 function cal_days_in_year($dateToView){
 	$days=0; 
@@ -85,7 +85,7 @@ function cal_days_in_year($dateToView){
         <div class="page-header page-header-light">
 				<div class="page-header-content header-elements-md-inline">
 					<div class="page-title d-flex">
-						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><?php echo $lang_pnl; ?></span> - <?php echo $lang_pnl_budget; ?></h4>
+						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><?php echo $lang_pnl; ?></span> - <?php echo $lang_pnl_expense; ?></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
 
@@ -100,7 +100,7 @@ function cal_days_in_year($dateToView){
 			<!-- Content area -->
 			<div class="card">
 				<div class="card-header header-elements-inline">
-					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $hotel->hotels_name .' - '.$lang_pnl_budget; ?></strong></h6>
+					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $hotel->hotels_name .' - '.$lang_pnl_expense; ?></strong></h6>
 					<div class="header-elements">
 						<div class="list-icons">
 				            <a class="list-icons-item" data-action="collapse"></a>
@@ -111,20 +111,37 @@ function cal_days_in_year($dateToView){
 				
 				<div class="card-body">
 					<ul class="nav nav-tabs nav-tabs-highlight justify-content-end">
-						<li class="nav-item"><a href="#right-pnl1" class="nav-link active" data-toggle="tab"><i class="icon-stats-dots mr-2"></i><?php echo $lang_budget_data?></a></li>
+						<li class="nav-item"><a href="#right-pnl1" class="nav-link active" data-toggle="tab"><i class="icon-stats-dots mr-2"></i><?php echo $lang_actual_data?></a></li>
 					    <li class="nav-item"><a href="#right-pnl2" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
 					</ul>
 
 				    <div class="tab-content">
 						
 						<div class="tab-pane fade show active" id="right-pnl1">
-							<form action="<?php echo base_url()?>smartreportpnl/budget_pnl" method="get" accept-charset="utf-8" enctype="multipart/form-data">		
+							<form action="<?php echo base_url()?>smartreportpnl/actual_pnl" method="get" accept-charset="utf-8" enctype="multipart/form-data">		
 								<div class="col-md-5">	
 									<div class="form-group">
-										<div class="row">											
-                                            <div class="col-sm-6">
+										<div class="row">	
+                                        <div class="col-sm-5">
+												<label><?php echo $lang_month; ?></label>
+													<select name="month_actual" class="form-control" required>
+														<option value="01">January</option>
+														<option value="02">February</option>
+														<option value="03">March</option>
+														<option value="04">April</option>
+														<option value="05">May</option>
+														<option value="06">June</option>
+														<option value="07">July</option>
+														<option value="08">August</option>
+														<option value="09">September</option>
+														<option value="10">October</option>
+														<option value="11">November</option>
+														<option value="12">December</option>
+													</select>
+											</div>										
+                                            <div class="col-sm-5">
 												<label><?php echo $lang_year ?></label>
-												<select name="year_budget" class="form-control" required>
+												<select name="year_actual" class="form-control" required>
 													<?php
 														for($i=date('Y'); $i>=2018; $i--) {
 														$selected = '';
@@ -146,9 +163,9 @@ function cal_days_in_year($dateToView){
 								</div>
 							</form>	
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap table-hover customEryan datatable-nobutton">
-									<thead style="vertical-align: middle; text-align: center">
-										<tr >
+								<table class="table table-bordered text-nowrap table-hover customEryan datatable-nobutton-1column">
+									<thead>
+										<tr style="vertical-align: middle; text-align: center">
 											<th rowspan="2"><?php echo $lang_description; ?></th>											
 											<th colspan="2">Summary</th>											
 											<th rowspan="2">January</th>
@@ -215,13 +232,13 @@ function cal_days_in_year($dateToView){
 
 											<tr>
 												<td>&emsp;&emsp;% of Occupancy</td>
-												<td class="rata-kanan"><?php echo number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%'; ?></td>
+												<td class="rata-kanan"><?php echo number_format($occupied_room->TOTAL_ACTUAL/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%'; ?></td>
 												<td></td>
 												<?php for($month= 1; $month<=12; $month++ ){ ?>													
 												<td class="rata-kanan"><?php 
-																$budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($user_ho, $month, $dateToView);
+																$actual_roomsold = $this->Smartreport_actual_model->get_data_actualroomsold($user_ho, $month, $dateToView);
 																$dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
-																$occupancy= ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
+																$occupancy= ($actual_roomsold->ACTUALROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
 																echo number_format($occupancy,2).'%';?>
 													</td>  
 												<?php } ?> 
@@ -229,8 +246,8 @@ function cal_days_in_year($dateToView){
 										<?php foreach ($smartreport_pnlcategory_data as $smartreport_pnlcategory){
 												/* Terlalu Dinamis parah, PNL Statistic sudah hilang karena sudah jadi header diatas IDPNLCATEGORY 1 itu adalah STATISTIC*/
 												//$dateToView itu ada year
-												$smartreport_pnllist_data = $this->Smartreport_pnl_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
-												$grandtotal_pnlcategory = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $dateToView); ?>
+												$smartreport_pnllist_data = $this->Smartreport_actual_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
+												$grandtotal_pnlcategory = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $dateToView); ?>
 											<tr >
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> colspan="3"><strong><?php echo $smartreport_pnlcategory->pnl_category;?></strong></td>	
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> style="display: none;"></td>
@@ -249,27 +266,27 @@ function cal_days_in_year($dateToView){
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> style="display: none;"></td>                                												
 											</tr>		
 												<?php foreach ($smartreport_pnllist_data as $smartreport_pnllist ){
-													  $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist->idpnl, $user_ho, $dateToView);?>
+													  $total_actual = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $user_ho, $dateToView);?>
                                                         <tr>															
 															<td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
 															<td class="rata-kanan" ><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
-																			if($total_room_revenue->TOTAL_BUDGET!=0 && $occupied_room->TOTAL_BUDGET !=0){
-																			echo number_format($total_room_revenue->TOTAL_BUDGET/$occupied_room->TOTAL_BUDGET,0);
+																			if($total_room_revenue->TOTAL_ACTUAL!=0 && $occupied_room->TOTAL_ACTUAL !=0){
+																			echo number_format($total_room_revenue->TOTAL_ACTUAL/$occupied_room->TOTAL_ACTUAL,0);
 																			}
 																		}else{																			 
-																			echo number_format($total_budget->TOTAL_BUDGET);
+																			echo number_format($total_actual->TOTAL_ACTUAL);
 																		}?>																
 															</td>
 															<td class="rata-kanan"><?php if($smartreport_pnllist->idpnlcategory != 1){
-																	if($total_budget->TOTAL_BUDGET !=0 && $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 ){
-																		echo number_format(($total_budget->TOTAL_BUDGET/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	if($total_actual->TOTAL_ACTUAL !=0 && $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 ){
+																		echo number_format(($total_actual->TOTAL_ACTUAL/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 																	}
 																}?>
 															</td>
 															<?php for($month= 1; $month<=12; $month++ ){ ?>																
 															<td class="rata-kanan">
-																<?php $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist->idpnl, $user_ho, $month, $dateToView);
-																echo number_format($budget_data->BUDGET,0);?>
+																<?php $actual_data = $this->Smartreport_actual_model->get_data_actual( $smartreport_pnllist->idpnl, $user_ho, $month, $dateToView);
+																echo number_format($actual_data->ACTUAL,0);?>
 															</td>  
 													  		<?php } ?>                                           
                                                         </tr>
@@ -283,7 +300,7 @@ function cal_days_in_year($dateToView){
 													
 													<?php for($month= 1; $month<=12; $month++ ){ ?>					
 													<td  <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>> 
-														 <?php $total_pnlcategorybymonth = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth($smartreport_pnlcategory->idpnlcategory, $user_ho, $month, $dateToView); 
+														 <?php $total_pnlcategorybymonth = $this->Smartreport_actual_model->get_total_pnlcategorybymonth($smartreport_pnlcategory->idpnlcategory, $user_ho, $month, $dateToView); 
 														 echo number_format($total_pnlcategorybymonth->TOTAL_PNLCATEGORYBYMONTH,0); ?>														
 													</td>
 													<?php } ?> 
@@ -295,13 +312,13 @@ function cal_days_in_year($dateToView){
 						</div>
 
 						<div class="tab-pane fade" id="right-pnl2">							
-							<form action="<?php echo base_url()?>smartreportpnl/insert_budget_pnl" method="post" accept-charset="utf-8" enctype="multipart/form-data">								
+							<form action="<?php echo base_url()?>smartreportpnl/insert_actual_pnl" method="post" accept-charset="utf-8" enctype="multipart/form-data">								
 								<div class="col-md-5">	
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_month; ?></label>
-													<select name="month_budget" class="form-control" required>
+													<select name="month_actual" class="form-control" required>
 														<option value="01">January</option>
 														<option value="02">February</option>
 														<option value="03">March</option>
@@ -318,7 +335,7 @@ function cal_days_in_year($dateToView){
 											</div>
                                             <div class="col-sm-6">
 												<label><?php echo $lang_year ?></label>
-												<select name="year_budget" class="form-control" required>
+												<select name="year_actual" class="form-control" required>
 													<?php
 														for($i=date('Y'); $i>=2018; $i--) {
 														$selected = '';
@@ -347,13 +364,13 @@ function cal_days_in_year($dateToView){
                                                 <td><strong><?= $smartreport_pnlcategory->pnl_category;?></strong></td>	    
                                                 <td>&nbsp;</td>                                            												
                                             </tr>
-                                                <?php $smartreport_pnllist_data = $this->Smartreport_pnl_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
+                                                <?php $smartreport_pnllist_data = $this->Smartreport_actual_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
                                                       foreach ($smartreport_pnllist_data as $smartreport_pnllist ){?>
                                                         <tr>
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
                                                             <td>
 																<input type="hidden" name="idpnl[]" value="<?php echo $smartreport_pnllist->idpnl;?>">
-																<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="budget_value[]" class="form-control" required>
+																<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value[]" class="form-control" required>
 															</td>                                             
                                                         </tr>
                                                 <?php }?>

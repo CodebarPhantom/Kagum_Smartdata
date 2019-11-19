@@ -58,10 +58,10 @@
 					<div class="card mb-0">
 						<div class="card-body">
 							<div class="text-center mb-3">
-								<img src="<?php echo base_url();?>assets/backend/global_assets/images/smartreport.png" class="responsive " height="90" width="90">
+								<img src="<?php echo base_url();?>assets/backend/global_assets/images/kagumsmartdata.png" class="responsive " height="70" width="125">
 								
 								<!--<i class="icon-users4 icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>-->
-								<h5 class="mb-0">Kagum Hotels Smart Report</h5>
+								<h5 class="mb-0">Kagum Hotels Smart Data</h5>
 								<span class="d-block text-muted">Login to Your Account</span>
 							</div>
 

@@ -271,6 +271,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['budget'] = 'Budget';
     $lang['pnl_budget'] = 'Budget PNL';
     $lang['budget_data'] = 'Budget Data';
+    $lang['actual_data'] = 'Actual Data';
     $lang['expense'] = 'Actual';
     $lang['pnl_expense'] = 'Actual PNL';
     

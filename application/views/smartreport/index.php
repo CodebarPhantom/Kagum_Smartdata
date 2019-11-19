@@ -6,7 +6,7 @@
     </head>
     
         <?php $sidebar ="";
-        if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'budget_pnl' || $tk_m == 'daily_sales_report' ) { 
+        if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'budget_pnl' || $tk_m == 'daily_sales_report' || $tk_m == 'actual_pnl' ) { 
             $sidebar = "sidebar-xs";
         }?>
     

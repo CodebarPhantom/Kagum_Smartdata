@@ -109,8 +109,7 @@ class Smartreport_pnl_model extends CI_Model
         return $this->db->get();
     }
 
-    function delete_pnlbyiddate($idhotels,$idp, $date_budget){
-        
+    function delete_pnlbyiddate($idhotels,$idp, $date_budget){       
         
         $this->db->where('idhotels', $idhotels);
         $this->db->where('idpnl', $idp );
@@ -118,8 +117,8 @@ class Smartreport_pnl_model extends CI_Model
         $this->db->delete('smartreport_budget');
     }
 
-    function insert_batch_data($table, $data_analysis){
-        $this->db->insert_batch($table, $data_analysis);
+    function insert_batch_data($table, $data_pnl){
+        $this->db->insert_batch($table, $data_pnl);
     }
 
     function get_data_budget($idpnl, $idhotels, $month, $year){
@@ -158,7 +157,8 @@ class Smartreport_pnl_model extends CI_Model
         $this->db->where("sp.idpnlcategory= '$idpnlcategory' AND MONTH(sb.date_budget) ='$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
         return $this->db->get()->row();
     }
-
+    
+    /* BEGIN - UNTUK DSR ambil dari BUDGET */
     function get_roomsold_budget($idhotels, $month, $year){
         $this->db->select("sum(sb.budget_value) as BUDGET_ROOMSOLD");
         $this->db->from("smartreport_budget as sb");
@@ -270,5 +270,8 @@ class Smartreport_pnl_model extends CI_Model
         $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='6'   AND MONTH(sb.date_budget) BETWEEN '01' AND '$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
         return $this->db->get()->row();
     }
+    /* END- UNTUK DSR ambil dari BUDGET */
     
+
+
 }

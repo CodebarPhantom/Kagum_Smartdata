@@ -89,7 +89,7 @@
 	$startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
     $enddate_mtd = $dateToView;  */
     
-
+$arr_actual_ytd =0;
 
 $total_rooms = $this->Dashboard_model->getDataHotel($user_ho);
 $trr_actual_mtd = $this->Smartreport_actual_model->get_total_actual( "4", $user_ho, $monthact, $yearact); //4 adalah idpnl Room
@@ -310,49 +310,53 @@ function cal_days_in_year($yearact){
                                                 <td>&emsp;&emsp;% of Occupancy</td>
                                                 
 												<td class="rata-kanan">
-													<?php $occupancy_actual_mtd = ($rs_actual_mtd->TOTAL_ACTUAL / ($dayInMonth * $total_rooms->total_rooms))*100;
-															echo number_format($occupancy_actual_mtd,2).'%';?>
+													<?php if($total_rooms->total_rooms != 0){
+															$occupancy_actual_mtd = ($rs_actual_mtd->TOTAL_ACTUAL / ($dayInMonth * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_mtd,2).'%';}?>
 												</td>
 												<td></td>																								
                                                 <td class="rata-kanan">
-													<?php $occupancy_budget_mtd = ($rs_budget_mtd->TOTAL_BUDGET / ($dayInMonth * $total_rooms->total_rooms))*100;
-														echo number_format($occupancy_budget_mtd,2).'%';?> 
+													<?php if($total_rooms->total_rooms != 0){$occupancy_budget_mtd = ($rs_budget_mtd->TOTAL_BUDGET / ($dayInMonth * $total_rooms->total_rooms))*100;
+														echo number_format($occupancy_budget_mtd,2).'%';}?> 
 												</td> 
                                                 <td></td>
-												<td class="rata-kanan">
-													<?php $variance_occ_mtd = $occupancy_actual_mtd - $occupancy_budget_mtd;
-												 	($variance_occ_mtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_mtd,2).'%'; ?></div>
+												<td class="rata-kanan"> 
+													<?php if($total_rooms->total_rooms != 0){
+													 $variance_occ_mtd = $occupancy_actual_mtd - $occupancy_budget_mtd;
+												 	($variance_occ_mtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600';} ?>
+													<div class="<?php if($total_rooms->total_rooms != 0){echo $textcolor;} ?>"><?php if($total_rooms->total_rooms != 0){echo number_format($variance_occ_mtd,2).'%';} ?></div>
 												</td> 
 
                                                 <td class="rata-kanan">
-														<?php $occupancy_actual_lastmtd = ($rs_actual_lastmtd->TOTAL_ACTUAL / ($dayInMonthLast * $total_rooms->total_rooms))*100;
-															echo number_format($occupancy_actual_lastmtd,2).'%';?>
+														<?php if($total_rooms->total_rooms != 0){$occupancy_actual_lastmtd = ($rs_actual_lastmtd->TOTAL_ACTUAL / ($dayInMonthLast * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_lastmtd,2).'%';}?>
 												</td>
 												<td></td>																								
                                                 <td class="rata-kanan">
-													<?php $occupancy_budget_lastmtd = ($rs_budget_lastmtd->TOTAL_BUDGET / ($dayInMonthLast * $total_rooms->total_rooms))*100;
-															echo number_format($occupancy_budget_lastmtd,2).'%';?>
+													<?php if($total_rooms->total_rooms != 0){$occupancy_budget_lastmtd = ($rs_budget_lastmtd->TOTAL_BUDGET / ($dayInMonthLast * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_budget_lastmtd,2).'%';}?>
 												</td> 
                                                 <td></td>
                                                 <td class="rata-kanan">
-													<?php $variance_occ_lastmtd = $occupancy_actual_lastmtd - $occupancy_budget_lastmtd;
-												 	($variance_occ_lastmtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_lastmtd,2).'%'; ?></div>
+													<?php if($total_rooms->total_rooms != 0){
+														$variance_occ_lastmtd = $occupancy_actual_lastmtd - $occupancy_budget_lastmtd;
+												 	($variance_occ_lastmtd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600';} ?>
+													<div class="<?php if($total_rooms->total_rooms != 0){echo $textcolor;} ?>"><?php if($total_rooms->total_rooms != 0){echo number_format($variance_occ_lastmtd,2).'%';} ?></div>
 												</td> 
 
                                                 <td class="rata-kanan">
-													<?php $occupancy_actual_ytd = ($rs_actual_ytd->TOTAL_ACTUAL / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
-															echo number_format($occupancy_actual_ytd,2).'%';?></td>
+													<?php if($total_rooms->total_rooms != 0){$occupancy_actual_ytd = ($rs_actual_ytd->TOTAL_ACTUAL / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_actual_ytd,2).'%';}?></td>
 												<td></td>																								
                                                 <td class="rata-kanan">
-													<?php $occupancy_budget_ytd = ($rs_budget_ytd->TOTAL_BUDGET / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
-															echo number_format($occupancy_budget_ytd,2).'%';?></td> 
+													<?php if($total_rooms->total_rooms != 0){$occupancy_budget_ytd = ($rs_budget_ytd->TOTAL_BUDGET / (($diffdateytd->days + 1) * $total_rooms->total_rooms))*100;
+															echo number_format($occupancy_budget_ytd,2).'%';}?></td> 
                                                 <td></td>
                                                 <td class="rata-kanan">
-													<?php $variance_occ_ytd = $occupancy_actual_ytd - $occupancy_budget_ytd;
-												 	($variance_occ_ytd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_occ_ytd,2).'%'; ?></div>
+													<?php if($total_rooms->total_rooms != 0){
+													$variance_occ_ytd = $occupancy_actual_ytd - $occupancy_budget_ytd;
+												 	($variance_occ_ytd < 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600';} ?>
+													<div class="<?php if($total_rooms->total_rooms != 0){echo $textcolor;} ?>"><?php if($total_rooms->total_rooms != 0){echo number_format($variance_occ_ytd,2).'%';} ?></div>
 												</td> 
 												
 											</tr>
@@ -493,7 +497,7 @@ function cal_days_in_year($yearact){
 															</td> 
 															<td class="rata-kanan">
 																<?php if($smartreport_pnllist->idpnl == 1){ 
-																	$variance_pnlytd = $arr_actual_ytd - $arr_budget_ytd;
+																	if($total_rooms->total_rooms != 0){$variance_pnlytd = $arr_actual_ytd - $arr_budget_ytd;}
 																}else{
 																	$variance_pnlytd = $total_actual_ytd->TOTAL_ACTUAL - $total_budget_ytd->TOTAL_BUDGET;
 																}

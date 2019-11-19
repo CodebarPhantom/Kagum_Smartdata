@@ -351,7 +351,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                    <td><?php echo $occ_today;?></td>
                                    <td></td>
 
-                                   <td><?php  echo number_format((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)/($getHotelByUser->total_rooms))*100,2).'%';    ?></td>
+                                   <td><?php  if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)/($getHotelByUser->total_rooms))*100,2).'%';}    ?></td>
                                    <td></td>
                                    
                                    <td><?php $ri_mtd = $getHotelByUser->total_rooms * $perdate;
@@ -361,7 +361,7 @@ $ri_mtd = 0; $ri_ytd = 0;
 											echo number_format($occ_mtd,2).'%';?></td>
                                    <td></td>
                                    
-                                   <td><?php echo number_format(((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$perdate)/($getHotelByUser->total_rooms * $perdate))*100,2).'%'; ?></td>
+                                   <td><?php if($getHotelByUser->total_rooms != 0){ echo number_format(((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$perdate)/($getHotelByUser->total_rooms * $perdate))*100,2).'%';} ?></td>
                                    <td></td>
 
                                    <td><?php if($rs_ytd != 0 && $ri_ytd != 0){
@@ -369,7 +369,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                         } ?></td>
                                    <td></td>
 
-                                   <td><?php echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$perdate)/$ri_ytd)*100,2).'%'; ?></td>
+                                   <td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$perdate)/$ri_ytd)*100,2).'%';} ?></td>
                                    <td></td> 
                                 </tr>
 
@@ -415,7 +415,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                    <td><?php echo number_format($arr_ytd);?></td>
                                    <td></td>
                                    
-                                   <td><?php echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd); ?></td>
+                                   <td><?php if($getHotelByUser->total_rooms != 0){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
                                    <td></td> 
                                 </tr>
 

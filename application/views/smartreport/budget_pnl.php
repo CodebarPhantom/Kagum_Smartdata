@@ -215,14 +215,16 @@ function cal_days_in_year($dateToView){
 
 											<tr>
 												<td>&emsp;&emsp;% of Occupancy</td>
-												<td class="rata-kanan"><?php echo number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%'; ?></td>
+												<td class="rata-kanan"><?php if($total_rooms->total_rooms != 0){ echo number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%';} ?></td>
 												<td></td>
 												<?php for($month= 1; $month<=12; $month++ ){ ?>													
 												<td class="rata-kanan"><?php 
+														if($total_rooms->total_rooms != 0){
 																$budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($user_ho, $month, $dateToView);
 																$dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
-																$occupancy= ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
-																echo number_format($occupancy,2).'%';?>
+																$occupancy = ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
+																
+																echo number_format($occupancy,2).'%';} ?>
 													</td>  
 												<?php } ?> 
 											</tr>

@@ -19,6 +19,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['all_city'] = 'Show All City';
     $lang['month'] = 'Month';
     $lang['year'] = 'Year';
+    $lang['add_data_bypnl'] = 'Add Data by PNL';
+
 
     $lang['input_success'] = 'Input Success !';
     $lang['success_input_data'] = 'Success Input Data';
@@ -169,6 +171,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['choose_status'] = 'Choose Status';
     $lang['choose_star'] = 'Choose Star';
     $lang['choose_pnl_category'] = 'Choose PNL Category';
+    $lang['choose_pnl_list'] = 'Choose PNL List';
 
     $lang['browse_job'] = 'Browse Job';
     $lang['placement'] = 'Placement';
@@ -259,6 +262,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['arr'] = 'Average Room Rate';
     $lang['statistic'] = 'STATISTIC';
     $lang['sales'] = 'SALES';
+
+    $lang['select_month'] = 'Select Month';
+    $lang['select_year'] = 'Select Year';
 
     $lang['pnl'] = 'Profit and Loss';
     $lang['pnl_category'] = 'Category PNL';

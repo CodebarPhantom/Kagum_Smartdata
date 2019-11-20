@@ -49,6 +49,29 @@
 		$('.custom_category').select2({
 			//minimumInputLength: 3
 		});	
+	
+
+	$('#categorypnl').change(function(){ 
+		var id=$(this).val();
+			$.ajax({
+				url : "<?php echo site_url('smartreportpnl/get_pnllist');?>",
+				method : "POST",
+				data : {id: id},
+				async : true,
+				dataType : 'json',
+				success: function(data){
+					
+					var html = '<option value=""><?php echo $lang_choose_pnl_list;?></option>';
+					var i;
+					for(i=0; i<data.length; i++){
+						html += '<option value='+data[i].idpnl+'>'+data[i].pnl_name+'</option>';
+					}
+					$('#pnllist').html(html);
+
+				}
+			});
+			return false;
+		}); 
 	});
 </script> 
 <?php
@@ -157,7 +180,8 @@ function cal_days_in_year($yearact){
 				<div class="card-body">
 					<ul class="nav nav-tabs nav-tabs-highlight justify-content-end">
 						<li class="nav-item"><a href="#right-pnl1" class="nav-link active" data-toggle="tab"><i class="icon-stats-dots mr-2"></i><?php echo $lang_actual_data?></a></li>
-					    <li class="nav-item"><a href="#right-pnl2" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
+						<li class="nav-item"><a href="#right-pnl2" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
+						<li class="nav-item"><a href="#right-pnl3" class="nav-link" data-toggle="tab"><i class="icon-plus3 mr-2"></i><?php echo $lang_add_data_bypnl?></a></li>	
 					</ul>
 
 				    <div class="tab-content">
@@ -551,6 +575,7 @@ function cal_days_in_year($yearact){
 											<div class="col-sm-6">
 												<label><?php echo $lang_month; ?></label>
 													<select name="month_actual" class="form-control" required>
+														<option value="">-- <?php echo $lang_select_month;?> --</option>
 														<option value="01">January</option>
 														<option value="02">February</option>
 														<option value="03">March</option>
@@ -568,10 +593,10 @@ function cal_days_in_year($yearact){
                                             <div class="col-sm-6">
 												<label><?php echo $lang_year ?></label>
 												<select name="year_actual" class="form-control" required>
+												<option value="">-- <?php echo $lang_select_year;?> --</option>
 													<?php
 														for($i=date('Y'); $i>=2018; $i--) {
-														$selected = '';
-														if ($tahun == $i) $selected = ' selected="selected"';
+														
 														print('<option value="'.$i.'"'.$selected.'>'.$i.'</option>'."\n");
 													}?>
 												</select>  
@@ -617,6 +642,98 @@ function cal_days_in_year($yearact){
 							</form>
 						</div>
 						
+						<div class="tab-pane fade" id="right-pnl3">
+							<form action="<?php echo base_url()?>smartreportpnl/add_actual_data_bypnl" method="post" accept-charset="utf-8">
+								<div class="col-md-7">	
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><?php echo $lang_month; ?></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">												
+												<select name="month_actual" class="form-control" required>
+														<option  value="" >--  <?php echo $lang_select_month;?> --</option>
+														<option  value="01">January</option>
+														<option  value="02">February</option>
+														<option  value="03">March</option>
+														<option  value="04">April</option>
+														<option  value="05">May</option>
+														<option  value="06">June</option>
+														<option  value="07">July</option>
+														<option  value="08">August</option>
+														<option  value="09">September</option>
+														<option  value="10">October</option>
+														<option  value="11">November</option>
+														<option  value="12">December</option>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><label><?php echo $lang_year ?></label></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">	
+												<select name="year_actual" class="form-control" required>
+													<option value="">-- <?php echo $lang_select_year;?> --</option>
+													<?php
+														for($i=date('Y'); $i>=2018; $i--) {														
+														print('<option value="'.$i.'"'.$selected.'>'.$i.'</option>'."\n");
+													}?>
+												</select>  
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><?php echo $lang_pnl_category; ?></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">												
+											<select name="idpnlcategory" class="form-control" required id="categorypnl" autocomplete="off">
+													<option value=""><?php echo $lang_choose_pnl_category; ?></option>
+												<?php
+													$pnlcategoryData = $this->Smartreport_pnl_model->getDataAll('smartreport_pnlcategory', 'idpnlcategory', 'ASC');
+													for ($p = 0; $p < count($pnlcategoryData); ++$p) {
+														$idpnlcategory = $pnlcategoryData[$p]->idpnlcategory;
+														$pnlcategoryname = $pnlcategoryData[$p]->pnl_category;?>
+														<option  value="<?php echo $idpnlcategory; ?>">
+															<?php echo $pnlcategoryname; ?>
+														</option>
+												<?php
+														unset($idpnlcategory);
+														unset($pnlcategoryname);
+													}
+												?>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><?php echo $lang_pnl_list; ?></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">												
+											<select class="form-control" id="pnllist" name="idpnllist" required>
+												<option value=""><?php echo $lang_choose_pnl_list;?></option>
+
+											</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><?php echo $lang_actual; ?></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">												
+												<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value" class="form-control" required>
+											</div>
+										</div>
+									</div>
+									<div class="text-right">
+										<button type="submit" class="btn bg-teal-400" ><?php echo $lang_submit;?></button>
+									</div>
+								</div>	
+								
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

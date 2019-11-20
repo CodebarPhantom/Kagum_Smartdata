@@ -436,7 +436,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                        
                                 </tr>
                                 
-                                <!--Rooms-->
+                                <!--Total Rooms Revenue / Rooms-->
                                 <tr>
                                    <td>&emsp;&emsp;<?php echo $lang_rooms; ?></td>
 

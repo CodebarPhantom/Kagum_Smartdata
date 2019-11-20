@@ -15,6 +15,8 @@ class Smartreport extends CI_Controller{
       $this->load->model('Smartreport_hca_model');
       $this->load->model('Smartreport_dsr_model');
       $this->load->model('Dashboard_model');
+      $this->load->model('Smartreport_pnl_model');
+      $this->load->model('Smartreport_actual_model');
       $this->load->library('form_validation');
       $this->load->library('pagination');
       $this->load->library('session');

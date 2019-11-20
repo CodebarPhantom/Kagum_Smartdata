@@ -1,3 +1,7 @@
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/datatables.min.js"></script> 
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js"></script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/demo_pages/datatables_extension_fixed_columns.js"></script>
+
 <style>
 
 .customEryan{
@@ -36,6 +40,7 @@ $graphYear = $peryear;
 $graphMonth =  $permonth;
 $graphDate =  $perdate;
 //$graphAllDate = date('Y-m-d');
+$lastmtd = $graphMonth - 1;
 
 $dateDailyGraph = $peryear.'-'.$permonth.'-';
 //$startdate_ytd = $graphYear.'-01-'.'01';
@@ -86,6 +91,39 @@ if($rs_mtd != 0 && $rs_ytd != 0){
 if($trr_ytd != 0 && $trr_ytd != 0){
 $arr_ytd = $trr_ytd /$rs_ytd;
 }
+
+//data dari table budget
+$days_this_month = cal_days_in_month(CAL_GREGORIAN,$graphMonth,$graphYear);
+$budget_arr =  $this->Smartreport_pnl_model->get_arr_budget($user_ho, $graphMonth,$graphYear);
+
+$budget_rooms =  $this->Smartreport_pnl_model->get_rooms_budget($user_ho, $graphMonth,$graphYear);
+$budget_roomsytd = $this->Smartreport_pnl_model->get_rooms_budgetytd($user_ho, $lastmtd, $graphYear);
+$getbudget_roomsnow = $budget_rooms->BUDGET_ROOMS/$days_this_month;
+$getbudget_roomsmtd = ($budget_rooms->BUDGET_ROOMS/$days_this_month)*$dashboardDate;
+$getbudget_roomsytd = $budget_roomsytd->BUDGET_ROOMSYTD+($budget_rooms->BUDGET_ROOMS/$days_this_month)*$dashboardDate;
+
+$budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($user_ho, $graphMonth,$graphYear);
+$budget_fnbytd = $this->Smartreport_pnl_model->get_fnb_budgetytd($user_ho, $lastmtd, $graphYear);
+$getbudget_fnbnow = $budget_fnb->BUDGET_FNB/$days_this_month;
+$getbudget_fnbmtd = ($budget_fnb->BUDGET_FNB/$days_this_month)*$dashboardDate;
+$getbudget_fnbytd = $budget_fnbytd->BUDGET_FNBYTD+($budget_fnb->BUDGET_FNB/$days_this_month)*$dashboardDate;
+
+$budget_other =  $this->Smartreport_pnl_model->get_other_budget($user_ho, $graphMonth,$graphYear);
+$budget_otherytd = $this->Smartreport_pnl_model->get_other_budgetytd($user_ho, $lastmtd, $graphYear);
+$getbudget_othernow = $budget_other->BUDGET_OTHER/$days_this_month; 
+$getbudget_othermtd = ($budget_other->BUDGET_OTHER/$days_this_month)*$dashboardDate;
+$getbudget_otherytd = $budget_otherytd->BUDGET_OTHERYTD+($budget_other->BUDGET_OTHER/$days_this_month)*$dashboardDate;
+
+$budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($user_ho, $graphMonth,$graphYear);
+$budget_laundryytd = $this->Smartreport_pnl_model->get_laundry_budgetytd($user_ho, $lastmtd, $graphYear);
+$getbudget_laundrynow = $budget_laundry->BUDGET_LAUNDRY/$days_this_month; 
+$getbudget_laundrymtd = ($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate;
+$getbudget_laundryytd = $budget_laundryytd->BUDGET_LAUNDRYYTD+($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate; 
+
+$budget_roomsold = $this->Smartreport_pnl_model->get_roomsold_budget($user_ho, $graphMonth,$graphYear);
+$budget_roomsoldytd = $this->Smartreport_pnl_model->get_roomsold_budgetytd($user_ho, $lastmtd, $graphYear);
+$getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate;
+
 ?>
 
 
@@ -133,7 +171,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 						<!-- Nightingale roses (hidden labels) -->
 						<div class="card">
 								<div class="card-header header-elements-sm-inline">
-									<h6 class="card-title">Summary</h6>								
+									<h6 class="card-title"><strong>Summary</strong></h6>								
 								</div>
 
 								<div class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
@@ -167,18 +205,21 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 								</div>
 
 								<div class="table-responsive"  style=" min-height: 305px;">
-									<table class="table table-bordered text-nowrap customEryan">
+									<table class="table table-bordered table-togglable table-hover customEryan datatable-nobutton-1column text-nowrap">
 										<thead style="vertical-align: middle; text-align: center">
 											<tr>
 												<th rowspan="2">Report</th>
-												<th>Now</th>
-												<th>MTD</th>
-												<th>YTD</th>
+												<th colspan="2">Today</th>
+												<th colspan="2">MTD</th>
+												<th colspan="2">YTD</th>
 											</tr>
 											<tr>
-												<th>Actual</th>											
-												<th>Actual</th>											
-												<th>Actual</th>												
+												<th>Actual</th>
+												<th>Budget</th>												
+												<th>Actual</th>
+												<th>Budget</th>												
+												<th>Actual</th>	
+												<th>Budget</th>												
 											</tr>
 										</thead>
 										
@@ -207,6 +248,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php  if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)/($getHotelByUser->total_rooms))*100,2).'%';}    ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -218,11 +260,14 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format(((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/($getHotelByUser->total_rooms * $dashboardDate))*100,2).'%';} ?></td>
+
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300"><?php echo number_format($occ_ytd,2).'%'; ?></div>														
 													</a>
 												</td>
+												<td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/$ri_ytd->RI_YTD)*100,2).'%';} ?></td>
 											</tr>
 
 											<tr>										
@@ -239,6 +284,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -246,11 +292,13 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>														
 													</a>
 												</td>
+												<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
 											</tr>
 
 											<tr>										
@@ -267,6 +315,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_roomsnow,0); ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -274,11 +323,13 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_roomsmtd,0);?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300"><?php echo number_format($trr_ytd); ?></div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_roomsytd);  ?></td>
 											</tr>
 
 											<tr>										
@@ -294,6 +345,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_fnbnow ,0); ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -302,6 +354,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_fnbmtd ,0); ?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -309,6 +362,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
                                    								   echo $fnb_ytd = number_format($dt_fnbytd->FNB_YTD); ?></div>														
 													</a>
 												</td>
+												<td><?php echo  number_format($getbudget_fnbytd); ?></td>
 											</tr>
 
 											<tr>										
@@ -324,21 +378,24 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
 															<?php $dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
-                                    								echo $oth_mtd = number_format($dt_othmtd->OTH_MTD);?>
+                                    							echo $oth_mtd = number_format($dt_othmtd->OTH_MTD);?>
 														</div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd);?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
 															<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);                                  
-                                   									echo $oth_ytd = number_format($dt_othytd->OTH_YTD); ?></div>														
+                                   								echo $oth_ytd = number_format($dt_othytd->OTH_YTD); ?></div>														
 													</a>
 												</td>
+												<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
 											</tr>
 											<?php } ?>
 										</tbody>
@@ -373,7 +430,7 @@ $arr_ytd = $trr_ytd /$rs_ytd;
 
 					<div class="card-body">
 						<div class="chart-container">
-							<div class="chart" style="min-width: 350px; height: 400px;" id="occDaily"></div>
+							<div class="chart" style="min-width: 350px; height: 440px;" id="occDaily"></div>
 						</div>
 					</div>
 				</div>

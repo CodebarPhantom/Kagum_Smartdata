@@ -113,7 +113,24 @@ class Smartreport_actual_model extends CI_Model
         return $this->db->get()->row();
     }
 
+    function select_actualpnlbydate($idh, $idpnl, $date_actual){
+        $this->db->select('*');
+        $this->db->from('smartreport_actual');
+        $this->db->where('idhotels', $idh );
+        $this->db->where('idpnl', $idpnl);
+        $this->db->where('date_actual', $date_actual);
+        return $this->db->get();
+    }
 
+    function update_actualpnlbyid($id,$data){
+        $this->db->where('idactual', $id);
+        $this->db->update('smartreport_actual',$data);
+        return true;
+    }
+
+    function insertData($table,$data){
+        $this->db->insert($table,$data);
+    } 
     
 
 

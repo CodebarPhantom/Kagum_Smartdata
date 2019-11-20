@@ -272,6 +272,25 @@ class Smartreport_pnl_model extends CI_Model
     }
     /* END- UNTUK DSR ambil dari BUDGET */
     
+    function get_sub_category($idpnlcategory){
+		$query = $this->db->get_where('smartreport_pnllist', array('idpnlcategory' => $idpnlcategory));
+		return $query;
+    }
+    
+    function select_budgetpnlbydate($idh, $idpnl, $date_budget){
+        $this->db->select('*');
+        $this->db->from('smartreport_budget');
+        $this->db->where('idhotels', $idh );
+        $this->db->where('idpnl', $idpnl);
+        $this->db->where('date_budget', $date_budget);
+        return $this->db->get();
+    }
 
+    function update_budgetpnlbyid($id,$data){
+        $this->db->where('idbudget', $id);
+        $this->db->update('smartreport_budget',$data);
+        return true;
+    }
+  
 
 }

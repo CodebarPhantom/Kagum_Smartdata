@@ -324,7 +324,13 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_inactive'] = $this->lang->line('inactive');
             $page_data['lang_month'] = $this->lang->line('month');
             $page_data['lang_year'] = $this->lang->line('year');   
-            $page_data['lang_budget_data'] = $this->lang->line('budget_data');         
+            $page_data['lang_budget_data'] = $this->lang->line('budget_data'); 
+            $page_data['lang_add_data_bypnl'] = $this->lang->line('add_data_bypnl'); 
+            $page_data['lang_select_month'] = $this->lang->line('select_month'); 
+            $page_data['lang_select_year'] = $this->lang->line('select_year');   
+            $page_data['lang_choose_pnl_category'] = $this->lang->line('choose_pnl_category');
+            $page_data['lang_choose_pnl_list'] = $this->lang->line('choose_pnl_list');    
+            $page_data['lang_budget'] = $this->lang->line('budget');    
             
             $smartreport_pnlcategory = $this->Smartreport_pnl_model->get_data_pnlcategory();
             $page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
@@ -375,6 +381,40 @@ class Smartreportpnl extends CI_Controller{
         }else{
             redirect('errorpage/error403');
         }
+    }
+
+    function add_budget_data_bypnl(){
+        $user_level = $this->session->userdata('user_level');
+        if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+        
+        $idhotels= $this->session->userdata('user_hotel');
+        $year_budget = $this->input->post('year_budget' , TRUE);
+        $month_budget = $this->input->post('month_budget', TRUE);
+        $date_budget = $year_budget.'-'.$month_budget.'-'.'01'; 
+        $idpnl = $this->input->post('idpnllist', TRUE);      
+        $data_budget = $this->Smartreport_pnl_model->select_budgetpnlbydate($idhotels,$idpnl,$date_budget);
+            if($data_budget->row() > 0){
+            $data = array(    
+                'idpnl'=>$idpnl,
+                'budget_value'=>$this->input->post('budget_value', TRUE),
+                'date_budget'=>$date_budget);  
+                $this->Smartreport_pnl_model->update_budgetpnlbyid($data_budget->row()->idbudget,$data);
+
+            }else{
+            $data = array(       
+                'idhotels'=> $idhotels,
+                'idpnl'=>$idpnl,
+                'budget_value'=>$this->input->post('budget_value', TRUE),
+                'date_budget'=>$date_budget,
+                'date_created' => date("Y-m-d H:i:s")
+                );  
+                $this->Smartreport_pnl_model->insertData('smartreport_budget',$data);
+            }
+            $this->session->set_flashdata('input_success','message');        
+            redirect(site_url('smartreportpnl/budget-pnl'));
+        }else{
+            redirect('errorpage/error403');
+        } 
     }
 
     function actual_pnl(){
@@ -437,7 +477,14 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_inactive'] = $this->lang->line('inactive');
             $page_data['lang_month'] = $this->lang->line('month');
             $page_data['lang_year'] = $this->lang->line('year');   
-            $page_data['lang_actual_data'] = $this->lang->line('actual_data');         
+            $page_data['lang_actual_data'] = $this->lang->line('actual_data'); 
+            $page_data['lang_add_data_bypnl'] = $this->lang->line('add_data_bypnl'); 
+            $page_data['lang_select_month'] = $this->lang->line('select_month'); 
+            $page_data['lang_select_year'] = $this->lang->line('select_year');   
+            $page_data['lang_choose_pnl_category'] = $this->lang->line('choose_pnl_category');
+            $page_data['lang_choose_pnl_list'] = $this->lang->line('choose_pnl_list');
+            $page_data['lang_actual'] = $this->lang->line('actual');
+
             
             $smartreport_pnlcategory = $this->Smartreport_actual_model->get_data_pnlcategory();
             $page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
@@ -489,6 +536,46 @@ class Smartreportpnl extends CI_Controller{
         }else{
             redirect('errorpage/error403');
         }
+    }
+
+    function get_pnllist(){
+		$idpnlcategory = $this->input->post('id',TRUE);
+		$data = $this->Smartreport_pnl_model->get_sub_category($idpnlcategory)->result();
+		echo json_encode($data);
+    }
+    
+    function add_actual_data_bypnl(){
+        $user_level = $this->session->userdata('user_level');
+        if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+        
+        $idhotels= $this->session->userdata('user_hotel');
+        $year_actual = $this->input->post('year_actual' , TRUE);
+        $month_actual = $this->input->post('month_actual', TRUE);
+        $date_actual = $year_actual.'-'.$month_actual.'-'.'01'; 
+        $idpnl = $this->input->post('idpnllist', TRUE);      
+        $data_actual = $this->Smartreport_actual_model->select_actualpnlbydate($idhotels,$idpnl,$date_actual);
+            if($data_actual->row() > 0){
+            $data = array(    
+                'idpnl'=>$idpnl,
+                'actual_value'=>$this->input->post('actual_value', TRUE),
+                'date_actual'=>$date_actual);  
+                $this->Smartreport_actual_model->update_actualpnlbyid($data_actual->row()->idactual,$data);
+
+            }else{
+            $data = array(       
+                'idhotels'=> $idhotels,
+                'idpnl'=>$idpnl,
+                'actual_value'=>$this->input->post('actual_value', TRUE),
+                'date_actual'=>$date_actual,
+                'date_created' => date("Y-m-d H:i:s")
+                );  
+                $this->Smartreport_actual_model->insertData('smartreport_actual',$data);
+            }
+            $this->session->set_flashdata('input_success','message');        
+            redirect(site_url('smartreportpnl/actual-pnl'));
+        }else{
+            redirect('errorpage/error403');
+        } 
     }
 
 }

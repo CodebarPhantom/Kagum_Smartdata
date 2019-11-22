@@ -37,9 +37,10 @@ class Smartreport_hotels_model extends CI_Model
 
     // get total rows
     function total_rows_hotels($q = NULL) {
-        $this->db->select('h.idhotels, h.idcity, c.city_name, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created');       
+        $this->db->select('h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created');       
         $this->db->from('smartreport_hotels as h');
         $this->db->join('smartreport_city as c', 'h.idcity=c.idcity','left');
+        $this->db->join('smartreport_hotelscategory as hct', 'hct.idhotelscategory=h.idhotelscategory','left');
         if ($q !== NULL){
             $this->db->like('h.hotels_name', $q);
         } 
@@ -50,9 +51,10 @@ class Smartreport_hotels_model extends CI_Model
 
     // get data with limit and search
     function get_limit_data_hotels($limit, $start = 0, $q = NULL) {
-        $this->db->select('h.idhotels, h.idcity, c.city_name, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created');       
+        $this->db->select('h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created');       
         $this->db->from('smartreport_hotels as h');
         $this->db->join('smartreport_city as c', 'h.idcity=c.idcity','left');
+        $this->db->join('smartreport_hotelscategory as hct', 'hct.idhotelscategory=h.idhotelscategory','left');
         if ($q !== NULL){
             $this->db->like('h.hotels_name', $q);
         } 
@@ -71,8 +73,7 @@ class Smartreport_hotels_model extends CI_Model
         return true;
     }
 
-    function deleteDataHotels($idhotels)
-    {
+    function deleteDataHotels($idhotels){
         $this->db->where('idhotels', $idhotels);
         $this->db->delete('smartreport_hotels');
     }
@@ -117,6 +118,33 @@ class Smartreport_hotels_model extends CI_Model
         $this->db->order_by('h1.hotels_name', 'ASC');
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
+    }
+
+    function total_rows_categoryhotels($q = NULL) {        
+        $this->db->like('hotels_category', $q);
+        $this->db->from('smartreport_hotelscategory');
+    return $this->db->count_all_results();
+    }
+
+    // get data with limit and search
+    function get_limit_data_categoryhotels($limit, $start = 0, $q = NULL) {        
+        $this->db->order_by('hotels_category', 'ASC');
+        $this->db->like('hotels_category', $q);
+        $this->db->from('smartreport_hotelscategory');
+        $this->db->limit($limit, $start);
+    return $this->db->get()->result();
+    }
+
+    function updatedata_categoryhotels($table, $data, $ididcategoryhotels){
+        $this->db->where('idhotelscategory', $ididcategoryhotels);
+        $this->db->update("$table", $data);
+
+        return true;
+    }
+
+    function deletedata_categoryhotels($idhotels){
+        $this->db->where('idhotelscategory', $idhotels);
+        $this->db->delete('smartreport_hotelscategory');
     }
 
 }

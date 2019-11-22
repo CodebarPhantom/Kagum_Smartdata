@@ -194,7 +194,7 @@ class Smartreport_hca_model extends CI_Model
     }
 
 
-    // kalo error ganti fungsi datediffnya seperti di daily_sales_report.php baris ke 168 function $diffdateytd
+    // kalo error ganti fungsi datediffnya seperti di daily_sales_report.php baris ke 182/183 function $diffdateytd
     function select_RIYTD_perhotel($startdate,$enddate,$hotel){
         $this->db->select("ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1) as RI_YTD");
         $this->db->from("smartreport_hotels as ht");

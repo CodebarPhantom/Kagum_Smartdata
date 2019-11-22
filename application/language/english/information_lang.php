@@ -254,6 +254,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['room_available']= 'Room Available';
     $lang['fnb'] = 'Food & Beverage';
     $lang['other'] = 'Others';
+    $lang['laundry'] = 'Laundry';
     $lang['total_sales'] = 'TOTAL SALES';
     $lang['today'] = 'Today';
     $lang['actual'] = 'Actual';
@@ -280,6 +281,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['actual_data'] = 'Actual Data';
     $lang['expense'] = 'Actual';
     $lang['pnl_expense'] = 'Actual PNL';
+
+    $lang['category_hotels'] = 'Brand Hotels';
+    $lang['add_categoryhotels'] = 'Add Brand Hotels';
+    $lang['edit_categoryhotels'] = 'Edit Brand Hotels';
+    $lang['delete_categoryhotels'] = 'Delete Brand Hotels';    
+    $lang['search_categoryhotels'] = 'Search Brand Hotels';
+    $lang['brand_id'] = 'Brand ID';
+    $lang['brand_name'] = 'Brand Name';
+    $lang['choose_brand'] = 'Choose Brands';
+
+    $lang['statistic_dsr'] = 'Statistic DSR';
     
 
 

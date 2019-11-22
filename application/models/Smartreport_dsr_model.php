@@ -32,7 +32,7 @@ class Smartreport_dsr_model extends CI_Model
     }
 
     function select_dsrondate_perhotel($hotel=NULL, $date=NULL){
-        $this->db->select("*");
+        $this->db->select("ds.iddsr, ds.idhotels, ds.sales_fnb, ds.sales_other, ds.numberofguest, ds.date_dsr, ds.date_created");
         $this->db->from("smartreport_dsr as ds");
         $this->db->where("ds.idhotels", $hotel);
         $this->db->where("ds.date_dsr", $date);
@@ -85,6 +85,88 @@ class Smartreport_dsr_model extends CI_Model
         $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate'");
         $this->db->where("ds.idhotels", $hotel);
         return $this->db->get()->row(); 
+    }
+
+    function get_data_brand() {     
+        $this->db->from("smartreport_hotelscategory");
+        return $this->db->get()->result();
+    }
+
+    function select_hotel_bybrand($idhotelscategory){
+        $this->db->select('idhotels, idhotelscategory, hotels_name, total_rooms, status');  
+        $this->db->order_by('hotels_name', 'ASC'); 
+        $this->db->from('smartreport_hotels');
+        $this->db->where('idhotelscategory', $idhotelscategory);
+        $this->db->where('status', 'active');
+        return $this->db->get()->result();
+    }
+
+    function room_revenue_today($date, $brandhotel){
+        $this->db->select("sum(hc.room_sold *hc.avg_roomrate) as room_revenue_today");
+        $this->db->from("smartreport_hca as hc");
+        $this->db->join("smartreport_hotels as ht", "hc.idhotels = ht.idhotels", "left");
+        $this->db->join("smartreport_hotelscategory as ha", "ht.idhotelscategory = ha.idhotelscategory", "left");
+        if($brandhotel === 'ALL'){
+            $this->db->where("hc.date_analysis = '$date' AND ht.parent = 'PARENT' ");
+        }else{
+            $this->db->where("hc.date_analysis = '$date' AND ht.idhotelscategory = '$brandhotel'");
+        }
+        
+        return $this->db->get()->row();
+    }
+
+    function fnbother_revenue_today($date, $brandhotel){
+        $this->db->select("sum(sales_fnb) as fnb_rev_today, sum(sales_other) as oth_rev_other");
+        $this->db->from("smartreport_dsr as ds");
+        $this->db->join("smartreport_hotels as ht", "ds.idhotels = ht.idhotels", "left");
+        $this->db->join("smartreport_hotelscategory as ha", "ht.idhotelscategory = ha.idhotelscategory", "left");
+        if($brandhotel === 'ALL'){
+            $this->db->where("ds.date_dsr = '$date' AND ht.parent = 'PARENT'");
+        }else{
+            $this->db->where("ds.date_dsr = '$date' AND ht.idhotelscategory = '$brandhotel'");
+        }
+        return $this->db->get()->row();
+    }
+
+    function room_revenue_mtd($startdate,$enddate,$brandhotel){
+        $this->db->select("sum(hc.room_sold *hc.avg_roomrate) as room_revenue_today");
+        $this->db->from("smartreport_hca as hc");
+        $this->db->join("smartreport_hotels as ht", "hc.idhotels = ht.idhotels", "left");
+        $this->db->join("smartreport_hotelscategory as ha", "ht.idhotelscategory = ha.idhotelscategory", "left");
+        if($brandhotel === 'ALL'){
+            $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.parent = 'PARENT'");
+        }else{
+            $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idhotelscategory = '$brandhotel'");
+        }
+        return $this->db->get()->row();
+    }
+
+    function fnbother_revenue_mtd($startdate,$enddate,$brandhotel){
+        $this->db->select("sum(sales_fnb) as fnb_rev_today, sum(sales_other) as oth_rev_other");
+        $this->db->from("smartreport_dsr as ds");
+        $this->db->join("smartreport_hotels as ht", "ds.idhotels = ht.idhotels", "left");
+        $this->db->join("smartreport_hotelscategory as ha", "ht.idhotelscategory = ha.idhotelscategory", "left");
+        if($brandhotel === 'ALL'){
+            $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate' AND ht.parent = 'PARENT'");
+        }else{
+            $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate' AND ht.idhotelscategory = '$brandhotel'");
+        }
+        return $this->db->get()->row();
+    }
+
+    function mtd_budgetbybrand($permonth, $peryear, $brandhotel){
+        $this->db->select("sum(budget_value) as budget_brand");
+        $this->db->from("smartreport_budget as sb");
+        $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
+        $this->db->join("smartreport_hotels as ht", "sb.idhotels = ht.idhotels", "left");
+        $this->db->join("smartreport_hotelscategory as ha", "ht.idhotelscategory = ha.idhotelscategory", "left");
+        if($brandhotel === 'ALL'){
+            $this->db->where("MONTH(sb.date_budget) ='$permonth' AND YEAR(sb.date_budget) = '$peryear' AND sp.idpnlcategory = '2'  AND ht.parent = 'PARENT'");
+        }else{
+            $this->db->where("MONTH(sb.date_budget) ='$permonth' AND YEAR(sb.date_budget) = '$peryear' AND sp.idpnlcategory = '2' AND ht.idhotelscategory = '$brandhotel'");
+        }
+        
+        return $this->db->get()->row();
     }
 
 }

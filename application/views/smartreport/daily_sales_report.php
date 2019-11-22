@@ -484,7 +484,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                
                                 <!--Laundry & Other-->
                                 <tr>
-                                   <td>&emsp;&emsp;<?php echo $lang_other; ?></td>
+                                   <td>&emsp;&emsp;<?php echo $lang_other.' + '.$lang_laundry; ?></td>
 
                                    <td><?php echo number_format($oth_today);?></td>
                                    <td><?php if($oth_today != 0 && $tot_sales_today != 0){ echo number_format(($oth_today/$tot_sales_today)*100,2).'%';}?></td>
@@ -565,7 +565,7 @@ $ri_mtd = 0; $ri_ytd = 0;
                                     <div class="form-group">
 										<div class="row">											
                                             <div class="col-sm-6">
-												<label><?php echo $lang_other; ?></label>
+												<label><?php echo $lang_other.' + '.$lang_laundry; ?></label>
 												<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="dsr_other"  class="form-control" required>
                                             </div>
                                             <div class="col-sm-6">

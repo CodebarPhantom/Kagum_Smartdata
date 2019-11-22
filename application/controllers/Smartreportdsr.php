@@ -61,6 +61,8 @@ class Smartreportdsr extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -92,6 +94,7 @@ class Smartreportdsr extends CI_Controller{
         $page_data['lang_rooms'] = $this->lang->line('rooms');
         $page_data['lang_fnb'] = $this->lang->line('fnb');
         $page_data['lang_other'] = $this->lang->line('other');
+        $page_data['lang_laundry'] = $this->lang->line('laundry');
         $page_data['lang_total_sales'] = $this->lang->line('total_sales');
         
 
@@ -135,8 +138,92 @@ class Smartreportdsr extends CI_Controller{
         }
         $this->session->set_flashdata('input_success','message');        
         redirect(site_url('smartreportdsr/daily-sales-report'));
-    }else{
-      redirect('errorpage/error403');
+      }else{
+        redirect('errorpage/error403');
+    }
+  
   }
+
+  function statistic_dsr(){
+    $user_level = $this->session->userdata('user_level');
+    $user_hotel = $this->session->userdata('user_hotel');
+    if($user_level === '1' ){
+
+        $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
+        $date_dsr = date("Y-m-d", $getdate_dsr);
+        $page_data['page_name'] = 'statistic_dsr';        
+        $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_add_city'] = $this->lang->line('add_city');
+        $page_data['lang_list_users'] = $this->lang->line('list_users');
+        $page_data['lang_hotel'] = $this->lang->line('hotel');
+        $page_data['lang_add_hotel'] = $this->lang->line('add_hotel');
+        $page_data['lang_list_hotels'] = $this->lang->line('list_hotels');        
+        $page_data['lang_competitor_hotels'] = $this->lang->line('competitor_hotels');
+        $page_data['lang_analysis'] = $this->lang->line('analysis');        
+        $page_data['lang_hotel_comp_anl'] = $this->lang->line('hotel_comp_anl');        
+        $page_data['lang_dsr'] = $this->lang->line('dsr');
+        $page_data['lang_city'] = $this->lang->line('city');
+        $page_data['lang_add_city'] = $this->lang->line('add_city');
+        $page_data['lang_list_city'] = $this->lang->line('list_city');
+        $page_data['lang_departement'] = $this->lang->line('departement');
+        $page_data['lang_add_departement'] = $this->lang->line('add_departement');
+        $page_data['lang_list_departement'] = $this->lang->line('list_departement');
+        $page_data['lang_setting'] = $this->lang->line('setting');
+        $page_data['lang_user'] = $this->lang->line('user');
+        $page_data['lang_search'] = $this->lang->line('search');
+        $page_data['lang_pnl'] = $this->lang->line('pnl');
+        $page_data['lang_pnl_category'] = $this->lang->line('pnl_category');
+        $page_data['lang_pnl_list'] = $this->lang->line('pnl_list');
+        $page_data['lang_budget'] = $this->lang->line('budget');
+        $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
+        $page_data['lang_expense'] = $this->lang->line('expense');
+        $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
+
+        $page_data['lang_input_success'] = $this->lang->line('input_success');
+        $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
+        $page_data['lang_delete_success'] = $this->lang->line('delete_success');
+        $page_data['lang_delete_data'] = $this->lang->line('delete_data');
+        $page_data['lang_delete_confirm'] = $this->lang->line('delete_confirm');
+        $page_data['lang_success_delete_data'] = $this->lang->line('success_delete_data');
+        $page_data['lang_update_success'] = $this->lang->line('update_success');
+        $page_data['lang_success_update_data'] = $this->lang->line('success_update_data'); 
+        $page_data['lang_cancel_data'] = $this->lang->line('cancel_data');
+        $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
+        $page_data['lang_submit'] = $this->lang->line('submit');
+        $page_data['lang_close'] = $this->lang->line('close');
+
+        $page_data['lang_date'] = $this->lang->line('date');
+        $page_data['lang_category'] = $this->lang->line('category');
+        $page_data['lang_today'] = $this->lang->line('today');
+        $page_data['lang_actual'] = $this->lang->line('actual');
+        $page_data['lang_budget'] = $this->lang->line('budget');
+        $page_data['lang_number_days'] = $this->lang->line('number_days');
+        $page_data['lang_room_available'] = $this->lang->line('room_available');
+        $page_data['lang_room_sold'] = $this->lang->line('room_sold');
+        $page_data['lang_occupancy'] = $this->lang->line('occupancy');
+        $page_data['lang_number_guest'] = $this->lang->line('number_guest');
+        $page_data['lang_arr'] = $this->lang->line('arr');
+        $page_data['lang_statistic'] = $this->lang->line('statistic');
+        $page_data['lang_sales'] = $this->lang->line('sales');
+        $page_data['lang_rooms'] = $this->lang->line('rooms');
+        $page_data['lang_fnb'] = $this->lang->line('fnb');
+        $page_data['lang_other'] = $this->lang->line('other');
+        $page_data['lang_total_sales'] = $this->lang->line('total_sales');
+        $page_data['lang_hotel_name'] = $this->lang->line('hotel_name');
+        
+
+        $smartreport_brand = $this->Smartreport_dsr_model->get_data_brand();
+        $page_data['smartreport_brand_data'] = $smartreport_brand;
+
+        $page_data['date_dsr'] = $this->input->get('date_dsr', TRUE);
+        $page_data['dateToView'] = $date_dsr;
+       
+
+    $this->load->view('smartreport/index',$page_data);
+    }else{
+        redirect('errorpage/error403');
+    }
   }
 }

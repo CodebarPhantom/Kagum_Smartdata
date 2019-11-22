@@ -57,6 +57,7 @@
 								<th data-hide="phone">#</th>
 								<th data-hide="phone"><?php echo $lang_idhotel; ?></th>
 								<th data-toggle="true"><?php echo $lang_hotel_name; ?></th>
+								<th data-toggle="true"><?php echo $lang_brand_name; ?></th>
 								<th data-hide="phone,tablet"><?php echo $lang_city; ?></th>
 								<th data-hide="phone"><?php echo $lang_total_rooms; ?></th>
 								<th data-hide="phone,tablet"><?php echo $lang_hotel_star; ?></th>
@@ -71,6 +72,7 @@
 								<td><?php echo ++$start; ?></td>
 								<td><?php echo $smartreport_hotel->idhotels; ?></td>
 								<td><?php echo $smartreport_hotel->hotels_name; ?></td>	
+								<td><?php echo $smartreport_hotel->hotels_category; ?></td>	
 								<td><?php echo $smartreport_hotel->city_name; ?></td>	
 								<td><?php echo $smartreport_hotel->total_rooms.' '.$lang_rooms; ?> </td>
 								<td><?php if ($smartreport_hotel->hotel_star === '1') { ?>
@@ -167,9 +169,36 @@
 											<div class="col-sm-6">
 												<label><?php echo $lang_total_rooms; ?></label>
 												<input type="number" name="total_rooms" placeholder="Total Rooms" class="form-control" required>
-											</div>	
+											</div>
 											
 											<div class="col-sm-6">
+												<label><?php echo $lang_brand_name; ?></label>
+												<select name="idhotelscategory" class="form-control" required autocomplete="off">
+													<option value=""><?php echo $lang_choose_brand; ?></option>
+												<?php
+													$brandData = $this->Smartreport_hotels_model->getDataAll('smartreport_hotelscategory', 'idhotelscategory', 'ASC');
+													for ($p = 0; $p < count($brandData); ++$p) {
+														$idhotelscategory = $brandData[$p]->idhotelscategory;
+														$hotels_category = $brandData[$p]->hotels_category;?>
+														<option  value="<?php echo $idhotelscategory; ?>">
+															<?php echo $hotels_category; ?>
+														</option>
+												<?php
+														unset($idhotelscategory);
+														unset($hotels_category);
+													}
+												?>
+												</select>
+											</div>
+											
+											
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<div class="row">
+
+											<div class="col-sm-6">												
 												<label><?php echo $lang_city; ?></label>
 												<select name="idcity" class="form-control" required autocomplete="off">
 													<option value=""><?php echo $lang_choose_city; ?></option>
@@ -188,11 +217,6 @@
 												?>
 												</select>
 											</div>
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_hotel_star; ?></label>
 												<select name="hotel_star" class="form-control" required autocomplete="off">
@@ -204,7 +228,11 @@
 													<option value="1"><?php echo "1 Star"; ?></option>
 												</select>
 											</div>	
-											
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">	
 											<div class="col-sm-6">
 												<label><?php echo $lang_status; ?></label>
 												<select name="status" class="form-control" required autocomplete="off">
@@ -214,6 +242,8 @@
 													
 												</select>
 											</div>
+
+											
 										</div>
 									</div>
 								</div>
@@ -256,6 +286,27 @@
 										<div class="row">
 											<input type="hidden" readonly name="idhotels" placeholder="ID Hotel..." class="form-control" value="<?=$smartreport_hotel->idhotels;?>"required>
 											<div class="col-sm-6">
+												<label><?php echo $lang_brand_name; ?></label>
+												<select name="idhotelscategory" class="form-control" required autocomplete="off">
+													<option value=""><?php echo $lang_choose_brand; ?></option>
+												<?php
+													$brand = $smartreport_hotel->idhotelscategory;
+													$brandData = $this->Smartreport_hotels_model->getDataAll('smartreport_hotelscategory', 'idhotelscategory', 'ASC');
+													for ($p = 0; $p < count($brandData); ++$p) {
+														$idhotelscategory = $brandData[$p]->idhotelscategory;
+														$hotels_category = $brandData[$p]->hotels_category;?>
+														<option  value="<?php echo $idhotelscategory; ?>" <?php if ($brand == $idhotelscategory) {	echo 'selected="selected"';	} ?> >
+															<?php echo $hotels_category; ?>
+														</option>
+												<?php
+														unset($idhotelscategory);
+														unset($hotels_category);
+													}
+												?>
+												</select>
+											</div>
+
+											<div class="col-sm-6">
 												<label><?php echo $lang_city; ?></label>
 												<select name="idcity" class="form-control" required autocomplete="off">
 													<option value=""><?php echo $lang_choose_city; ?></option>
@@ -277,6 +328,12 @@
 												?>
 												</select>
 											</div>
+											
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_hotel_star; ?></label>
 												<select name="hotel_star" class="form-control" required autocomplete="off">
@@ -287,13 +344,7 @@
 													<option <?php if ($smartreport_hotel->hotel_star === '2') {echo 'selected="selected"';} ?>value="2"><?php echo "2 Star"; ?></option>
 													<option <?php if ($smartreport_hotel->hotel_star === '1') {echo 'selected="selected"';} ?>value="1"><?php echo "1 Star"; ?></option>
 												</select>
-											</div>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="row">
-											
+											</div>										
 											
 											<div class="col-sm-6">
 												<label><?php echo $lang_status; ?></label>

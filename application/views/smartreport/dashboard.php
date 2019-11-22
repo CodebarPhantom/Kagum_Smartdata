@@ -71,10 +71,12 @@ $dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd
 $trr_ytd = $dt_trrytd->TRR_YTD;
 
 
-$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
+
+
+/*$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
 if($rs_ytd != 0 && $ri_ytd->RI_YTD != 0){
 		$occ_ytd = ($rs_ytd / $ri_ytd->RI_YTD) * 100;
-	}
+	}*/
 
 //Baris Average Room Rate
 if($rs_mtd != 0 && $trr_mtd != 0){
@@ -255,10 +257,18 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 
 												<td>
 													<a href="#" class="text-default">
+														<?php
+														$diffdateytd= date_diff(new DateTime($startdate_ytd), new DateTime($enddate_ytd)); 
+														$ri_ytd = $getHotelByUser->total_rooms * ($diffdateytd->days + 1);
+
+														if($rs_ytd != 0 && $ri_ytd != 0){
+															$occ_ytd = ($rs_ytd / $ri_ytd) * 100;
+														}
+														?>
 														<div class="font-weight-300"><?php echo number_format($occ_ytd,2).'%'; ?></div>														
 													</a>
 												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/$ri_ytd->RI_YTD)*100,2).'%';} ?></td>
+												<td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/$ri_ytd)*100,2).'%';} ?></td>
 											</tr>
 
 											<tr>										

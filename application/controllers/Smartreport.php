@@ -60,6 +60,9 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
+
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -126,6 +129,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -241,6 +246,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['smartreport_users_data'] = $smartreport_users;
         $page_data['q'] = $q;
@@ -393,6 +400,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -469,6 +478,134 @@ class Smartreport extends CI_Controller{
 
   }
 
+  function category_hotels(){
+    $user_level = $this->session->userdata('user_level');
+    if($user_level === '1' || $user_level === '2'){
+    $q = urldecode($this->input->get('q', TRUE));
+        $start = intval($this->input->get('start'));
+        
+        if ($q <> '') {
+            $config['base_url'] = base_url() . 'smartreport/category-hotels?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'smartreport/category-hotels?q=' . urlencode($q);
+        } else {
+            $config['base_url'] = base_url() . 'smartreport/category-hotels';
+            $config['first_url'] = base_url() . 'smartreport/category-hotels';
+        }
+
+        $config['per_page'] = 10;
+        $config['page_query_string'] = TRUE;
+        $config['total_rows'] = $this->Smartreport_hotels_model->total_rows_categoryhotels($q);
+        $smartreport_categoryhotels = $this->Smartreport_hotels_model->get_limit_data_categoryhotels($config['per_page'], $start, $q);
+
+        $this->load->library('pagination');
+        $this->pagination->initialize($config);
+
+        $page_data['page_name'] = 'category_hotels';
+        
+        $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_add_city'] = $this->lang->line('add_city');
+        $page_data['lang_list_users'] = $this->lang->line('list_users');
+        $page_data['lang_hotel'] = $this->lang->line('hotel');
+        $page_data['lang_add_hotel'] = $this->lang->line('add_hotel');
+        $page_data['lang_list_hotels'] = $this->lang->line('list_hotels');
+        $page_data['lang_competitor_hotels'] = $this->lang->line('competitor_hotels');
+        $page_data['lang_analysis'] = $this->lang->line('analysis');        
+        $page_data['lang_hotel_comp_anl'] = $this->lang->line('hotel_comp_anl');        
+        $page_data['lang_dsr'] = $this->lang->line('dsr');
+        $page_data['lang_city'] = $this->lang->line('city');
+        $page_data['lang_add_city'] = $this->lang->line('add_city');
+        $page_data['lang_list_city'] = $this->lang->line('list_city');
+        $page_data['lang_departement'] = $this->lang->line('departement');
+        $page_data['lang_add_departement'] = $this->lang->line('add_departement');
+        $page_data['lang_list_departement'] = $this->lang->line('list_departement');
+        $page_data['lang_setting'] = $this->lang->line('setting');
+        $page_data['lang_user'] = $this->lang->line('user');
+        $page_data['lang_search'] = $this->lang->line('search');
+        $page_data['lang_pnl'] = $this->lang->line('pnl');
+        $page_data['lang_pnl_category'] = $this->lang->line('pnl_category');
+        $page_data['lang_pnl_list'] = $this->lang->line('pnl_list');
+        $page_data['lang_budget'] = $this->lang->line('budget');
+        $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
+        $page_data['lang_expense'] = $this->lang->line('expense');
+        $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
+
+        $page_data['lang_input_success'] = $this->lang->line('input_success');
+        $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
+        $page_data['lang_delete_success'] = $this->lang->line('delete_success');
+        $page_data['lang_delete_data'] = $this->lang->line('delete_data');
+        $page_data['lang_delete_confirm'] = $this->lang->line('delete_confirm');
+        $page_data['lang_success_delete_data'] = $this->lang->line('success_delete_data');
+        $page_data['lang_update_success'] = $this->lang->line('update_success');
+        $page_data['lang_success_update_data'] = $this->lang->line('success_update_data'); 
+        $page_data['lang_cancel_data'] = $this->lang->line('cancel_data');
+        $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
+        $page_data['lang_submit'] = $this->lang->line('submit');
+        $page_data['lang_close'] = $this->lang->line('close');
+
+        $page_data['lang_edit_categoryhotels'] = $this->lang->line('edit_categoryhotels');
+        $page_data['lang_delete_categoryhotels'] = $this->lang->line('delete_categoryhotels');
+        $page_data['lang_search_categoryhotels'] = $this->lang->line('search_categoryhotels');
+        $page_data['lang_add_categoryhotels'] = $this->lang->line('add_categoryhotels');
+        $page_data['lang_brand_id'] = $this->lang->line('brand_id');
+
+        $page_data['smartreport_categoryhotels_data'] = $smartreport_categoryhotels;
+        $page_data['q'] = $q;
+        $page_data['pagination'] = $this->pagination->create_links();
+        $page_data['total_rows'] = $config['total_rows'];
+        $page_data['start'] = $start;
+
+       
+        $this->load->view('smartreport/index', $page_data);
+    }else{
+      redirect('errorpage/error403');
+    }
+  }
+
+  function insert_categoryhotels(){
+    $user_level = $this->session->userdata('user_level');
+    if($user_level === '1' || $user_level === '2'){
+    $data = array(
+      'idhotelscategory'=> strtoupper($this->input->post('idcategoryhotels',TRUE)),
+      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE))
+      );  
+        $this->Smartreport_hotels_model->insertData('smartreport_hotelscategory',$data);
+        $this->session->set_flashdata('input_success','message');        
+        redirect(site_url('smartreport/category-hotels'));
+        }else{
+        redirect('errorpage/error403');
+    }
+      
+  }
+
+  function update_categoryhotels(){
+    $user_level = $this->session->userdata('user_level');
+    if($user_level === '1' || $user_level === '2' ){
+    $data = array(
+      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE))
+      );  
+     
+        $this->Smartreport_hotels_model->updatedata_categoryhotels('smartreport_hotelscategory', $data, $this->input->post('idcategoryhotels', TRUE));
+        $this->session->set_flashdata('update_success','message');
+        redirect(site_url('smartreport/category-hotels'));
+      }else{
+        redirect('errorpage/error403');
+    }
+      
+  }
+
+  function delete_categoryhotels($idcategoryhotels){
+    $user_level = $this->session->userdata('user_level');
+    if($user_level === '1' || $user_level === '2'){  
+    $this->Smartreport_hotels_model->deletedata_categoryhotels($idcategoryhotels);
+    $this->session->set_flashdata('delete_success','message');
+    redirect(site_url('smartreport/category-hotels'));
+    }else{
+      redirect('errorpage/error403');
+    }
+
+  }
 
   function list_hotel(){
     $user_level = $this->session->userdata('user_level');
@@ -520,6 +657,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -547,6 +686,9 @@ class Smartreport extends CI_Controller{
         $page_data['lang_total_rooms'] = $this->lang->line('total_rooms');
         $page_data['lang_rooms'] = $this->lang->line('rooms');
         $page_data['lang_hotel_star'] = $this->lang->line('hotel_star');
+        $page_data['lang_brand_name'] = $this->lang->line('brand_name');
+        $page_data['lang_choose_brand'] = $this->lang->line('choose_brand');
+
 
 
 
@@ -572,6 +714,7 @@ class Smartreport extends CI_Controller{
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
       'total_rooms' => $this->input->post('total_rooms',TRUE),
       'idcity' => $this->input->post('idcity',TRUE),
+      'idhotelscategory' => $this->input->post('idhotelscategory',TRUE),
       'parent' => 'PARENT',
       'hotel_star' => $this->input->post('hotel_star',TRUE),
       'date_created' => date('Y-m-d H:i:s'),
@@ -593,6 +736,7 @@ class Smartreport extends CI_Controller{
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
       'total_rooms' => $this->input->post('total_rooms',TRUE),
       'idcity' => $this->input->post('idcity',TRUE),
+      'idhotelscategory' => $this->input->post('idhotelscategory',TRUE),
       'hotel_star' => $this->input->post('hotel_star',TRUE),
       'status' => $this->input->post('status',TRUE)
       );  
@@ -671,6 +815,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -738,6 +884,7 @@ class Smartreport extends CI_Controller{
       'parent' => $this->input->post('idparent',TRUE),
       'hotel_star' => $this->input->post('hotel_star',TRUE),
       'date_created' => date('Y-m-d H:i:s'),
+      //'idhotelscategory'=>'-',
       'status' => $this->input->post('status',TRUE)
       );  
         $this->Smartreport_city_model->insertData('smartreport_hotels',$data);
@@ -757,7 +904,6 @@ class Smartreport extends CI_Controller{
       'idcity' => $this->input->post('idcity',TRUE),
       'parent' => $this->input->post('idparent',TRUE),
       'hotel_star' => $this->input->post('hotel_star',TRUE),
-      'date_created' => date('Y-m-d H:i:s'),
       'status' => $this->input->post('status',TRUE)
       );  
      
@@ -780,6 +926,7 @@ class Smartreport extends CI_Controller{
       redirect('errorpage/error403');
     }
   }
+
 
   function list_departement(){
     $user_level = $this->session->userdata('user_level');
@@ -831,6 +978,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -912,6 +1061,7 @@ class Smartreport extends CI_Controller{
 
   }
 
+
   function hotel_competitor_analysis(){
     $user_level = $this->session->userdata('user_level');    
     $user_HotelForHCA = $this->session->userdata('user_hotel');    
@@ -953,6 +1103,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
         $page_data['lang_expense'] = $this->lang->line('expense');
         $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+        $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
 
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -1149,6 +1301,8 @@ class Smartreport extends CI_Controller{
   function correction_data_analysis_update(){
 
   }*/
+
+  
   
 
 }

@@ -75,7 +75,9 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_budget'] = $this->lang->line('budget');
             $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
             $page_data['lang_expense'] = $this->lang->line('expense');
-            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');            
+            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+            $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+            $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');            
 
             $page_data['lang_input_success'] = $this->lang->line('input_success');
             $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -192,7 +194,9 @@ class Smartreportpnl extends CI_Controller{
                 $page_data['lang_budget'] = $this->lang->line('budget');
                 $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
                 $page_data['lang_expense'] = $this->lang->line('expense');
-                $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');                
+                $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense'); 
+                $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+                $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');               
         
                 $page_data['lang_input_success'] = $this->lang->line('input_success');
                 $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -295,7 +299,9 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_budget'] = $this->lang->line('budget');
             $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
             $page_data['lang_expense'] = $this->lang->line('expense');
-            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');            
+            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');  
+            $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+            $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');          
 
             $page_data['lang_input_success'] = $this->lang->line('input_success');
             $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
@@ -448,7 +454,9 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_budget'] = $this->lang->line('budget');
             $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
             $page_data['lang_expense'] = $this->lang->line('expense');
-            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');            
+            $page_data['lang_pnl_expense'] = $this->lang->line('pnl_expense');
+            $page_data['lang_category_hotels'] = $this->lang->line('category_hotels');
+            $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');            
 
             $page_data['lang_input_success'] = $this->lang->line('input_success');
             $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');

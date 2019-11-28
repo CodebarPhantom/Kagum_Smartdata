@@ -71,6 +71,11 @@ $dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd
 $trr_ytd = $dt_trrytd->TRR_YTD;
 
 
+$dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$fnb_mtd = $dt_fnbmtd->FNB_MTD; 
+$dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$oth_mtd = $dt_othmtd->OTH_MTD;
+
 
 
 /*$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
@@ -194,14 +199,14 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 											<i class="icon-cash4"></i>
 										</a>
 										<div class="ml-3">
-											<h5 class="font-weight-semibold mb-0">Rp.<?php echo number_format($trr_mtd,0);?></h5>
-											<span class="text-muted">Room Revenue This Month</span>
+											<h5 class="font-weight-semibold mb-0">Rp.<?php echo number_format($trr_mtd+$fnb_mtd+$oth_mtd,0);?></h5>
+											<span class="text-muted">Total Revenue This Month</span>
 										</div>
 									</div>
 								</div>
 
-								<div class="table-responsive"  style="min-height: 305px;">
-									<table class="table table-bordered table-togglable table-hover customEryan datatable-nobutton-1column text-nowrap ">
+								<div class="table-responsive"  style="min-height: 300px;">
+									<table class="table table-bordered table-togglable table-hover table-sm customEryan datatable-nobutton-1column text-nowrap ">
 										<thead style="vertical-align: middle; text-align: center">
 											<tr>
 												<th rowspan="2">Report</th>
@@ -350,8 +355,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
-															<?php  $dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
-                                   									echo $fnb_mtd = number_format($dt_fnbmtd->FNB_MTD); ?>
+															<?php echo number_format($fnb_mtd,0); ?>
 														</div>														
 													</a>
 												</td>
@@ -382,9 +386,8 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 												<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
 												<td>
 													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
-                                    							echo $oth_mtd = number_format($dt_othmtd->OTH_MTD);?>
+														<div class="font-weight-300">															
+															<?php echo number_format($oth_mtd,0); ?>
 														</div>														
 													</a>
 												</td>
@@ -393,7 +396,8 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
 															<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);                                  
-                                   								echo $oth_ytd = number_format($dt_othytd->OTH_YTD); ?></div>														
+																   echo  $oth_ytd = $dt_othytd->OTH_YTD; ?>
+														</div>														
 													</a>
 												</td>
 												<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
@@ -416,7 +420,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 
 							<div class="card-body">
 								<div class="chart-container">
-									<div class="chart" style="min-width: 250px; height: 440px;" id="mpi_MTD"></div>
+									<div class="chart" style="min-width: 250px; height: 410px;" id="mpi_MTD"></div>
 								</div>
 							</div>
 						</div>

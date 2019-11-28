@@ -549,6 +549,7 @@ class Smartreport extends CI_Controller{
         $page_data['lang_search_categoryhotels'] = $this->lang->line('search_categoryhotels');
         $page_data['lang_add_categoryhotels'] = $this->lang->line('add_categoryhotels');
         $page_data['lang_brand_id'] = $this->lang->line('brand_id');
+        $page_data['lang_order'] = $this->lang->line('order');
 
         $page_data['smartreport_categoryhotels_data'] = $smartreport_categoryhotels;
         $page_data['q'] = $q;
@@ -568,7 +569,8 @@ class Smartreport extends CI_Controller{
     if($user_level === '1' || $user_level === '2'){
     $data = array(
       'idhotelscategory'=> strtoupper($this->input->post('idcategoryhotels',TRUE)),
-      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE))
+      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE)),
+      'hotelscategory_order' =>$this->input->post('hotelscategory_order',TRUE)
       );  
         $this->Smartreport_hotels_model->insertData('smartreport_hotelscategory',$data);
         $this->session->set_flashdata('input_success','message');        
@@ -583,7 +585,8 @@ class Smartreport extends CI_Controller{
     $user_level = $this->session->userdata('user_level');
     if($user_level === '1' || $user_level === '2' ){
     $data = array(
-      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE))
+      'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE)),
+      'hotelscategory_order' =>$this->input->post('hotelscategory_order',TRUE)
       );  
      
         $this->Smartreport_hotels_model->updatedata_categoryhotels('smartreport_hotelscategory', $data, $this->input->post('idcategoryhotels', TRUE));
@@ -1209,7 +1212,7 @@ class Smartreport extends CI_Controller{
       $idhotels= $this->input->post('idhotels', TRUE);
       $date_analysis = date_php_to_mysql($this->input->post('date_analysis'));
      $dt_hotel = $this->Smartreport_hca_model->select_hotelcompbydate($idhotels,$date_analysis);
-        if($dt_hotel->row() > 0){
+        if($dt_hotel->num_rows() > 0){
           $data = array(    
             'room_sold'=>$this->input->post('room_sold', TRUE),
             'avg_roomrate'=>$this->input->post('avg_roomrate', TRUE),
@@ -1234,6 +1237,34 @@ class Smartreport extends CI_Controller{
   } 
 
   }
+
+  function get_idhotels_availability() {
+		if (isset($_POST['idhotels'])) {
+			$idhotels = $_POST['idhotels'];
+			$results = $this->Smartreport_hotels_model->get_idhotels($idhotels);
+			if ($results === TRUE) {
+				echo '<span class="form-text text-danger">Hotel ID Already Used</span>';
+			} else {
+				echo '<span class="form-text text-success">Hotel ID Available</span>';
+			}
+		} else {
+			echo '<span class="form-text text-danger">Hotel ID Required</span>';
+		}
+  }
+  
+  function get_idcompetitor_availability() {
+		if (isset($_POST['idcompetitor'])) {
+			$idcompetitor = $_POST['idcompetitor'];
+			$results = $this->Smartreport_hotels_model->get_idcompetitor($idcompetitor);
+			if ($results === TRUE) {
+				echo '<span class="form-text text-danger">Competitor ID Already Used</span>';
+			} else {
+				echo '<span class="form-text text-success">Competitor ID Available</span>';
+			}
+		} else {
+			echo '<span class="form-text text-dager">Competitor ID Required</span>';
+		}
+	}
 
   /*function correction_data_analysis(){
     $user_level = $this->session->userdata('user_level');

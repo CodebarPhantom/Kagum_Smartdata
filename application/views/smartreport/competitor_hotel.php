@@ -1,11 +1,55 @@
-    <script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/selects/select2.min.js"></script>
-	
-	<script type="text/javascript">
-	    $(document).ready(function(){
-			$('.custom_category').select2();
-			$('.table-togglable').footable();
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+
+
+<script type="text/javascript">
+	    
+		$(document).ready(function() {
+
+		
+
+		$("#idcompetitorcheck").on("input", function(e) {
+			$('#msg').hide();
+			if($('#idcompetitorcheck').val().trim().length >= 3) { 
+				setTimeout(function(){
+				$.ajax({
+					type: "POST",
+					url: "<?php echo site_url('smartreport/get_idcompetitor_availability');?>",
+					data: $('#inputhotelscompetitor').serialize(),
+					dataType: "html",
+					cache: false,
+					success: function(msg) {
+						$('#msg').show();
+						$("#msg").html(msg);
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						$('#msg').show();
+						$("#msg").html(textStatus + " " + errorThrown);
+					}
+				});
+				}, 1500); 
+			}			
+				
 			
 		});
+
+		$('.table-togglable').footable();
+		$('.custom_category').select2();
+
+		$(function(){
+			$(".letternumber").keypress(function(event){
+				var ew = event.which;
+				if(ew == 32)
+					return true;
+				if(48 <= ew && ew <= 57)
+					return true;
+				if(65 <= ew && ew <= 90)
+					return true;
+				if(97 <= ew && ew <= 122)
+					return true;
+				return false;
+			});
+		});
+	});
 	</script>
 	<?php
     //initialization
@@ -211,18 +255,19 @@
 								<button type="button" class="close"  data-dismiss="modal" aria-hidden="true">&times;</button>
 							</div>
 
-							<form action="<?=base_url()?>smartreport/insert_competitor" method="post">
+							<form action="<?=base_url()?>smartreport/insert_competitor" id="inputhotelscompetitor" method="post">
 								<div class="modal-body">
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_idcompetitor; ?></label>
-												<input type="text" name="idcompetitor" placeholder="ID Hotel..." class="form-control" required>
+												<input type="text" name="idcompetitor" id="idcompetitorcheck" minlength="3" maxlength="6" placeholder="Competitor ID..." class="form-control" required>
+												<div id="msg"></div>
 											</div>
 
 											<div class="col-sm-6">
 												<label><?php echo $lang_hotel_name; ?></label>
-												<input type="text" name="hotels_name" placeholder="Hotels Name..." class="form-control" required>
+												<input type="text" name="hotels_name" placeholder="Hotels Name..." class="form-control letternumber" required>
 											</div>											
 										</div>
 									</div>	
@@ -333,7 +378,7 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_hotel_name; ?></label>
-												<input type="text" name="hotels_name" placeholder="Hotels Name..." class="form-control" value="<?=$smartreport_competitor->competitor;?>" required>
+												<input type="text" name="hotels_name" placeholder="Hotels Name..." class="form-control letternumber" value="<?=$smartreport_competitor->competitor;?>" required>
 											</div>
 											<div class="col-sm-6">
 												<label><?php echo $lang_total_rooms; ?></label>

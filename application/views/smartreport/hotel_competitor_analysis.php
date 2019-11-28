@@ -271,7 +271,7 @@
 
 							<?php if($tab === "hca1"){ ?>	
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap table-hover customEryan datatable-fixed-complex">
+								<table class="table table-bordered text-nowrap table-hover table-xs customEryan datatable-fixed-complex">
 									<thead>
 										<tr style="vertical-align: middle; text-align: center">
 											<th rowspan="2">Hotel Name</th>
@@ -1244,7 +1244,7 @@
 
 							<?php if($tab === "hca2"){ ?>				
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap table-hover customEryan datatable-fixed-complex"  >
+								<table class="table table-bordered text-nowrap table-hover table-xs customEryan datatable-fixed-complex"  >
 									<thead>
 										<tr style="vertical-align: middle; text-align: center">
 											<th rowspan="2">Hotel Name</th>

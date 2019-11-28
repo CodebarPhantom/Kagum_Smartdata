@@ -56,6 +56,7 @@
 								<th data-hide="phone">#</th>
 								<th data-hide="phone"><?php echo $lang_brand_id; ?></th>
 								<th data-toggle="true"><?php echo $lang_category_hotels; ?></th>
+								<th data-hide="phone"><?php echo $lang_order; ?></th>
 								
 								<th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
 							</tr>
@@ -66,6 +67,7 @@
 								<td><?php echo ++$start; ?></td>
 								<td><?php echo $smartreport_categoryhotels->idhotelscategory; ?></td>
 								<td><?php echo $smartreport_categoryhotels->hotels_category; ?></td>
+								<td><?php echo $smartreport_categoryhotels->hotelscategory_order; ?></td>
 								
 								<td class="text-center">
 									<div class="list-icons">
@@ -107,11 +109,19 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<label><?php echo $lang_brand_id; ?></label>
-												<input type="text" name="idcategoryhotels" placeholder="<?php echo $lang_brand_id; ?>..." class="form-control" required>
+												<input type="text" name="idcategoryhotels" minlength="4" maxlength="4" placeholder="<?php echo $lang_brand_id; ?>..." class="form-control" required>
 											</div>	
 											<div class="col-sm-6">
 												<label><?php echo $lang_category_hotels; ?></label>
 												<input type="text" name="categoryhotels_name" placeholder="<?php echo $lang_category_hotels; ?>..." class="form-control" required>
+											</div>											
+										</div>
+									</div>	
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6">
+												<label><?php echo $lang_order; ?></label>
+												<input type="text" name="hotelscategory_order" placeholder="<?php echo $lang_order; ?>..." class="form-control" required>
 											</div>											
 										</div>
 									</div>								
@@ -141,10 +151,14 @@
 								<div class="modal-body">
 									<div class="form-group">
 										<div class="row">
-											<div class="col-sm-12">
+											<div class="col-sm-6">
 												<label><?php echo $lang_category_hotels; ?></label>
 												<input type="text" name="categoryhotels_name" placeholder="<?php echo $lang_category_hotels; ?>..." class="form-control" value="<?=$smartreport_categoryhotels->hotels_category;?>" required>
 											</div>
+											<div class="col-sm-6">
+												<label><?php echo $lang_order; ?></label>
+												<input type="text" name="hotelscategory_order" placeholder="<?php echo $lang_order; ?>..." value="<?=$smartreport_categoryhotels->hotelscategory_order;?>" class="form-control" required>
+											</div>	
 										</div>
 									</div>
 								</div>

@@ -232,7 +232,7 @@ function cal_days_in_year($yearact){
 								</div>
 							</form>	
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap table-hover customEryan datatable-nobutton-1column">
+								<table class="table table-bordered text-nowrap table-hover table-xs customEryan datatable-nobutton-1column">
 									<thead style="vertical-align: middle; text-align: center">
 										<tr >
 											<th rowspan="2"><?php echo $lang_description; ?></th>											

@@ -131,7 +131,7 @@ $ri_mtd = 0; $ri_ytd = 0;
 					</div>
                     
                     <div class="table-responsive">
-                        <table class="table table-bordered table-togglable table-hover customEryan datatable-nobutton-1column text-nowrap" >
+                        <table class="table table-bordered table-togglable table-hover table-xs customEryan datatable-nobutton-1column text-nowrap" >
                             <thead style="vertical-align: middle; text-align: center">
                                 <tr>
                                     <th rowspan="2">Category</th>

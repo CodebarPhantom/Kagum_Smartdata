@@ -292,6 +292,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['choose_brand'] = 'Choose Brands';
 
     $lang['statistic_dsr'] = 'Statistic DSR';
+    $lang['rev_today'] = 'Todays Revenue';
+    $lang['mtd_rev'] = 'MTD Revenue';
+    $lang['achv'] = 'Achievement';
+
+
     
 
 

@@ -169,7 +169,7 @@ function cal_days_in_year($dateToView){
 								</div>
 							</form>	
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap table-hover customEryan datatable-nobutton">
+								<table class="table table-bordered text-nowrap table-hover table-xs customEryan datatable-nobutton">
 									<thead style="vertical-align: middle; text-align: center">
 										<tr >
 											<th rowspan="2"><?php echo $lang_description; ?></th>											

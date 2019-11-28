@@ -89,6 +89,7 @@ class Smartreport_dsr_model extends CI_Model
 
     function get_data_brand() {     
         $this->db->from("smartreport_hotelscategory");
+        $this->db->order_by('hotelscategory_order', 'ASC');
         return $this->db->get()->result();
     }
 

@@ -68,7 +68,7 @@
             </li>
             <?php } ?>       
 
-            <?php if ($user_le === '1' || $user_le === '2' ) {?>
+            <?php if ($user_le === '1') {?>
             <li class="nav-item nav-item-submenu <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
                 <a href="#" class="nav-link"><i class="icon-office"></i> <span><?php echo $lang_hotel; ?></span></a>
                 <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_hotel; ?>" <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>

@@ -18,6 +18,33 @@ class Smartreport_hotels_model extends CI_Model
         $this->db->insert($table, $data);
     }  
 
+
+    function get_idhotels($idhotels) {
+      
+		$this->db->where('idhotels', $idhotels);
+		$this->db->limit(1);
+		$query = $this->db->get("smartreport_hotels");
+
+		if ($query->num_rows() == 1) {
+			return TRUE;
+		}
+		
+		return FALSE;
+    }
+    
+    function get_idcompetitor($idcompetitor) {
+      
+		$this->db->where('idhotels', $idcompetitor);
+		$this->db->limit(1);
+		$query = $this->db->get("smartreport_hotels");
+
+		if ($query->num_rows() == 1) {
+			return TRUE;
+		}
+		
+		return FALSE;
+	}
+
     // Query Data from Table with Order;
     public function getDataAll($table, $order_column, $order_type){
         $this->db->order_by("$order_column", "$order_type");

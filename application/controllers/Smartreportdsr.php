@@ -24,6 +24,7 @@ class Smartreportdsr extends CI_Controller{
       $this->load->helper('url');
       $this->load->helper('mydate');
       $this->load->helper('text');
+      $this->load->library('pdfgenerator');
       
   }
 
@@ -146,7 +147,7 @@ class Smartreportdsr extends CI_Controller{
 
   function statistic_dsr(){
     $user_level = $this->session->userdata('user_level');
-    $user_hotel = $this->session->userdata('user_hotel');
+    //$user_hotel = $this->session->userdata('user_hotel');
     if($user_level === '1' ){
 
         $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
@@ -211,17 +212,44 @@ class Smartreportdsr extends CI_Controller{
         $page_data['lang_fnb'] = $this->lang->line('fnb');
         $page_data['lang_other'] = $this->lang->line('other');
         $page_data['lang_total_sales'] = $this->lang->line('total_sales');
-        $page_data['lang_hotel_name'] = $this->lang->line('hotel_name');
-        
+        $page_data['lang_hotel_name'] = $this->lang->line('hotel_name');  
+        $page_data['lang_rev_today']  = $this->lang->line('rev_today');  
+        $page_data['lang_mtd_rev'] = $this->lang->line('mtd_rev');
+        $page_data['lang_achv'] = $this->lang->line('achv');      
 
         $smartreport_brand = $this->Smartreport_dsr_model->get_data_brand();
         $page_data['smartreport_brand_data'] = $smartreport_brand;
 
         $page_data['date_dsr'] = $this->input->get('date_dsr', TRUE);
         $page_data['dateToView'] = $date_dsr;
+
        
 
     $this->load->view('smartreport/index',$page_data);
+    }else{
+        redirect('errorpage/error403');
+    }
+  }
+
+  function statistic_dsrpdf(){
+    $user_level = $this->session->userdata('user_level');
+    //$user_hotel = $this->session->userdata('user_hotel');
+    if($user_level === '1' ){
+        $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
+        $date_dsr = date("Y-m-d", $getdate_dsr);
+           
+        $smartreport_brand = $this->Smartreport_dsr_model->get_data_brand();
+        $page_data['lang_hotel_name'] = $this->lang->line('hotel_name');  
+        $page_data['lang_statistic_dsr'] = $this->lang->line('statistic_dsr');
+        $page_data['smartreport_brand_data'] = $smartreport_brand;
+        $page_data['date_dsr'] = $this->input->get('date_dsr', TRUE);
+        $page_data['dateToView'] = $date_dsr;    
+     
+
+      $this->pdfgenerator->setPaper('A4', 'potrait');
+      $this->pdfgenerator->filename = "Report Statistic DSR ".$date_dsr.".pdf";
+      $this->pdfgenerator->load_view('smartreport/pdf_statisticdsr', $page_data);
+      //$this->load->view('smartreport/pdf_statisticdsr',$page_data);
     }else{
         redirect('errorpage/error403');
     }

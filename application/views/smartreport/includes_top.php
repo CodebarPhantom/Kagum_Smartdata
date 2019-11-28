@@ -11,6 +11,7 @@
 	<link href="<?php echo base_url();?>assets/backend/css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url();?>assets/backend/css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url();?>assets/backend/css/colors.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>assets/backend/global_assets/css/extras/animate.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->

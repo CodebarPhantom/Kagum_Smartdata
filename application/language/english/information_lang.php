@@ -35,6 +35,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['cancel_confirm'] = 'Yes';
 
     $lang['dashboard'] = 'Dashboard';
+    $lang['dashboard_statistic'] = 'Dashboard Statistic';
     $lang['visitor_amount'] = 'Visitor Amount';
     $lang['latest_applicant'] = 'Latest Applicant';
     $lang['applicant_month'] = 'Applicant This Month';

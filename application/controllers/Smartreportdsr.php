@@ -37,6 +37,7 @@ class Smartreportdsr extends CI_Controller{
         $date_dsr = date("Y-m-d", $getdate_dsr);
         $page_data['page_name'] = 'daily_sales_report';        
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -154,6 +155,7 @@ class Smartreportdsr extends CI_Controller{
         $date_dsr = date("Y-m-d", $getdate_dsr);
         $page_data['page_name'] = 'statistic_dsr';        
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');

@@ -1468,12 +1468,37 @@
 											<!-- Hotel and Room Inventory -->
 											<td><?= $getHotelByUser->hotels_name;?>	
 												<br/>										
-												<span>
-													<i class="icon-star-full2 customstarsize text-warning-300"></i>
-													<i class="icon-star-full2 customstarsize text-warning-300"></i>
-													<i class="icon-star-full2 customstarsize text-warning-300"></i>
-													<i class="icon-star-full2 customstarsize text-warning-300"></i>
-												</span>
+												<?php if ($getHotelByUser->hotel_star === '1') { ?>
+													<span>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+													</span>
+												<?php } else if ($getHotelByUser->hotel_star === '2') { ?>
+													<span>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+													</span>
+												<?php } else if ($getHotelByUser->hotel_star === '3') { ?>
+													<span>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+													</span>
+												<?php } else if ($getHotelByUser->hotel_star === '4') { ?>	
+													<span>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+													</span>
+												<?php } else if ($getHotelByUser->hotel_star === '5') { ?>
+													<span>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>	
+														<i class="icon-star-full2 customstarsize text-warning-300"></i>		
+													</span>
+												<?php } ?>
 											</td>
 											<td><?= number_format($getHotelByUser->total_rooms);?></td>
 

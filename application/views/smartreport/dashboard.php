@@ -1,6 +1,8 @@
 <script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/datatables.min.js"></script> 
 <script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js"></script>
 <script src="<?php echo base_url();?>assets/backend/global_assets/js/demo_pages/datatables_extension_fixed_columns.js"></script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/notifications/pnotify.min.js"></script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
 <style>
 
 .customEryan{
@@ -127,8 +129,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 ?>
 
 
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/notifications/pnotify.min.js"></script>
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
+
 
 
 
@@ -304,7 +305,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 														<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>														
 													</a>
 												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
+												<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd != 0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
 											</tr>
 
 											<tr>										
@@ -415,9 +416,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 					<div class="col-md-6">
 
 						<!-- Nightingale roses (hidden labels) -->
-						<div class="card">
-							
-
+						<div class="card">	
 							<div class="card-body">
 								<div class="chart-container">
 									<div class="chart" style="min-width: 250px; height: 410px;" id="mpi_MTD"></div>
@@ -464,4 +463,4 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 
 			</div>
 			<!-- /content area -->
-			<?php include 'graph.php';?>
+			<?php include 'dashboard_graph.php';?>

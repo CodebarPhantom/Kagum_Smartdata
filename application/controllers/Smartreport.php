@@ -36,6 +36,7 @@ class Smartreport extends CI_Controller{
     if($user_level === '1' || $user_level === '2' || $user_level === '3'){
         $page_data['page_name'] = 'dashboard';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_user'] = $this->lang->line('user');
         $page_data['lang_add_user'] = $this->lang->line('add_user');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
@@ -105,6 +106,7 @@ class Smartreport extends CI_Controller{
 
         $page_data['page_name'] = 'dashboard_search';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_user'] = $this->lang->line('user');
         $page_data['lang_add_user'] = $this->lang->line('add_user');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
@@ -189,6 +191,7 @@ class Smartreport extends CI_Controller{
 
         $page_data['page_name'] = 'list_users';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_submit'] = $this->lang->line('submit');
         $page_data['lang_close'] = $this->lang->line('close');
         $page_data['lang_input_success'] = $this->lang->line('input_success');
@@ -375,6 +378,7 @@ class Smartreport extends CI_Controller{
         $page_data['page_name'] = 'list_city';
         
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -503,6 +507,7 @@ class Smartreport extends CI_Controller{
         $page_data['page_name'] = 'category_hotels';
         
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -635,6 +640,7 @@ class Smartreport extends CI_Controller{
         $page_data['page_name'] = 'list_hotel';
         
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -793,6 +799,7 @@ class Smartreport extends CI_Controller{
         $page_data['page_name'] = 'competitor_hotel';
         
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -956,6 +963,7 @@ class Smartreport extends CI_Controller{
         $page_data['page_name'] = 'list_departement';
         
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_add_city'] = $this->lang->line('add_city');
         $page_data['lang_list_users'] = $this->lang->line('list_users');
         $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -1079,6 +1087,7 @@ class Smartreport extends CI_Controller{
         $user_hotel = $this->session->userdata('user_hotel');
         $page_data['page_name'] = 'hotel_competitor_analysis';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+        $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
         $page_data['lang_user'] = $this->lang->line('user');
         $page_data['lang_add_user'] = $this->lang->line('add_user');
         $page_data['lang_list_users'] = $this->lang->line('list_users');

@@ -311,7 +311,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>														
 													</a>
 												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
+												<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd !=0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
 											</tr>
 
 											<tr>										
@@ -476,4 +476,4 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 
 			</div>
 			<!-- /content area -->
-			<?php include 'graph.php';?>
+			<?php include 'dashboar_dgraph.php';?>

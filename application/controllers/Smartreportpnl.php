@@ -51,6 +51,7 @@ class Smartreportpnl extends CI_Controller{
 
             $page_data['page_name'] = 'list_categorypnl';        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -170,6 +171,7 @@ class Smartreportpnl extends CI_Controller{
         
                 $page_data['page_name'] = 'list_pnl';        
                 $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+                $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
                 $page_data['lang_add_city'] = $this->lang->line('add_city');
                 $page_data['lang_list_users'] = $this->lang->line('list_users');
                 $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -275,6 +277,7 @@ class Smartreportpnl extends CI_Controller{
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -399,7 +402,7 @@ class Smartreportpnl extends CI_Controller{
         $date_budget = $year_budget.'-'.$month_budget.'-'.'01'; 
         $idpnl = $this->input->post('idpnllist', TRUE);      
         $data_budget = $this->Smartreport_pnl_model->select_budgetpnlbydate($idhotels,$idpnl,$date_budget);
-            if($data_budget->row() > 0){
+            if($data_budget->num_rows() > 0){
             $data = array(    
                 'idpnl'=>$idpnl,
                 'budget_value'=>$this->input->post('budget_value', TRUE),
@@ -430,6 +433,7 @@ class Smartreportpnl extends CI_Controller{
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
+            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -562,7 +566,7 @@ class Smartreportpnl extends CI_Controller{
         $date_actual = $year_actual.'-'.$month_actual.'-'.'01'; 
         $idpnl = $this->input->post('idpnllist', TRUE);      
         $data_actual = $this->Smartreport_actual_model->select_actualpnlbydate($idhotels,$idpnl,$date_actual);
-            if($data_actual->row() > 0){
+            if($data_actual->num_rows() > 0){
             $data = array(    
                 'idpnl'=>$idpnl,
                 'actual_value'=>$this->input->post('actual_value', TRUE),

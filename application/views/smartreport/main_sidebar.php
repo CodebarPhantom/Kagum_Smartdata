@@ -56,6 +56,17 @@
             <!-- Main -->
             
             <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
+
+            <?php if ($user_le === '1'  ) {?>
+            <li class="nav-item">
+                <a href="<?=base_url()?>smartreportdsr/statistic-dsr" class="nav-link <?php if ($tk_m == 'statistic_dsr') { ?><?php echo 'active'; } ?>">
+                    <i class="icon-home4"></i>
+                    <span>
+                        <?php echo $lang_dashboard_statistic; ?>
+                    </span>
+                </a>
+            </li>
+            <?php } ?>  
             
             <?php if ($user_le === '1' || $user_le === '2' || $user_le === '3' ) {?>
             <li class="nav-item">
@@ -68,7 +79,7 @@
             </li>
             <?php } ?>       
 
-            <?php if ($user_le === '1') {?>
+            <?php if ($user_le === '1' || $user_le === '2') {?>
             <li class="nav-item nav-item-submenu <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
                 <a href="#" class="nav-link"><i class="icon-office"></i> <span><?php echo $lang_hotel; ?></span></a>
                 <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_hotel; ?>" <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
@@ -93,11 +104,11 @@
             <?php } ?>
 
             <?php if ($user_le === '1' || $user_le === '2' || $user_le ==='3' ) {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' || $tk_m == 'statistic_dsr' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
+            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
                 <a href="#" class="nav-link"><i class="icon-chart"></i> <span><?php echo $lang_analysis; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_analysis; ?>" <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' || $tk_m == 'statistic_dsr') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
+                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_analysis; ?>" <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' ) { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
                     <li class="nav-item"><a href="<?=base_url()?>smartreportdsr/daily-sales-report" class="nav-link <?php if ($tk_m == 'daily_sales_report') { ?>  <?php echo 'active'; } ?>"><i class="icon-cabinet"></i><?php echo $lang_dsr; ?></a></li>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportdsr/statistic-dsr" class="nav-link <?php if ($tk_m == 'statistic_dsr') { ?>  <?php echo 'active'; } ?>"><i class="icon-stats-bars3"></i><?php echo $lang_statistic_dsr; ?></a></li>      
+                          
                     <li class="nav-item"><a href="<?=base_url()?>smartreport/hotel-competitor-analysis" class="nav-link <?php if ($tk_m == 'hotel_competitor_analysis') { ?>  <?php echo 'active'; } ?>"><i class="icon-archive"></i><?php echo $lang_hotel_comp_anl; ?></a></li>
                 </ul>
             </li>

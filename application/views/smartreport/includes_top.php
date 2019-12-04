@@ -1,7 +1,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Kagum Hotel Smart Report</title>
+	<meta name="robots" content="noindex"/>
+	<meta name="googlebot" content="noindex"/>
+	<meta name="robots" content="noindex, nofollow"/>
+
+	<title>Kagum Hotels Smartdata</title>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -53,5 +57,6 @@
 
 	$tk_c = $this->router->class;
 	$tk_m = $this->router->method;
+
 
 ?>

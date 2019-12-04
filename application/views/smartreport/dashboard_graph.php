@@ -49,7 +49,7 @@ var EchartsColumnsWaterfalls = function() {
 
                 title: {
                     text: 'Occupancy',
-                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
+                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
                     left: 'center',
                
                     textStyle: {
@@ -214,7 +214,7 @@ var EchartsColumnsWaterfalls = function() {
 
                 title: {
                     text: 'Average Room Rate',
-                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
+                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
                     left: 'center',
                
                     textStyle: {
@@ -373,7 +373,7 @@ var EchartsColumnsWaterfalls = function() {
 
                 title: {
                     text: 'Rev Par',
-                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
+                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
                     left: 'center',
                
                     textStyle: {
@@ -532,7 +532,7 @@ var EchartsColumnsWaterfalls = function() {
             // Add title
             title: {
                 text: 'Market Penetration Index',
-                subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $session_hotel->hotels_name.' - '. $dashboardDate.' '. $monthObj->format('F').' '. $graphYear; ?>',
+                subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $dashboardDate.' '. $monthObj->format('F').' '. $graphYear; ?>',
                 left: 'center',
                 textStyle: {
                     fontSize: 17,
@@ -548,7 +548,7 @@ var EchartsColumnsWaterfalls = function() {
                     feature: {                        
                         saveAsImage: {title: 'Save As picture'}
                     }
-                },
+            },
 
             // Add tooltip
             tooltip: {

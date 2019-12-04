@@ -60,7 +60,7 @@
             <?php if ($user_le === '1'  ) {?>
             <li class="nav-item">
                 <a href="<?=base_url()?>smartreportdsr/statistic-dsr" class="nav-link <?php if ($tk_m == 'statistic_dsr') { ?><?php echo 'active'; } ?>">
-                    <i class="icon-home4"></i>
+                    <i class="icon-home2"></i>
                     <span>
                         <?php echo $lang_dashboard_statistic; ?>
                     </span>

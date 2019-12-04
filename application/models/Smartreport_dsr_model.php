@@ -170,4 +170,13 @@ class Smartreport_dsr_model extends CI_Model
         return $this->db->get()->row();
     }
 
+    function get_allparenthotel(){
+        $this->db->select("idhotels, hotels_name");
+        $this->db->from("smartreport_hotels");
+        $this->db->where("parent","PARENT");
+        $this->db->where("status", "active");
+        $this->db->order_by("hotels_name", "DESC");
+        return $this->db->get()->result();
+    }
+
 }

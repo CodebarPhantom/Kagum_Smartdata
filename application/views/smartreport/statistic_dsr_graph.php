@@ -1,3 +1,6 @@
+<?php
+$get_allparenthotel = $this->Smartreport_dsr_model->get_allparenthotel();
+?>
 <script>
 /* ------------------------------------------------------------------------------
  *
@@ -60,18 +63,38 @@ var EchartsBarsTornados = function() {
                 grid: {
                     left: 0,
                     right: 30,
-                    top: 35,
-                    bottom: 0,
+                    top: 60,
+                    bottom: 25,
                     containLabel: true
                 },
 
                 // Add legend
-                legend: {
-                    data: ['Test Eryan'],
+                /*legend: {
+                    data: ['Achievement'],
                     itemHeight: 8,
                     itemGap: 20,
                     textStyle: {
                         padding: [0, 5]
+                    }
+                },*/
+
+                title: {
+                text: 'Achievement',
+                subtext: '<?php echo $perdate.' '.$monthObj->format('F').' '.$peryear ?>',
+                left: 'center',
+                    textStyle: {
+                        fontSize: 17,
+                        fontWeight: 500
+                    },
+                    subtextStyle: {
+                        fontSize: 12
+                    }
+                },
+                toolbox: {
+                    right: 30,
+                    show: true,
+                    feature: {                        
+                        saveAsImage: {title: 'Save As picture'}
                     }
                 },
 
@@ -97,7 +120,8 @@ var EchartsBarsTornados = function() {
                     type: 'value',
                     boundaryGap: [0, 0.01],
                     axisLabel: {
-                        color: '#333'
+                        color: '#333',
+                        formatter: '{value} %',
                     },
                     axisLine: {
                         lineStyle: {
@@ -116,7 +140,12 @@ var EchartsBarsTornados = function() {
                 // Vertical axis
                 yAxis: [{
                     type: 'category',
-                    data: ['Germany','France','Spain','Netherlands','Belgium'],
+                    data: [<?php
+                        foreach ($get_allparenthotel as $allparenthotel){
+
+                            echo "'".$allparenthotel->hotels_name."',";
+                        }
+                    ?>],
                     axisLabel: {
                         color: '#333'
                     },
@@ -142,14 +171,80 @@ var EchartsBarsTornados = function() {
                 // Add series
                 series: [
                     {
-                        name: 'Year 2013',
+                        name: 'Achievement',
                         type: 'bar',
                         itemStyle: {
                             normal: {
-                                color: '#EF5350'
+                                color: '#00838F',
                             }
                         },
-                        data: [38203, 73489, 129034, 204970, 331744]
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'inside'
+                            }
+                        },
+
+                        data: [<?php
+                        foreach ($get_allparenthotel as $allparenthotel){
+
+                            $dt_analystoday = $this->Smartreport_hca_model->select_competitoranalysisondate_perhotel($allparenthotel->idhotels,$dateToView);
+                            $dt_dsrtoday = $this->Smartreport_dsr_model->select_dsrondate_perhotel($allparenthotel->idhotels,$dateToView);
+                            
+                            $dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$allparenthotel->idhotels);                                    
+                            $dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$allparenthotel->idhotels);
+                            $dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$allparenthotel->idhotels);
+
+                            $budget_rooms =  $this->Smartreport_pnl_model->get_rooms_budget($allparenthotel->idhotels, $permonth, $peryear);
+                            $budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($allparenthotel->idhotels, $permonth, $peryear);
+                            $budget_other =  $this->Smartreport_pnl_model->get_other_budget($allparenthotel->idhotels,$permonth, $peryear);
+                            $budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($allparenthotel->idhotels, $permonth, $peryear);
+
+                            
+                            
+                            if($dt_analystoday != NULL   ){
+                                $rs_today = $dt_analystoday->room_sold;
+                                $arr_today = $dt_analystoday->avg_roomrate;
+                            }else{
+                                $rs_today = 0;
+                                $arr_today =0;                                        
+                            } 
+
+                            if($dt_dsrtoday != NULL){
+                                $fnb_today = $dt_dsrtoday->sales_fnb;
+                                $oth_today = $dt_dsrtoday->sales_other;   
+                            }else{
+                                $fnb_today = 0;
+                                $oth_today = 0; 
+                            }
+                            
+                            if($dt_trrmtd != NULL && $dt_fnbmtd !=NULL && $dt_othmtd != NULL){                                        
+                                $trr_mtd = $dt_trrmtd->TRR_MTD;                                  
+                                $fnb_mtd = $dt_fnbmtd->FNB_MTD;                                    
+                                $oth_mtd = $dt_othmtd->OTH_MTD;                                        
+                            }else{
+                                $trr_mtd = 0;
+                                $fnb_mtd = 0;
+                                $oth_mtd =0;                                        
+                            }
+
+                            
+                                $getbudget_roomsmtd = ($budget_rooms->BUDGET_ROOMS/$days_this_month)*$perdate;
+                                $getbudget_laundrymtd = ($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$perdate;
+                                $getbudget_othermtd = ($budget_other->BUDGET_OTHER/$days_this_month)*$perdate;
+                                $getbudget_fnbmtd = ($budget_fnb->BUDGET_FNB/$days_this_month)*$perdate;
+
+                                $trr_today = $rs_today * $arr_today;
+                                $tot_sales_today = $trr_today + $fnb_today + $oth_today;
+                                $tot_sales_mtd = $trr_mtd + $fnb_mtd + $oth_mtd;
+                                $totalbudget_mtd = $getbudget_roomsmtd+$getbudget_fnbmtd+$getbudget_laundrymtd+$getbudget_othermtd;
+
+                                if($tot_sales_mtd != 0 && $totalbudget_mtd != 0){echo number_format(($tot_sales_mtd/$totalbudget_mtd)*100,2).',';}else{
+                                    echo (0).',';
+                                }
+                            
+                        }
+                    ?>]
                     }
                 ]
             });

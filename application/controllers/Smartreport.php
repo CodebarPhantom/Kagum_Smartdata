@@ -77,6 +77,8 @@ class Smartreport extends CI_Controller{
         $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
         $page_data['lang_submit'] = $this->lang->line('submit');
         $page_data['lang_close'] = $this->lang->line('close');
+        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
+
 
         $page_data['lang_date'] = $this->lang->line('date');
         $page_data['lang_search'] = $this->lang->line('search');
@@ -102,6 +104,7 @@ class Smartreport extends CI_Controller{
     if($user_level === '1' || $user_level === '2' || $user_level === '3'){
 
         $getdate_dashboard = strtotime($this->input->post('date_dashboard', TRUE));
+        $getidhotel_dashboard = $this->input->post('idhoteldashboard', TRUE);
         $date_dashboard = date("Y-m-d", $getdate_dashboard);
 
         $page_data['page_name'] = 'dashboard_search';
@@ -146,20 +149,28 @@ class Smartreport extends CI_Controller{
         $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
         $page_data['lang_submit'] = $this->lang->line('submit');
         $page_data['lang_close'] = $this->lang->line('close');
+        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
 
         $page_data['lang_date'] = $this->lang->line('date');
         $page_data['lang_search'] = $this->lang->line('search');
+
+        //untuk yang bukan administrator
+        if($getidhotel_dashboard == NULL){
+          $getidhotel_dashboard = $user_HotelForDashboard; 
+        }
         
-        // untuk graph
-        $getHotelAllStarByUser = $this->Smartreport_hca_model->getHotelAllStarByUserHotel($user_HotelForDashboard);
+        // untuk graph       
+
+        $getHotelAllStarByUser = $this->Smartreport_hca_model->getHotelAllStarByUserHotel($getidhotel_dashboard);
         $page_data['getHotelAllStarByUser_data'] = $getHotelAllStarByUser;
 
         //untuk table
-        $getHotelByUser = $this->Smartreport_hca_model->getHotelByUserHotel($user_HotelForDashboard);
+        $getHotelByUser = $this->Smartreport_hca_model->getHotelByUserHotel($getidhotel_dashboard);
         $page_data['getHotelByUser_data'] = $getHotelByUser;
 
         $page_data['date_dashboard'] = $this->input->post('date_dashboard', TRUE);
         $page_data['dateToView'] = $date_dashboard;
+        $page_data['idhotel_dashboard'] = $getidhotel_dashboard;
 
         $this->load->view('smartreport/index',$page_data);
      }else{

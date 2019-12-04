@@ -249,7 +249,7 @@ if ($dateToView == '1970-01-01') {
                                         <tr>
                                             <th rowspan="2"><?php echo $lang_hotel_name; ?></th>
                                             <th rowspan="2">Rooms</th>
-                                            <th rowspan="2">Rooms Sold</th>
+                                            <th rowspan="2">R. Sold</th>
                                             <th rowspan="2">Occ</th>
                                             <th rowspan="2">ARR</th>
                                             <th rowspan="2">Today Rev</th>
@@ -390,7 +390,7 @@ if ($dateToView == '1970-01-01') {
                         <div class="card ">
                             <div class="card-body">
                                 <div class="chart-container animated zoomIn">
-                                    <div class="chart" style="min-width: 350px; height: 400px;" id="bars_basic"></div>
+                                    <div class="chart" style="min-width: 350px; height: 500px;" id="bars_basic"></div>
                                 </div>
                             </div>
                         </div>

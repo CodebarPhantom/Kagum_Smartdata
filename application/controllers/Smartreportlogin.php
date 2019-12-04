@@ -45,7 +45,12 @@ class Smartreportlogin extends CI_Controller{
 
               $this->session->set_userdata($userdata);
 
-              redirect(base_url().'smartreport', 'refresh');
+              if ($user_level == 1){
+                redirect(base_url().'smartreportdsr/statistic-dsr', 'refresh');
+              }else{
+                redirect(base_url().'smartreport', 'refresh');
+              }
+              
           } else {
               $this->session->set_flashdata('alert_msg', array('failure', 'Login', $result['validation']));
               redirect(base_url('smartreportlogin'), 'refresh');

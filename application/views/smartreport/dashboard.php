@@ -48,6 +48,7 @@ $dashboardDate = date('d',$d);
 $monthObj  = DateTime::createFromFormat('!m', $graphMonth); 
 $lastmtd = $graphMonth - 1;
 
+$idhotel_dashboard = $user_ho;
 
 // room inventory
 $ri_mtd = 0; $ri_ytd = 0; 
@@ -62,25 +63,25 @@ $fnb_today = 0; $fnb_mtd = 0; $fnb_ytd = 0;
 //other
 $oth_today = 0; $oth_mtd = 0; $oth_ytd = 0;
 
-$dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
 $rs_mtd = $dt_rsmtd->RS_MTD;
-$dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
+$dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
 $rs_ytd += $dt_rsytd->RS_YTD;
 
-$dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
 $trr_mtd = $dt_trrmtd->TRR_MTD;
-$dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
+$dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
 $trr_ytd = $dt_trrytd->TRR_YTD;
 
 
-$dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
 $fnb_mtd = $dt_fnbmtd->FNB_MTD; 
-$dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$user_ho);
+$dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
 $oth_mtd = $dt_othmtd->OTH_MTD;
 
 
 
-/*$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$user_ho);
+/*$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
 if($rs_ytd != 0 && $ri_ytd->RI_YTD != 0){
 		$occ_ytd = ($rs_ytd / $ri_ytd->RI_YTD) * 100;
 	}*/
@@ -96,34 +97,34 @@ if($trr_ytd != 0 && $rs_ytd != 0){
 
 //data dari table budget
 $days_this_month = cal_days_in_month(CAL_GREGORIAN,$graphMonth,$graphYear);
-$budget_arr =  $this->Smartreport_pnl_model->get_arr_budget($user_ho, $graphMonth,$graphYear);
+$budget_arr =  $this->Smartreport_pnl_model->get_arr_budget($idhotel_dashboard, $graphMonth,$graphYear);
 
-$budget_rooms =  $this->Smartreport_pnl_model->get_rooms_budget($user_ho, $graphMonth,$graphYear);
-$budget_roomsytd = $this->Smartreport_pnl_model->get_rooms_budgetytd($user_ho, $lastmtd, $graphYear);
+$budget_rooms =  $this->Smartreport_pnl_model->get_rooms_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_roomsytd = $this->Smartreport_pnl_model->get_rooms_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_roomsnow = $budget_rooms->BUDGET_ROOMS/$days_this_month;
 $getbudget_roomsmtd = ($budget_rooms->BUDGET_ROOMS/$days_this_month)*$dashboardDate;
 $getbudget_roomsytd = $budget_roomsytd->BUDGET_ROOMSYTD+($budget_rooms->BUDGET_ROOMS/$days_this_month)*$dashboardDate;
 
-$budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($user_ho, $graphMonth,$graphYear);
-$budget_fnbytd = $this->Smartreport_pnl_model->get_fnb_budgetytd($user_ho, $lastmtd, $graphYear);
+$budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_fnbytd = $this->Smartreport_pnl_model->get_fnb_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_fnbnow = $budget_fnb->BUDGET_FNB/$days_this_month;
 $getbudget_fnbmtd = ($budget_fnb->BUDGET_FNB/$days_this_month)*$dashboardDate;
 $getbudget_fnbytd = $budget_fnbytd->BUDGET_FNBYTD+($budget_fnb->BUDGET_FNB/$days_this_month)*$dashboardDate;
 
-$budget_other =  $this->Smartreport_pnl_model->get_other_budget($user_ho, $graphMonth,$graphYear);
-$budget_otherytd = $this->Smartreport_pnl_model->get_other_budgetytd($user_ho, $lastmtd, $graphYear);
+$budget_other =  $this->Smartreport_pnl_model->get_other_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_otherytd = $this->Smartreport_pnl_model->get_other_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_othernow = $budget_other->BUDGET_OTHER/$days_this_month; 
 $getbudget_othermtd = ($budget_other->BUDGET_OTHER/$days_this_month)*$dashboardDate;
 $getbudget_otherytd = $budget_otherytd->BUDGET_OTHERYTD+($budget_other->BUDGET_OTHER/$days_this_month)*$dashboardDate;
 
-$budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($user_ho, $graphMonth,$graphYear);
-$budget_laundryytd = $this->Smartreport_pnl_model->get_laundry_budgetytd($user_ho, $lastmtd, $graphYear);
+$budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_laundryytd = $this->Smartreport_pnl_model->get_laundry_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_laundrynow = $budget_laundry->BUDGET_LAUNDRY/$days_this_month; 
 $getbudget_laundrymtd = ($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate;
 $getbudget_laundryytd = $budget_laundryytd->BUDGET_LAUNDRYYTD+($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate; 
 
-$budget_roomsold = $this->Smartreport_pnl_model->get_roomsold_budget($user_ho, $graphMonth,$graphYear);
-$budget_roomsoldytd = $this->Smartreport_pnl_model->get_roomsold_budgetytd($user_ho, $lastmtd, $graphYear);
+$budget_roomsold = $this->Smartreport_pnl_model->get_roomsold_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_roomsoldytd = $this->Smartreport_pnl_model->get_roomsold_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate;
 
 ?>
@@ -151,6 +152,27 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 										<span class="input-group-text"><i class="icon-calendar22"></i></span>
 									</span>
 									<input type="text" data-mask="99-99-9999" name="date_dashboard"  class="form-control daterange-single" value="<?php echo date("d-m-Y",$d);?>" required  />
+									<?php if($user_le === '1' ){ ?>
+									<select name="idhoteldashboard" class="form-control" required autocomplete="off">
+										<option value=""><?php echo $lang_choose_hotels; ?></option>
+												<?php
+													$hotel = $idhotel_dashboard;
+													$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+													for ($p = 0; $p < count($hotelData); ++$p) {
+														$idhotel = $hotelData[$p]->idhotels;
+														$hotelname = $hotelData[$p]->hotels_name;?>
+														<option  value="<?php echo $idhotel; ?>"  <?php if ($hotel == $idhotel) {
+																echo 'selected="selected"';
+															} ?> >
+															<?php echo $hotelname; ?>
+														</option>
+												<?php
+														unset($idhotel);
+														unset($hotelname);
+													}
+												?>
+									</select>
+									<?php } ?>
 								</div>
 							</div>
 							<div class="form-group">										
@@ -364,7 +386,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
-															<?php $dt_fnbytd = $this->Smartreport_dsr_model->select_fnbytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);                                  
+															<?php $dt_fnbytd = $this->Smartreport_dsr_model->select_fnbytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
                                    								   echo $fnb_ytd = number_format($dt_fnbytd->FNB_YTD); ?></div>														
 													</a>
 												</td>
@@ -396,7 +418,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
-															<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$user_ho);                                  
+															<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
 																   echo  $oth_ytd = $dt_othytd->OTH_YTD; ?>
 														</div>														
 													</a>

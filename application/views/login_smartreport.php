@@ -86,7 +86,7 @@
 							</div>
 							
 
-							<span class="form-text text-center text-muted">&copy; 2019 - <?php echo date('Y'); ?>. <a href="#">Kagum Hotels</a></span>
+							<span class="form-text text-center text-muted">&copy; September 2019 - <?php echo date('Y'); ?>. <a href="#">Kagum Hotels</a></span>
 						</div>
 					</div>
 				</form>

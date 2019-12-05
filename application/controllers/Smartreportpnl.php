@@ -51,7 +51,7 @@ class Smartreportpnl extends CI_Controller{
 
             $page_data['page_name'] = 'list_categorypnl';        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
-            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
+            $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -171,7 +171,7 @@ class Smartreportpnl extends CI_Controller{
         
                 $page_data['page_name'] = 'list_pnl';        
                 $page_data['lang_dashboard'] = $this->lang->line('dashboard');
-                $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
+                $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
                 $page_data['lang_add_city'] = $this->lang->line('add_city');
                 $page_data['lang_list_users'] = $this->lang->line('list_users');
                 $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -277,7 +277,7 @@ class Smartreportpnl extends CI_Controller{
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
-            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
+            $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');
@@ -433,7 +433,7 @@ class Smartreportpnl extends CI_Controller{
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
-            $page_data['lang_dashboard_statistic'] = $this->lang->line('dashboard_statistic');
+            $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
             $page_data['lang_list_users'] = $this->lang->line('list_users');
             $page_data['lang_hotel'] = $this->lang->line('hotel');

@@ -383,7 +383,7 @@
 										/* Selesai -  Hitung Total Room Revenue*/
 
 										/* Mulai -  Hitung Average Room Rate MTD - YTD*/
-										if($rs_mtd != 0 && $rs_ytd != 0 ){
+										if($rs_mtd != 0 && $rs_mtd != 0 ){
 											$arr_mtd = $trr_mtd / $rs_mtd;
 											
 										}

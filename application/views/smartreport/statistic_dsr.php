@@ -250,15 +250,18 @@ if ($dateToView == '1970-01-01') {
                                             <th rowspan="2"><?php echo $lang_hotel_name; ?></th>
                                             <th rowspan="2">Rooms</th>
                                             <th rowspan="2">R. Sold</th>
-                                            <th rowspan="2">Occ</th>
-                                            <th rowspan="2">ARR</th>
-                                            <th rowspan="2">Today Rev</th>
-                                            <th colspan="2">MTD Rev</th>
+                                            <th colspan="3">Today</th>
+                                            <th colspan="4">MTD</th>
                                             <th rowspan="2">%</th>
                                             
                                         </tr>
                                         <tr>
-                                            <th><?php echo $lang_actual;?></th>
+                                            <th>OCC</th>
+                                            <th>ARR</th>
+                                            <th>REV</th>
+                                            <th>OCC</th>
+                                            <th>ARR</th>
+                                            <th>REV</th>
                                             <th><?php echo $lang_budget;?></th>
                                         </tr>
                                     </thead>
@@ -288,7 +291,9 @@ if ($dateToView == '1970-01-01') {
                                     ?>
                                         <tr>
                                             <td><strong><?= $smartreport_brand->hotels_category; ?></strong></td>
-                                            <td colspan="8"></td>
+                                            <td colspan="10"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
                                             <td style="display: none;"></td>
                                             <td style="display: none;"></td>
                                             <td style="display: none;"></td>
@@ -310,6 +315,30 @@ if ($dateToView == '1970-01-01') {
                                             $budget_other =  $this->Smartreport_pnl_model->get_other_budget($smartreport_hotelbrand->idhotels,$permonth, $peryear);
                                             $budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
 
+                                            /* Mulai -  Hitung Room Sold*/	
+                                            $rs_mtd = 0; $ri_mtd = 0;	 $arr_mtd = 0;
+                                            $dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);
+                                            if($dt_trrmtd != NULL)
+                                            {
+                                                $trr_mtd = $dt_trrmtd->TRR_MTD;
+                                            }
+
+                                            $dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);
+                                            if($dt_rsmtd != NULL){
+                                                $rs_mtd += $dt_rsmtd->RS_MTD;
+                                            }
+
+                                            $ri_mtd += $smartreport_hotelbrand->total_rooms * $perdate;
+                                            if($rs_mtd != 0 && $ri_mtd != 0){
+                                                $occ_mtd = ($rs_mtd / $ri_mtd) * 100;
+                                            }else{
+                                                $occ_mtd = 0;
+                                            }
+
+                                            if($rs_mtd != 0 && $rs_mtd != 0 ){
+                                                $arr_mtd = $trr_mtd / $rs_mtd;
+                                                
+                                            }
                                             
                                             
                                             if($dt_analystoday != NULL   ){
@@ -360,6 +389,8 @@ if ($dateToView == '1970-01-01') {
                                             </td>
                                             <td class="rata-kanan"><?php echo  number_format($arr_today,0); ?></td>
                                             <td class="rata-kanan"><?php echo number_format($tot_sales_today,0); ?></td>
+                                            <td><?php echo number_format($occ_mtd,2).'%'; ?></td>
+                                            <td><?php echo number_format($arr_mtd);?></td>
                                             <td class="rata-kanan"><?php echo number_format($tot_sales_mtd,0); ?></td>
                                             <td class="rata-kanan"><?php echo number_format($totalbudget_mtd,0);?></td>
                                             <td class="rata-kanan"><?php if($tot_sales_mtd != 0 && $totalbudget_mtd != 0){echo number_format(($tot_sales_mtd/$totalbudget_mtd)*100,2).'%';} ?></td>
@@ -370,8 +401,10 @@ if ($dateToView == '1970-01-01') {
                                             <td colspan="4"></td>
                                             <td style="display: none;"></td>
                                             <td style="display: none;"></td>
-                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>                                            
                                             <td class="rata-kanan"><?php  echo number_format($grandtotal_today_rev,0); ?></td>
+                                            <td colspan="2"></td>
+                                            <td style="display: none;"></td>
                                             <td class="rata-kanan"><?php echo number_format($grandtotal_mtd_rev,0); ?></td>
                                             <td class="rata-kanan"><?php echo number_format($grandtotal_mtd_budgetbybrand,0); ?></td>
                                             <td class="rata-kanan"><?php if($grandtotal_mtd_rev != 0 && $grandtotal_mtd_budgetbybrand != 0 ){echo number_format(($grandtotal_mtd_rev/$grandtotal_mtd_budgetbybrand)*100,2).'%';} ?></td>

@@ -62,7 +62,7 @@
                 <a href="<?=base_url()?>smartreportdsr/statistic-dsr" class="nav-link <?php if ($tk_m == 'statistic_dsr') { ?><?php echo 'active'; } ?>">
                     <i class="icon-home2"></i>
                     <span>
-                        <?php echo $lang_dashboard_statistic; ?>
+                        <?php echo $lang_dashboard; ?>
                     </span>
                 </a>
             </li>
@@ -73,7 +73,7 @@
                 <a href="<?=base_url()?>smartreport" class="nav-link <?php if ($tk_m == 'index' || $tk_m == 'dashboard') { ?><?php echo 'active'; } ?>">
                     <i class="icon-home4"></i>
                     <span>
-                        <?php echo $lang_dashboard; ?>
+                        <?php echo $lang_dashboard_hotel; ?>
                     </span>
                 </a>
             </li>

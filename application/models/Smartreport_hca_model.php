@@ -88,7 +88,7 @@ class Smartreport_hca_model extends CI_Model
     }
 
     //perhitungan untuk Graph
-    function getHotelAllStarByUserHotel($idhotels = NULL){
+    function getHotelAllStarByUserHotel($idhotels){
         $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name,  h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.hotel_star, h1.status, h1.date_created');       
         $this->db->from('smartreport_hotels as h');              
         $this->db->join('smartreport_hotels as h1', 'h.idhotels=h1.idhotels','left');

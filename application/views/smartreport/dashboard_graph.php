@@ -1,6 +1,9 @@
 <?php 
 /* Ambil DATE SEMUANYA DARI DASHBOARD.PHP jaga2 buat minta tiba2 minta sortir dinamanis berdasarkan tanggal*/ 
 $dt_OccMTD = $this->Smartreport_hca_model->getOccTotalMTDAllStarById($startdate_mtd,$enddate_mtd);
+$session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard);
+echo $session_hotel->hotels_name
+
 
 ?>
 
@@ -49,7 +52,7 @@ var EchartsColumnsWaterfalls = function() {
 
                 title: {
                     text: 'Occupancy',
-                    subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
+                    subtext: '<?php echo $session_hotel->hotels_name.' - '. $monthObj->format('F').' '. $graphYear; ?>',
                     left: 'center',
                
                     textStyle: {
@@ -65,7 +68,8 @@ var EchartsColumnsWaterfalls = function() {
                 legend: {
                     
                     data: [<?php foreach ($getHotelAllStarByUser_data->result() as $getHotelAllStarByUser){ 
-                        echo "'".$getHotelAllStarByUser->hotels_name."',";
+                        //error sini kadang suka ga muncul harus ganti idhotels jangan ada komanya di nama hotel
+                        echo "'".$getHotelAllStarByUser->hotels_name."'".",";
                     } ?>],
                     itemHeight: 5,
                     itemGap: 10,
@@ -230,6 +234,7 @@ var EchartsColumnsWaterfalls = function() {
                 legend: {
                     
                     data: [<?php foreach ($getHotelAllStarByUser_data->result() as $getHotelAllStarByUser){ 
+                        //error sini kadang suka ga muncul harus ganti idhotels
                         echo "'".$getHotelAllStarByUser->hotels_name."',";
                     } ?>],
                     itemHeight: 5,
@@ -313,11 +318,11 @@ var EchartsColumnsWaterfalls = function() {
                     
                         data: [<?php $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$graphMonth, $graphYear);
                             for ($mn = 1; $mn <= $dayInMonth; ++$mn) {
-                                if ($mn <= 9){
-                                    $tgl = '0'.$mn;
-                                }else{
+                               // if ($mn <= 9){
+                                //    $tgl = '0'.$mn;
+                               // }else{
                                     $tgl = $mn;
-                                }
+                               // }
                                 $dateDailyGraph = $graphYear.'-'.$graphMonth.'-'.$tgl; 
                                 $arrDailyData = $this->Smartreport_hca_model->getDailyArrForGraphById($getHotelAllStarByUser->idhotels,$dateDailyGraph);
                                 echo "'".$arrDailyData->graph_ArrDaily."',";
@@ -389,6 +394,7 @@ var EchartsColumnsWaterfalls = function() {
                 legend: {
                     
                     data: [<?php foreach ($getHotelAllStarByUser_data->result() as $getHotelAllStarByUser){ 
+                        //error sini kadang suka ga muncul harus ganti idhotels
                         echo "'".$getHotelAllStarByUser->hotels_name."',";
                     } ?>],
                     itemHeight: 5,
@@ -445,10 +451,6 @@ var EchartsColumnsWaterfalls = function() {
                 yAxis: [{
                     type: 'value',
                     axisLabel: {
-                            //formatter: function(){
-                            //return (this.value/1000000)+" JT"}
-                            //}
-                        //formatter: '{value} IDR',
                         color: '#333'
                     },
                     axisLine: {
@@ -532,7 +534,7 @@ var EchartsColumnsWaterfalls = function() {
             // Add title
             title: {
                 text: 'Market Penetration Index',
-                subtext: '<?php $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard); echo $session_hotel->hotels_name.' - '. $dashboardDate.' '. $monthObj->format('F').' '. $graphYear; ?>',
+                subtext: '<?php echo $session_hotel->hotels_name.' - '. $dashboardDate.' '. $monthObj->format('F').' '. $graphYear; ?>',
                 left: 'center',
                 textStyle: {
                     fontSize: 17,
@@ -607,7 +609,7 @@ var EchartsColumnsWaterfalls = function() {
                         }else{
                             $mpi_mtd = 0;
                         }
-                        //$mpi_mtd = (($rs_mtd / $ri_mtd) / $dt_OccMTD->graph_OccMTD) ; 
+                        //error sini kadang suka ga muncul harus ganti idhotels
                         ?>
                         {value: '<?php echo number_format($mpi_mtd,2); ?>', name: '<?php echo $getHotelAllStarByUser->hotels_name;?>'},
 

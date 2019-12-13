@@ -2,12 +2,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Smartreportdsr extends CI_Controller{
 
+  private $contoller_name;
+  private $function_name;
 
   function __construct(){
     parent::__construct();
     if($this->session->userdata('logged_in') !== TRUE){
       redirect('errorpage/error403');
     }
+      $this->contoller_name = $this->router->class;
+      $this->function_name = $this->router->method;
       $this->load->model('Smartreport_users_model');
       $this->load->model('Smartreport_city_model');
       $this->load->model('Smartreport_hotels_model');
@@ -16,6 +20,7 @@ class Smartreportdsr extends CI_Controller{
       $this->load->model('Smartreport_hca_model');
       $this->load->model('Smartreport_pnl_model');
       $this->load->model('Dashboard_model');
+      $this->load->model('Rolespermissions_model');
       $this->load->library('form_validation');
       $this->load->library('pagination');
       $this->load->library('session');
@@ -31,7 +36,8 @@ class Smartreportdsr extends CI_Controller{
   function daily_sales_report(){
     $user_level = $this->session->userdata('user_level');
     $user_HotelForDSR = $this->session->userdata('user_hotel');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
 
         $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
         $date_dsr = date("Y-m-d", $getdate_dsr);
@@ -115,12 +121,13 @@ class Smartreportdsr extends CI_Controller{
 
   function insert_dsr(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
       //$idanlysis = str_replace(".", "", uniqid('',true));
       $idhotels= $this->session->userdata('user_hotel');
       $date_dsr = date_php_to_mysql($this->input->post('date_dsr'));
       $dt_hotel = $this->Smartreport_dsr_model->select_hoteldsrbydate($idhotels,$date_dsr);
-        if($dt_hotel->row() > 0){
+        if($dt_hotel->num_rows() > 0){
           $data = array(    
             'sales_fnb'=>$this->input->post('dsr_fnb', TRUE),
             'sales_other'=>$this->input->post('dsr_other', TRUE),
@@ -148,8 +155,9 @@ class Smartreportdsr extends CI_Controller{
 
   function statistic_dsr(){
     $user_level = $this->session->userdata('user_level');
-    //$user_hotel = $this->session->userdata('user_hotel');
-    if($user_level === '1' ){
+    // buat ngecek misal si user nakal main masukin URL
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
 
         $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
         $date_dsr = date("Y-m-d", $getdate_dsr);
@@ -236,7 +244,8 @@ class Smartreportdsr extends CI_Controller{
   function statistic_dsrpdf(){
     $user_level = $this->session->userdata('user_level');
     //$user_hotel = $this->session->userdata('user_hotel');
-    if($user_level === '1' ){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
         $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
         $date_dsr = date("Y-m-d", $getdate_dsr);
            

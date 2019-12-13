@@ -51,16 +51,17 @@
 	                	</div>
 					</div>
 
-					<table class="table table-bordered table-togglable table-hover  ">
+					<table class="table table-bordered table-togglable table-hover table-xs  ">
 						<thead>
 							<tr>
 								<th data-hide="phone">#</th>
 								<th data-toggle="true"> <?php echo $lang_username; ?></th>
 								<th data-hide="phone,tablet"> <?php echo $lang_email; ?></th>
 								<th data-hide="phone,tablet"> <?php echo $lang_hotel; ?></th>
+								<th data-hide="phone,tablet"> <?php echo $lang_level; ?></th>
 								<th data-hide="phone,tablet"> <?php echo $lang_departement; ?></th>
 								
-								<th data-hide="phone,tablet"> <?php echo $lang_level; ?></th>
+								
 								<th data-hide="phone"> <?php echo $lang_status; ?></th>
 								<th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
 							</tr>
@@ -73,15 +74,10 @@
 								<td><?php echo $smartreport_users->user_name; ?></td>
 								<td><?php echo $smartreport_users->user_email; ?></td>
 								<td><?php echo $smartreport_users->hotels_name; ?></td>
+								<td><?php echo $smartreport_users->roles_name; ?></td> 
 								<td> <span class="badge <?php echo $smartreport_users->background_class; ?> d-block"><?php echo $smartreport_users->deptname; ?></span> </td>
 								
-								<td><?php if($smartreport_users->user_level === '1') { ?>
-									<span class="badge badge-dark d-block">Superadmin</span> 
-								<?php }else if($smartreport_users->user_level === '2') { ?>
-									<span class="badge bg-teal-800 d-block">Manager</span>
-								<?php }else if($smartreport_users->user_level === '3') { ?> 
-									<span class="badge bg-blue-400 d-block">Staff</span> 
-									<?php } ?></td> 
+								
 
 								<td><?php if($smartreport_users->user_status === '0') { ?>
 									<span class="badge badge-danger d-block">Inactive</span> 
@@ -231,10 +227,20 @@
 											<div class="col-sm-6">
 												<label><?php echo $lang_level; ?></label>
 												<select name="user_level" class="form-control" required autocomplete="off">
-													<option ><?php echo $lang_choose_level; ?></option>
-													<option value="1"><?php echo "Superadmin"; ?></option>
-													<option value="2"><?php echo "Manager"; ?></option>
-													<option value="3"><?php echo "Staff"; ?></option>
+													<option value=""><?php echo $lang_choose_level; ?></option>
+												<?php
+													$rolesData = $this->Rolespermissions_model->getDataAll('roles', 'roles_name', 'ASC');
+													for ($p = 0; $p < count($rolesData); ++$p) {
+														$idroles = $rolesData[$p]->idroles;
+														$rolesname = $rolesData[$p]->roles_name;?>
+														<option  value="<?php echo $idroles; ?>">
+															<?php echo $rolesname; ?>
+														</option>
+												<?php
+														unset($idroles);
+														unset($rolesname);
+													}
+												?>
 												</select>
 											</div>											
 
@@ -349,10 +355,23 @@
 										<div class="col-sm-6">
 												<label><?php echo $lang_level; ?></label>
 												<select name="user_level" class="form-control" required autocomplete="off">
-													<option ><?php echo $lang_choose_level; ?></option>
-													<option <?php if ($smartreport_users->user_level === '1') {echo 'selected="selected"';} ?> value="1"><?php echo "Superadmin"; ?></option>
-													<option <?php if ($smartreport_users->user_level === '2') {echo 'selected="selected"';} ?> value="2"><?php echo "Manager"; ?></option>
-													<option <?php if ($smartreport_users->user_level === '3') {echo 'selected="selected"';} ?>value="3"><?php echo "Staff"; ?></option>
+													<option value=""><?php echo $lang_choose_level; ?></option>
+												<?php
+													$roles = $smartreport_users->user_level;
+													$rolesData = $this->Rolespermissions_model->getDataAll('roles', 'roles_name', 'ASC');
+													for ($p = 0; $p < count($rolesData); ++$p) {
+														$idroles = $rolesData[$p]->idroles;
+														$rolesname = $rolesData[$p]->roles_name;?>
+														<option  value="<?php echo $idroles; ?>" <?php if ($roles == $idroles) {
+																echo 'selected="selected"';
+															} ?>>
+															<?php echo $rolesname; ?>
+														</option>
+												<?php
+														unset($idroles);
+														unset($rolesname);
+													}
+												?>
 												</select>
 										</div>
 

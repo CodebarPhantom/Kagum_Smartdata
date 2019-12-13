@@ -56,6 +56,8 @@ class Smartreport_users_model extends CI_Model
         $this->db->from('smartreport_users as u');
         $this->db->join('smartreport_dept as d', 'u.iddept = d.iddept', 'left');
         $this->db->join('smartreport_hotels as h', 'u.idhotels = h.idhotels', 'left');
+        $this->db->join('roles as r', 'r.idroles = u.user_level', 'left');
+        
     return $this->db->count_all_results();
     }
 
@@ -66,6 +68,7 @@ class Smartreport_users_model extends CI_Model
         $this->db->from('smartreport_users as u');
         $this->db->join('smartreport_dept as d', 'u.iddept = d.iddept', 'left');        
         $this->db->join('smartreport_hotels as h', 'u.idhotels = h.idhotels', 'left');
+        $this->db->join('roles as r', 'r.idroles = u.user_level', 'left');
         $this->db->limit($limit, $start);
     return $this->db->get()->result();
     }

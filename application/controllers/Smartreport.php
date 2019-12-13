@@ -2,12 +2,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Smartreport extends CI_Controller{
 
+  private $contoller_name;
+  private $function_name;
 
   function __construct(){
     parent::__construct();
     if($this->session->userdata('logged_in') !== TRUE){
       redirect('errorpage/error403');
     }
+      $this->contoller_name = $this->router->class;
+      $this->function_name = $this->router->method;
       $this->load->model('Smartreport_users_model');
       $this->load->model('Smartreport_city_model');
       $this->load->model('Smartreport_hotels_model');
@@ -17,10 +21,12 @@ class Smartreport extends CI_Controller{
       $this->load->model('Dashboard_model');
       $this->load->model('Smartreport_pnl_model');
       $this->load->model('Smartreport_actual_model');
+      $this->load->model('Rolespermissions_model');
       $this->load->library('form_validation');
       $this->load->library('pagination');
       $this->load->library('session');
       $this->load->library('uploadfile');
+     
       $this->load->helper('form');
       $this->load->helper('url');
       $this->load->helper('mydate');
@@ -33,7 +39,9 @@ class Smartreport extends CI_Controller{
     //Allowing akses to smartreport only
     $user_level = $this->session->userdata('user_level');
     $user_HotelForDashboard = $this->session->userdata('user_hotel');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    // buat ngecek misal si user nakal main masukin URL
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+      if($check_permission->num_rows() == 1){
         $page_data['page_name'] = 'dashboard';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
         $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
@@ -101,7 +109,8 @@ class Smartreport extends CI_Controller{
   function dashboard(){
     $user_level = $this->session->userdata('user_level');
     $user_HotelForDashboard = $this->session->userdata('user_hotel');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
 
         $getdate_dashboard = strtotime($this->input->post('date_dashboard', TRUE));
         $getidhotel_dashboard = $this->input->post('idhoteldashboard', TRUE);
@@ -180,7 +189,8 @@ class Smartreport extends CI_Controller{
 
   function list_users(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
 
     $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
@@ -277,7 +287,8 @@ class Smartreport extends CI_Controller{
 
   function insert_user(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'iddept' => $this->input->post('iddept',TRUE),
       'idhotels' => $this->input->post('idhotel',TRUE),
@@ -300,7 +311,8 @@ class Smartreport extends CI_Controller{
 
   function update_user(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'iddept' => $this->input->post('iddept',TRUE),      
       'idhotels' => $this->input->post('idhotel',TRUE),
@@ -320,7 +332,8 @@ class Smartreport extends CI_Controller{
 
   function delete_user($iduser){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
           $this->Smartreport_users_model->deleteDataUser($iduser);
           $this->session->set_flashdata('delete_success','message');
           redirect(site_url('smartreport/list-users'));
@@ -332,7 +345,8 @@ class Smartreport extends CI_Controller{
 
   function update_password_user(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
         $iduser = $this->input->post('iduser');
         $newpass = $this->input->post('newpassword');
         $conpass = $this->input->post('conpassword');
@@ -366,7 +380,8 @@ class Smartreport extends CI_Controller{
 
   function list_city(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         
@@ -452,7 +467,8 @@ class Smartreport extends CI_Controller{
 
   function insert_city(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'city_name' => ucwords($this->input->post('city_name',TRUE))
       );  
@@ -467,7 +483,8 @@ class Smartreport extends CI_Controller{
 
   function update_city(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' ){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'city_name' => ucwords($this->input->post('city_name',TRUE))
       );  
@@ -483,7 +500,8 @@ class Smartreport extends CI_Controller{
 
   function delete_city($idcity){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){  
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $this->Smartreport_city_model->deleteDataCity($idcity);
     $this->session->set_flashdata('delete_success','message');
     redirect(site_url('smartreport/list-city'));
@@ -495,7 +513,8 @@ class Smartreport extends CI_Controller{
 
   function category_hotels(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         
@@ -582,7 +601,8 @@ class Smartreport extends CI_Controller{
 
   function insert_categoryhotels(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'idhotelscategory'=> strtoupper($this->input->post('idcategoryhotels',TRUE)),
       'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE)),
@@ -599,7 +619,8 @@ class Smartreport extends CI_Controller{
 
   function update_categoryhotels(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2' ){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'hotels_category' => ucwords($this->input->post('categoryhotels_name',TRUE)),
       'hotelscategory_order' =>$this->input->post('hotelscategory_order',TRUE)
@@ -616,7 +637,8 @@ class Smartreport extends CI_Controller{
 
   function delete_categoryhotels($idcategoryhotels){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){  
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){ 
     $this->Smartreport_hotels_model->deletedata_categoryhotels($idcategoryhotels);
     $this->session->set_flashdata('delete_success','message');
     redirect(site_url('smartreport/category-hotels'));
@@ -628,7 +650,8 @@ class Smartreport extends CI_Controller{
 
   function list_hotel(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         
@@ -728,7 +751,8 @@ class Smartreport extends CI_Controller{
 
   function insert_hotel(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'idhotels' => strtoupper($this->input->post('idhotels',TRUE)),
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
@@ -750,7 +774,8 @@ class Smartreport extends CI_Controller{
 
   function update_hotel(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'idhotels' => strtoupper($this->input->post('idhotels',TRUE)),
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
@@ -772,7 +797,8 @@ class Smartreport extends CI_Controller{
 
   function delete_hotel($idhotels){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){  
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $this->Smartreport_hotels_model->deleteDataHotels($idhotels);
     $this->session->set_flashdata('delete_success','message');
     redirect(site_url('smartreport/list-hotel'));
@@ -785,7 +811,8 @@ class Smartreport extends CI_Controller{
 
   function competitor_hotel(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $competitor = urldecode($this->input->get('competitor', TRUE));
     $city = urldecode($this->input->get('city', TRUE));
     $listhotel = urldecode($this->input->get('listhotel', TRUE));
@@ -896,7 +923,8 @@ class Smartreport extends CI_Controller{
 
   function insert_competitor(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'idhotels' => strtoupper($this->input->post('idcompetitor',TRUE)),
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
@@ -918,7 +946,8 @@ class Smartreport extends CI_Controller{
 
   function update_competitor(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2' ){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'hotels_name' => ucwords( $this->input->post('hotels_name',TRUE)),
       'total_rooms' => $this->input->post('total_rooms',TRUE),
@@ -939,7 +968,8 @@ class Smartreport extends CI_Controller{
 
   function delete_competitor($idcompetitor){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){  
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $this->Smartreport_hotels_model->deleteDataHotels($idcompetitor);
     $this->session->set_flashdata('delete_success','message');
     redirect(site_url('smartreport/competitor-hotel'));
@@ -951,7 +981,8 @@ class Smartreport extends CI_Controller{
 
   function list_departement(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         
@@ -1040,7 +1071,8 @@ class Smartreport extends CI_Controller{
 
   function insert_departement(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(      
       'deptname' => ucwords($this->input->post('departement',TRUE)),
       'background_class' => $this->input->post('bgcolor',TRUE)
@@ -1055,7 +1087,8 @@ class Smartreport extends CI_Controller{
 
   function update_departement(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $data = array(
       'deptname' => ucwords($this->input->post('departement',TRUE)),
       'background_class' => $this->input->post('bgcolor',TRUE)
@@ -1073,7 +1106,8 @@ class Smartreport extends CI_Controller{
 
   function delete_departement($iddept){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1'){  
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $this->Smartreport_departement_model->deleteDataDepartement($iddept);
     $this->session->set_flashdata('delete_success','message');
     redirect(site_url('smartreport/list-departement'));
@@ -1087,7 +1121,8 @@ class Smartreport extends CI_Controller{
   function hotel_competitor_analysis(){
     $user_level = $this->session->userdata('user_level');    
     $user_HotelForHCA = $this->session->userdata('user_hotel');    
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
 
         $getdate_analysis = strtotime($this->input->get('date_analysis', TRUE));
         $date_analysis = date("Y-m-d", $getdate_analysis);
@@ -1187,7 +1222,8 @@ class Smartreport extends CI_Controller{
 
   function add_analysis_data(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $idhotels = $_POST['idhotels'];
     $room_sold = $_POST['room_sold'];
     $avg_roomrate = $_POST['avg_roomrate'];
@@ -1227,7 +1263,8 @@ class Smartreport extends CI_Controller{
 
   function add_analysis_data_byhotel(){
     $user_level = $this->session->userdata('user_level');
-    if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
       //$idanlysis = str_replace(".", "", uniqid('',true));
       $idhotels= $this->input->post('idhotels', TRUE);
       $date_analysis = date_php_to_mysql($this->input->post('date_analysis'));
@@ -1254,10 +1291,12 @@ class Smartreport extends CI_Controller{
         redirect(site_url('smartreport/hotel-competitor-analysis'));
     }else{
       redirect('errorpage/error403');
-  } 
+    } 
 
   }
 
+
+/*FUNCTION AJAX*/
   function get_idhotels_availability() {
 		if (isset($_POST['idhotels'])) {
 			$idhotels = $_POST['idhotels'];
@@ -1286,6 +1325,8 @@ class Smartreport extends CI_Controller{
 		}
 	}
 
+
+  //function 
   /*function correction_data_analysis(){
     $user_level = $this->session->userdata('user_level');
     if($user_level === '1' || $user_level === '2' ){

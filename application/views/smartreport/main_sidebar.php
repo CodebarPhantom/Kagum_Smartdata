@@ -31,13 +31,7 @@
                     <div class="media-title font-weight-semibold"><?php echo $user_na; ?></div>
                     <div class="font-size-xs opacity-50">
                         <i class="icon-vcard font-size-sm"></i> &nbsp;
-                            <?php if ($user_le == '1'){
-                                echo "Superadmin";
-                            }else if ($user_le == '2'){
-                                echo "Manager";
-                            }else if ($user_le == '3'){
-                                echo "Staff";
-                            } ?><br/>
+                            <?php echo $user_rolesname?>
                         
                     </div>
                     
@@ -55,85 +49,36 @@
 
             <!-- Main -->
             
-            <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
-
-            <?php if ($user_le === '1'  ) {?>
-            <li class="nav-item">
-                <a href="<?=base_url()?>smartreportdsr/statistic-dsr" class="nav-link <?php if ($tk_m == 'statistic_dsr') { ?><?php echo 'active'; } ?>">
-                    <i class="icon-home2"></i>
-                    <span>
-                        <?php echo $lang_dashboard; ?>
-                    </span>
-                </a>
-            </li>
-            <?php } ?>  
+            <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>            
             
-            <?php if ($user_le === '1' || $user_le === '2' || $user_le === '3' ) {?>
-            <li class="nav-item">
-                <a href="<?=base_url()?>smartreport" class="nav-link <?php if ($tk_m == 'index' || $tk_m == 'dashboard') { ?><?php echo 'active'; } ?>">
-                    <i class="icon-home4"></i>
-                    <span>
-                        <?php echo $lang_dashboard_hotel; ?>
-                    </span>
-                </a>
-            </li>
-            <?php } ?>       
-
-            <?php if ($user_le === '1' || $user_le === '2') {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
-                <a href="#" class="nav-link"><i class="icon-office"></i> <span><?php echo $lang_hotel; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_hotel; ?>" <?php if ($tk_m == 'list_hotel' || $tk_m == 'competitor_hotel' || $tk_m == 'list_city' || $tk_m =='category_hotels') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/category-hotels" class="nav-link <?php if ($tk_m == 'category_hotels') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_category_hotels; ?></a></li>  
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/list-city" class="nav-link <?php if ($tk_m == 'list_city') { ?>  <?php echo 'active'; } ?>" ><?php echo $lang_list_city; ?></a></li>                         
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/list-hotel" class="nav-link <?php if ($tk_m == 'list_hotel') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_list_hotels; ?></a></li>     
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/competitor-hotel" class="nav-link <?php if ($tk_m == 'competitor_hotel') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_competitor_hotels; ?></a></li>                                      
-                </ul>
-            </li>
-            <?php } ?>
-
-            <?php if ($user_le === '1' || $user_le === '2' ) {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'pnl_category' || $tk_m == 'pnl_list' || $tk_m == 'actual_pnl'  || $tk_m == 'budget_pnl' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
-                <a href="#" class="nav-link"><i class="icon-align-left"></i> <span><?php echo $lang_pnl; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_pnl; ?>" <?php if ($tk_m == 'pnl_category' || $tk_m == 'pnl_list' || $tk_m == 'actual_pnl'  || $tk_m == 'budget_pnl' ) { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportpnl/actual-pnl" class="nav-link <?php if ($tk_m == 'actual_pnl') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_pnl_expense; ?></a></li>    
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportpnl/budget-pnl" class="nav-link <?php if ($tk_m == 'budget_pnl') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_pnl_budget; ?></a></li>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportpnl/pnl-category" class="nav-link <?php if ($tk_m == 'pnl_category') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_pnl_category; ?></a></li>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportpnl/pnl-list" class="nav-link <?php if ($tk_m == 'pnl_list') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_pnl_list; ?></a></li>     
-                </ul>
-            </li>
-            <?php } ?>
-
-            <?php if ($user_le === '1' || $user_le === '2' || $user_le ==='3' ) {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' ) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
-                <a href="#" class="nav-link"><i class="icon-chart"></i> <span><?php echo $lang_analysis; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_analysis; ?>" <?php if ($tk_m == 'hotel_competitor_analysis' || $tk_m == 'daily_sales_report' ) { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreportdsr/daily-sales-report" class="nav-link <?php if ($tk_m == 'daily_sales_report') { ?>  <?php echo 'active'; } ?>"><i class="icon-cabinet"></i><?php echo $lang_dsr; ?></a></li>
-                          
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/hotel-competitor-analysis" class="nav-link <?php if ($tk_m == 'hotel_competitor_analysis') { ?>  <?php echo 'active'; } ?>"><i class="icon-archive"></i><?php echo $lang_hotel_comp_anl; ?></a></li>
-                </ul>
-            </li>
-            <?php } ?>
-
-            <?php if ($user_le === '1' ) {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'list_users' || $tk_m == 'list_departement') { ?><?php echo 'nav-item-open'; } else { echo '';} ?> ">
-                <a href="#" class="nav-link"><i class="icon-users2"></i> <span><?php echo $lang_user; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="<?php echo $lang_user; ?>" <?php if ($tk_m == 'list_users' || $tk_m == 'list_departement') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/list-departement" class="nav-link <?php if ($tk_m == 'list_departement') { ?>  <?php echo 'active'; } ?>" ><?php echo $lang_list_departement; ?></a></li>
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/list-users" class="nav-link <?php if ($tk_m == 'list_users') { ?>  <?php echo 'active'; } ?>"><?php echo $lang_list_users; ?></a></li>                                      
-                </ul>
-            </li>
-            <?php } ?>
-
-            <?php if ($user_le === '1') {?>
-            <li class="nav-item nav-item-submenu <?php if ($tk_m == 'list_slider' || $tk_m == 'add_slider' || $tk_m == 'update_slider') { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
-                <a href="#" class="nav-link"><i class="icon-cog4 spinner"></i> <span><?php echo $lang_setting; ?></span></a>
-                <ul class="nav nav-group-sub" data-submenu-title="Layouts" <?php if ($tk_m == 'list_slider' || $tk_m == 'add_slider' || $tk_m == 'update_slider') { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?> >
-                    <!--<li class="nav-item"><a href="#" class="nav-link"><?php //echo $lang_site_setting; ?></a></li>-->
-                    <li class="nav-item"><a href="<?=base_url()?>smartreport/list-slider" class="nav-link <?php if ($tk_m == 'list_slider' || $tk_m == 'add_slider' || $tk_m == 'update_slider') { ?>  <?php echo 'active'; } ?>"><i class="icon-images3"></i><?php echo "Maintenance" ?></a></li>                    
-                </ul>
-            </li>
-            <?php } ?>
-            
+            <?php 
+            $get_permissionsgroup_data =  $this->Dashboard_model->getroles_permissions($user_le);            
+            foreach ($get_permissionsgroup_data as $get_permissionsgroup){
+                $data_permissions = $this->Dashboard_model->getpermissions($get_permissionsgroup->idpermissions_group, $user_le);
+                if($data_permissions->num_rows() > 0){  ?>
+                        <li class="nav-item nav-item-submenu <?php $dtget_method = $this->Dashboard_model->getmethod_permission($get_permissionsgroup->idpermissions_group,$tk_m,$tk_c);                            
+                            $get_method ='';
+                            $get_class='';
+                            $get_group='';
+                            if($dtget_method != NULL){
+                                $get_method = $dtget_method->code_method;
+                                $get_class = $dtget_method->code_class;
+                                $get_group = $dtget_method->idpermissions_group;
+                            }
+                            if ($tk_c == $get_class && $tk_m == $get_method && $get_permissionsgroup->idpermissions_group == $get_group) { ?><?php echo 'nav-item-open'; } else { echo '';} ?>">
+                            <a href="#" class="nav-link"><i class="<?= $get_permissionsgroup->display_icon; ?>"></i> <span><?php echo $get_permissionsgroup->permissions_groupname; ?></span></a>
+                            <ul class="nav nav-group-sub" data-submenu-title="<?php echo $get_permissionsgroup->permissions_groupname; ?>" <?php if ($tk_c == $get_class && $tk_m == $get_method  && $get_permissionsgroup->idpermissions_group == $get_group) { ?>  <?php echo 'style="display: block;"'; } else { echo 'style="display: none;"';} ?>>                            
+                                <?php 
+                                $get_permissions_data = $this->Dashboard_model->getpermissions($get_permissionsgroup->idpermissions_group, $user_le);
+                                
+                                foreach($get_permissions_data->result() as $get_permissions){ ?>                                
+                                    <li class="nav-item"><a href="<?=base_url().$get_permissions->code_class.'/'.$get_permissions->code_url; ?>" class="nav-link <?php if ( $tk_m == $get_permissions->code_method && $tk_c == $get_permissions->code_class && $get_permissionsgroup->idpermissions_group == $get_permissions->idpermissions_group ) { ?>  <?php echo 'active'; } ?>"><i class="<?= $get_permissions->display_icon ?>"></i><?php echo $get_permissions->display_name; ?></a></li>  
+                                <?php } ?>
+                            </ul>
+                        </li>
+                <?php 
+                    } 
+                } ?>
             
             
             <!-- /page kits -->

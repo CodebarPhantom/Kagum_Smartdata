@@ -33,7 +33,7 @@
 				
 			</ul>
 			
-			<span class="badge bg-brown ml-md-3 mr-md-left"><i class="icon-office font-size-sm"></i> &nbsp; <?php $session_hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $session_hotel->hotels_name ?></span>
+			<span class="badge bg-brown ml-md-3 mr-md-left"><i class="icon-office font-size-sm"></i> &nbsp; <?php echo $user_hotelsname; ?></span>
 			<span class="badge bg-success ml-md-3 mr-md-auto">Online</span>
 
 			<ul class="navbar-nav">

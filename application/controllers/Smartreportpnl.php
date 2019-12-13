@@ -2,12 +2,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Smartreportpnl extends CI_Controller{
 
+    private $contoller_name;
+    private $function_name;
 
   function __construct(){
     parent::__construct();
     if($this->session->userdata('logged_in') !== TRUE){
           redirect('errorpage/error403');
     }
+        $this->contoller_name = $this->router->class;
+        $this->function_name = $this->router->method;
         $this->load->model('Smartreport_users_model');
         $this->load->model('Smartreport_city_model');
         $this->load->model('Smartreport_hotels_model');
@@ -17,6 +21,7 @@ class Smartreportpnl extends CI_Controller{
         $this->load->model('Smartreport_pnl_model');
         $this->load->model('Smartreport_actual_model');
         $this->load->model('Dashboard_model');
+        $this->load->model('Rolespermissions_model');
         $this->load->library('form_validation');
         $this->load->library('pagination');
         $this->load->library('session');
@@ -29,7 +34,8 @@ class Smartreportpnl extends CI_Controller{
 
     function pnl_category(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
         $q = urldecode($this->input->get('q', TRUE));
             $start = intval($this->input->get('start'));
             
@@ -115,7 +121,8 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_pnl_category(){    
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
         $data = array(
             'pnl_category' => strtoupper($this->input->post('pnlcategory_name',TRUE)),
             'pnlcategory_status' =>$this->input->post('pnlcategory_status',TRUE),
@@ -132,7 +139,8 @@ class Smartreportpnl extends CI_Controller{
 
     function update_pnl_category(){
         $user_level = $this->session->userdata('user_level');
-            if($user_level === '1' || $user_level === '2' || $user_level ==='3'){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $data = array(
                 'pnl_category' => strtoupper($this->input->post('pnlcategory_name',TRUE)),
                 'pnlcategory_status' =>$this->input->post('pnlcategory_status',TRUE),                
@@ -149,7 +157,8 @@ class Smartreportpnl extends CI_Controller{
 
     function pnl_list(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $q = urldecode($this->input->get('q', TRUE));
                 $start = intval($this->input->get('start'));
                 
@@ -237,7 +246,8 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_pnl_list(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
         $data = array(
             'pnl_name' => ucwords($this->input->post('pnl_name',TRUE)),
             'idpnlcategory' => $this->input->post('idpnlcategory',TRUE),
@@ -255,7 +265,8 @@ class Smartreportpnl extends CI_Controller{
 
     function update_pnl_list(){
         $user_level = $this->session->userdata('user_level');
-            if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $data = array(
                 'pnl_name' => ucwords($this->input->post('pnl_name',TRUE)),
                 'idpnlcategory' => $this->input->post('idpnlcategory',TRUE),
@@ -272,7 +283,8 @@ class Smartreportpnl extends CI_Controller{
 
     function budget_pnl(){
         $user_level = $this->session->userdata('user_level');
-            if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $page_data['page_name'] = 'budget_pnl';
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
@@ -353,7 +365,8 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_budget_pnl(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $idhotels= $this->session->userdata('user_hotel');
             $year_budget = $this->input->post('year_budget');
             $month_budget = $this->input->post('month_budget');
@@ -394,7 +407,8 @@ class Smartreportpnl extends CI_Controller{
 
     function add_budget_data_bypnl(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
         
         $idhotels= $this->session->userdata('user_hotel');
         $year_budget = $this->input->post('year_budget' , TRUE);
@@ -428,7 +442,8 @@ class Smartreportpnl extends CI_Controller{
 
     function actual_pnl(){
         $user_level = $this->session->userdata('user_level');
-            if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $page_data['page_name'] = 'actual_pnl';
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
            // $year_budget = date("Y", $getyear_budget);        
@@ -511,7 +526,8 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_actual_pnl(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level ==='3' ){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
             $idhotels= $this->session->userdata('user_hotel');
             $year_actual = $this->input->post('year_actual');
             $month_actual = $this->input->post('month_actual');
@@ -549,16 +565,12 @@ class Smartreportpnl extends CI_Controller{
             redirect('errorpage/error403');
         }
     }
-
-    function get_pnllist(){
-		$idpnlcategory = $this->input->post('id',TRUE);
-		$data = $this->Smartreport_pnl_model->get_sub_category($idpnlcategory)->result();
-		echo json_encode($data);
-    }
+    
     
     function add_actual_data_bypnl(){
         $user_level = $this->session->userdata('user_level');
-        if($user_level === '1' || $user_level === '2' || $user_level === '3'){
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        if($check_permission->num_rows() == 1){
         
         $idhotels= $this->session->userdata('user_hotel');
         $year_actual = $this->input->post('year_actual' , TRUE);
@@ -588,6 +600,13 @@ class Smartreportpnl extends CI_Controller{
         }else{
             redirect('errorpage/error403');
         } 
+    }
+    
+/* FUNCTION AJAX*/
+    function get_pnllist(){
+		$idpnlcategory = $this->input->post('id',TRUE);
+		$data = $this->Smartreport_pnl_model->get_sub_category($idpnlcategory)->result();
+		echo json_encode($data);
     }
 
 }

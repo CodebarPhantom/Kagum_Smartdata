@@ -66,7 +66,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['delete_user'] = 'Delete User';
     $lang['list_users'] = 'List Users';
     $lang['email'] = 'Email';
-    $lang['level'] = 'Level';
+    $lang['level'] = 'Roles';
     
     $lang['status'] = 'Status';
     $lang['active'] = 'Active';
@@ -163,7 +163,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['background_color'] = 'Background Color';
 
     $lang['choose_bg_color'] = 'Choose Background Color';
-    $lang['choose_level'] = 'Choose Level';
+    $lang['choose_level'] = 'Choose Roles';
     $lang['choose_departement'] = 'Choose Departement';
     $lang['choose_competitor'] = 'Choose Competitor';
     $lang['choose_status'] = 'Choose Status';
@@ -297,6 +297,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['rev_today'] = 'Todays Revenue';
     $lang['mtd_rev'] = 'MTD Revenue';
     $lang['achv'] = 'Achievement';
+
+    $lang['display_icon'] = 'Display Icon';
+
+    $lang['add_roles'] = 'Add Roles';
+    $lang['edit_roles'] = 'Edit Roles';
+    $lang['search_roles'] = 'Search Roles';
+    $lang['roles_name'] = 'Roles Name';
+
+    $lang['permissions_group'] = 'Permissions Group';
+    $lang['add_permissions_group'] = 'Add Permissions Group';
+    $lang['edit_permissions_group'] = 'Edit Permissions Group';
+    $lang['search_permissions_group'] = 'Search Permissions Group';
+    $lang['permissions_group_name'] = 'Permissions Group Name';
+    $lang['choose_permissions_group'] = 'Choose Permissions Group';
+
+    $lang['add_permissions'] = 'Add Permissions';
+    $lang['edit_permissions'] = 'Edit Permissions';
+    $lang['search_permissions'] = 'Search Permissions';
+    $lang['permissions_name'] = 'Permissions Name';
+    $lang['choose_type'] = 'Choose Type';
+    
 
 
     

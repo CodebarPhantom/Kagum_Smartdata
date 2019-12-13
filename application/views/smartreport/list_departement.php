@@ -50,7 +50,7 @@
 	                	</div>
 					</div>
 
-					<table class="table table-bordered table-togglable table-hover  ">
+					<table class="table table-bordered table-togglable table-hover table-xs ">
 						<thead>
 							<tr>
 								<th data-hide="phone">#</th>

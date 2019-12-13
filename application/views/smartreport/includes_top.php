@@ -48,15 +48,17 @@
     $user_em = $this->session->userdata('user_email');    
 	$user_le = $this->session->userdata('user_level');
 	$user_ho = $this->session->userdata('user_hotel');
+	$user_hotelsname = $this->session->userdata('user_hotelsname');
+	$user_rolesname = $this->session->userdata('user_rolesname');
+	
 
     
 
-    if (empty($user_id && $user_na && $user_le)) {
+    if (empty($user_id) && empty($user_na) && empty($user_le)) {
         redirect(base_url(), 'refresh');
     }
 
 	$tk_c = $this->router->class;
 	$tk_m = $this->router->method;
-
 
 ?>

@@ -6,6 +6,7 @@ class Smartreportlogin extends CI_Controller{
       $this->load->model('Smartreportlogin_model');
       $this->load->library('session');
       $this->load->library('form_validation');
+      
       $this->load->helper('form');
       $this->load->helper('url');
   }
@@ -33,6 +34,8 @@ class Smartreportlogin extends CI_Controller{
               $user_name = $result['user_name'];
               $user_level = $result['user_level'];
               $user_hotel = $result['idhotels'];
+              $user_hotelsname = $result['hotels_name'];
+              $user_rolesname = $result['user_roles'];
 
               $userdata = array(
                   'iduser' => $iduser,
@@ -40,6 +43,8 @@ class Smartreportlogin extends CI_Controller{
                   'user_email' => $user_email,
                   'user_level' => $user_level,
                   'user_hotel' => $user_hotel,
+                  'user_hotelsname'=>$user_hotelsname,
+                  'user_rolesname'=>$user_rolesname,
                   'logged_in' => TRUE
               );
 

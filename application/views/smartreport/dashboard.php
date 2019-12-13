@@ -1,26 +1,30 @@
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/datatables.min.js"></script> 
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js"></script>
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/demo_pages/datatables_extension_fixed_columns.js"></script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/datatables.min.js">
+</script>
+<script
+	src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js">
+</script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/demo_pages/datatables_extension_fixed_columns.js">
+</script>
 <script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/notifications/pnotify.min.js"></script>
-<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
+<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/echarts/echarts.min.js">
+</script>
 <style>
-
-.customEryan{
-	font-size: 11px;
-	width: 100%;  
-}
+	.customEryan {
+		font-size: 11px;
+		width: 100%;
+	}
 </style>
 
 <script type="text/javascript">
-$(document).ready(function(){ 	
-     $('.daterange-single').daterangepicker({ 
-        singleDatePicker: true,
-        locale: {
-            format: 'DD-MM-YYYY'
-        }
-    });	
-});
-</script> 
+	$(document).ready(function () {
+		$('.daterange-single').daterangepicker({
+			singleDatePicker: true,
+			locale: {
+				format: 'DD-MM-YYYY'
+			}
+		});
+	});
+</script>
 
 <?php
 /*Hadeeeh ribet di pisah lagi dashboard sama dashboard search emang sih lebih cepet zz binggung debugging*/ 
@@ -136,156 +140,164 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 
 
 <!-- Page header -->
-        <div class="page-header page-header-light">
-				<div class="page-header-content header-elements-md-inline">
-					<div class="page-title d-flex">
-						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><?php echo $lang_dashboard_hotel; ?></span></h4>
-						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-					</div>
+<div class="page-header page-header-light">
+	<div class="page-header-content header-elements-md-inline">
+		<div class="page-title d-flex">
+			<h4><i class="icon-arrow-left52 mr-2"></i> <span
+					class="font-weight-semibold"><?php echo $lang_dashboard_hotel; ?></span></h4>
+			<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+		</div>
 
-					<div class="header-elements d-none">
-						<form action="<?php echo base_url()?>smartreport/dashboard" method="post" accept-charset="utf-8">
-						<div class="d-flex justify-content-center">						
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-prepend">
-										<span class="input-group-text"><i class="icon-calendar22"></i></span>
-									</span>
-									<input type="text" data-mask="99-99-9999" name="date_dashboard"  class="form-control daterange-single" value="<?php echo date("d-m-Y",$d);?>" required  />
-									<?php if($user_le === '1' ){ ?>
-									<select name="idhoteldashboard" class="form-control" required autocomplete="off">
-										<option value=""><?php echo $lang_choose_hotels; ?></option>
-												<?php
+		<div class="header-elements d-none">
+			<form action="<?php echo base_url()?>smartreport/dashboard" method="post" accept-charset="utf-8">
+				<div class="d-flex justify-content-center">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><i class="icon-calendar22"></i></span>
+							</span>
+							<input type="text" data-mask="99-99-9999" name="date_dashboard"
+								class="form-control daterange-single" value="<?php echo date("d-m-Y",$d);?>" required />
+							<?php if($user_le === '1' ){ ?>
+							<select name="idhoteldashboard" class="form-control" required autocomplete="off">
+								<option value=""><?php echo $lang_choose_hotels; ?></option>
+								<?php
 													$hotel = $idhotel_dashboard;
 													$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
 													for ($p = 0; $p < count($hotelData); ++$p) {
 														$idhotel = $hotelData[$p]->idhotels;
 														$hotelname = $hotelData[$p]->hotels_name;?>
-														<option  value="<?php echo $idhotel; ?>"  <?php if ($hotel == $idhotel) {
+								<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {
 																echo 'selected="selected"';
-															} ?> >
-															<?php echo $hotelname; ?>
-														</option>
-												<?php
+															} ?>>
+									<?php echo $hotelname; ?>
+								</option>
+								<?php
 														unset($idhotel);
 														unset($hotelname);
 													}
 												?>
-									</select>
-									<?php } ?>
-								</div>
-							</div>
-							<div class="form-group">										
-								<button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button>
-							</div>
+							</select>
+							<?php } ?>
 						</div>
-						</form>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button>
 					</div>
 				</div>
-			</div>
-			<!-- /page header -->
+			</form>
+		</div>
+	</div>
+</div>
+<!-- /page header -->
 
 
-			<!-- Content area -->
-			<div class="">
-				<!-- Nightingale roses -->
-				<div class="row">
-					<div class="col-md-6">
-						<!-- Nightingale roses (hidden labels) -->
-						<div class="card">
-								<div class="card-header header-elements-sm-inline">
-									<h6 class="card-title"><strong>Summary</strong></h6>								
-								</div>
+<!-- Content area -->
+<div class="">
+	<!-- Nightingale roses -->
+	<div class="row">
+		<div class="col-md-6">
+			<!-- Nightingale roses (hidden labels) -->
+			<div class="card">
+				<div class="card-header header-elements-sm-inline">
+					<h6 class="card-title"><strong>Summary</strong></h6>
+				</div>
 
-								<div class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
-									<div class="d-flex align-items-center mb-3 mb-md-0">
-										<!--<div id="tickets-status"></div>-->
-										<div class="ml-3">
-											<span class="badge badge-mark border-success mr-1"></span> <span class="text-muted">
-											<?php 											
+				<div class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
+					<div class="d-flex align-items-center mb-3 mb-md-0">
+						<!--<div id="tickets-status"></div>-->
+						<div class="ml-3">
+							<span class="badge badge-mark border-success mr-1"></span> <span class="text-muted">
+								<?php 											
 											echo date($dashboardDate).' '. $monthObj->format('F').' '. $graphYear;?></span>
-										</div>
-									</div>
+						</div>
+					</div>
 
-									<div class="d-flex align-items-center mb-3 mb-md-0">
-										<a href="#" class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
-											<i class="icon-store2"></i>
-										</a>
-										<div class="ml-3">
-											<h5 class="font-weight-semibold mb-0"><?php echo $rs_mtd;?></h5>
-											<span class="text-muted">Room Sold</span>
-										</div>
-									</div>
+					<div class="d-flex align-items-center mb-3 mb-md-0">
+						<a href="#"
+							class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
+							<i class="icon-store2"></i>
+						</a>
+						<div class="ml-3">
+							<h5 class="font-weight-semibold mb-0"><?php echo $rs_mtd;?></h5>
+							<span class="text-muted">Room Sold</span>
+						</div>
+					</div>
 
-									<div class="d-flex align-items-center mb-3 mb-md-0">
-										<a href="#" class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
-											<i class="icon-cash4"></i>
-										</a>
-										<div class="ml-3">
-											<h5 class="font-weight-semibold mb-0">Rp.<?php echo number_format($trr_mtd+$fnb_mtd+$oth_mtd,0);?></h5>
-											<span class="text-muted">Total Revenue This Month</span>
-										</div>
-									</div>
-								</div>
+					<div class="d-flex align-items-center mb-3 mb-md-0">
+						<a href="#"
+							class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
+							<i class="icon-cash4"></i>
+						</a>
+						<div class="ml-3">
+							<h5 class="font-weight-semibold mb-0">
+								Rp.<?php echo number_format($trr_mtd+$fnb_mtd+$oth_mtd,0);?></h5>
+							<span class="text-muted">Total Revenue This Month</span>
+						</div>
+					</div>
+				</div>
 
-								<div class="table-responsive"  style="min-height: 300px;">
-									<table class="table table-bordered table-togglable table-hover table-sm customEryan datatable-nobutton-1column text-nowrap ">
-										<thead style="vertical-align: middle; text-align: center">
-											<tr>
-												<th rowspan="2">Report</th>
-												<th colspan="2">Today</th>
-												<th colspan="2">MTD</th>
-												<th colspan="2">YTD</th>
-											</tr>
-											<tr>
-												<th>Actual</th>
-												<th>Budget</th>												
-												<th>Actual</th>
-												<th>Budget</th>												
-												<th>Actual</th>	
-												<th>Budget</th>												
-											</tr>
-										</thead>
-										
-										<tbody>
-											<?php foreach ($getHotelByUser_data->result() as $getHotelByUser){ 
+				<div class="table-responsive" style="min-height: 300px;">
+					<table
+						class="table table-bordered table-togglable table-hover table-sm customEryan datatable-nobutton-1column text-nowrap ">
+						<thead style="vertical-align: middle; text-align: center">
+							<tr>
+								<th rowspan="2">Report</th>
+								<th colspan="2">Today</th>
+								<th colspan="2">MTD</th>
+								<th colspan="2">YTD</th>
+							</tr>
+							<tr>
+								<th>Actual</th>
+								<th>Budget</th>
+								<th>Actual</th>
+								<th>Budget</th>
+								<th>Actual</th>
+								<th>Budget</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<?php foreach ($getHotelByUser_data->result() as $getHotelByUser){ 
 												$dt_dsrtoday = $this->Smartreport_dsr_model->select_dsrondate_perhotel($getHotelByUser->idhotels,$enddate_mtd);
 												if($dt_dsrtoday != NULL){
 													$fnb_today = $dt_dsrtoday->sales_fnb;
 													$guest_today = $dt_dsrtoday->numberofguest;
 													$oth_today = $dt_dsrtoday->sales_other;
 												}?>
-											<tr>										
-												<td>
-													<a href="#" class="text-default  table-border-double">
-														<div class="font-weight-300">Occupancy</div>														
-													</a>
-												</td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $occDailyData = $this->Smartreport_hca_model->getDailyOccForGraphById($getHotelByUser->idhotels,$enddate_mtd);
+							<tr>
+								<td>
+									<a href="#" class="text-default  table-border-double">
+										<div class="font-weight-300">Occupancy</div>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $occDailyData = $this->Smartreport_hca_model->getDailyOccForGraphById($getHotelByUser->idhotels,$enddate_mtd);
 															echo  $occDailyData->graph_OccDaily.'%';?>
-														</div>														
-													</a>
-												</td>
-												<td><?php  if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)/($getHotelByUser->total_rooms))*100,2).'%';}    ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $ri_mtd = $getHotelByUser->total_rooms * $dashboardDate;
+										</div>
+									</a>
+								</td>
+								<td><?php  if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)/($getHotelByUser->total_rooms))*100,2).'%';}    ?>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $ri_mtd = $getHotelByUser->total_rooms * $dashboardDate;
 																	if($rs_mtd != 0 && $ri_mtd != 0){
 																		$occ_mtd = ($rs_mtd / $ri_mtd) * 100;
 																	}
 															echo number_format($occ_mtd,2).'%';?>
-														</div>														
-													</a>
-												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format(((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/($getHotelByUser->total_rooms * $dashboardDate))*100,2).'%';} ?></td>
+										</div>
+									</a>
+								</td>
+								<td><?php if($getHotelByUser->total_rooms != 0){ echo number_format(((($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/($getHotelByUser->total_rooms * $dashboardDate))*100,2).'%';} ?>
+								</td>
 
-												<td>
-													<a href="#" class="text-default">
-														<?php
+								<td>
+									<a href="#" class="text-default">
+										<?php
 														$diffdateytd= date_diff(new DateTime($startdate_ytd), new DateTime($enddate_ytd)); 
 														$ri_ytd = $getHotelByUser->total_rooms * ($diffdateytd->days + 1);
 
@@ -293,196 +305,198 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 															$occ_ytd = ($rs_ytd / $ri_ytd) * 100;
 														}
 														?>
-														<div class="font-weight-300"><?php echo number_format($occ_ytd,2).'%'; ?></div>														
-													</a>
-												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/$ri_ytd)*100,2).'%';} ?></td>
-											</tr>
+										<div class="font-weight-300"><?php echo number_format($occ_ytd,2).'%'; ?></div>
+									</a>
+								</td>
+								<td><?php if($getHotelByUser->total_rooms != 0){echo number_format((($budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate)/$ri_ytd)*100,2).'%';} ?>
+								</td>
+							</tr>
 
-											<tr>										
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">Average Room Rate</div>														
-													</a>
-												</td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $arrDailyData = $this->Smartreport_hca_model->getDailyArrForGraphById($getHotelByUser->idhotels,$enddate_mtd);
+							<tr>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">Average Room Rate</div>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $arrDailyData = $this->Smartreport_hca_model->getDailyArrForGraphById($getHotelByUser->idhotels,$enddate_mtd);
 															echo  number_format($arrDailyData->graph_ArrDaily);?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php echo number_format($arr_mtd);?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>														
-													</a>
-												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd != 0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
-											</tr>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo number_format($arr_mtd);?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($budget_arr->BUDGET_ARR,0); ?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>
+									</a>
+								</td>
+								<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd != 0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?>
+								</td>
+							</tr>
 
-											<tr>										
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">Room Revenue</div>														
-													</a>
-												</td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $trrDailyData = $this->Smartreport_hca_model->getDailyTrrForGraphById($getHotelByUser->idhotels,$enddate_mtd);
+							<tr>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">Room Revenue</div>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $trrDailyData = $this->Smartreport_hca_model->getDailyTrrForGraphById($getHotelByUser->idhotels,$enddate_mtd);
 															echo  number_format($trrDailyData->graph_TrrDaily);?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_roomsnow,0); ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php echo  number_format($trr_mtd);?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_roomsmtd,0);?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300"><?php echo number_format($trr_ytd); ?></div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_roomsytd);  ?></td>
-											</tr>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_roomsnow,0); ?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo  number_format($trr_mtd);?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_roomsmtd,0);?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300"><?php echo number_format($trr_ytd); ?></div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_roomsytd);  ?></td>
+							</tr>
 
-											<tr>										
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">Food & Beverage</div>														
-													</a>
-												</td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php echo  number_format($fnb_today);?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_fnbnow ,0); ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php echo number_format($fnb_mtd,0); ?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_fnbmtd ,0); ?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $dt_fnbytd = $this->Smartreport_dsr_model->select_fnbytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
-                                   								   echo $fnb_ytd = number_format($dt_fnbytd->FNB_YTD); ?></div>														
-													</a>
-												</td>
-												<td><?php echo  number_format($getbudget_fnbytd); ?></td>
-											</tr>
+							<tr>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">Food & Beverage</div>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo  number_format($fnb_today);?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_fnbnow ,0); ?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo number_format($fnb_mtd,0); ?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_fnbmtd ,0); ?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $dt_fnbytd = $this->Smartreport_dsr_model->select_fnbytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
+                                   								   echo $fnb_ytd = number_format($dt_fnbytd->FNB_YTD); ?></div>
+									</a>
+								</td>
+								<td><?php echo  number_format($getbudget_fnbytd); ?></td>
+							</tr>
 
-											<tr>										
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">Others</div>														
-													</a>
-												</td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php echo number_format($oth_today);;?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">															
-															<?php echo number_format($oth_mtd,0); ?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd);?></td>
-												<td>
-													<a href="#" class="text-default">
-														<div class="font-weight-300">
-															<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
+							<tr>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">Others</div>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo number_format($oth_today);;?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php echo number_format($oth_mtd,0); ?>
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd);?></td>
+								<td>
+									<a href="#" class="text-default">
+										<div class="font-weight-300">
+											<?php $dt_othytd = $this->Smartreport_dsr_model->select_othytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
 																   echo  $oth_ytd = $dt_othytd->OTH_YTD; ?>
-														</div>														
-													</a>
-												</td>
-												<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
-											</tr>
-											<?php } ?>
-										</tbody>
-										
-									</table>
-								</div>
-							</div>
-						<!-- /nightingale roses (hidden labels) -->
+										</div>
+									</a>
+								</td>
+								<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
 
-					</div>
-
-					<div class="col-md-6">
-
-						<!-- Nightingale roses (hidden labels) -->
-						<div class="card">	
-							<div class="card-body">
-								<div class="chart-container">
-									<div class="chart" style="min-width: 250px; height: 410px;" id="mpi_MTD"></div>
-								</div>
-							</div>
-						</div>
-						<!-- /nightingale roses (hidden labels) -->
-
-					</div>
+					</table>
 				</div>
-				<!-- /nightingale roses -->
-				<!-- Basic columns -->
-				<div class="card">
-					<div class="card-body">
-						<div class="chart-container">
-							<div class="chart" style="min-width: 350px; height: 400px;" id="occDaily"></div>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="card">
-					<div class="card-body">
-						<div class="chart-container">
-							<div class="chart" style="min-width: 350px; height: 400px;" id="arrDaily"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="card">
-					<div class="card-body">
-						<div class="chart-container">
-							<div class="chart" style="min-width: 350px; height: 400px;" id="revparDaily"></div>
-						</div>
-					</div>
-				</div>
-				<!-- /basic columns -->
-
-
-
-				<!-- Dashboard content -->
-				
-				<!-- /dashboard content -->
-
 			</div>
-			<!-- /content area -->
-			<?php include 'dashboard_graph.php';?>
+			<!-- /nightingale roses (hidden labels) -->
+
+		</div>
+
+		<div class="col-md-6">
+
+			<!-- Nightingale roses (hidden labels) -->
+			<div class="card">
+				<div class="card-body">
+					<div class="chart-container">
+						<div class="chart" style="min-width: 250px; height: 410px;" id="mpi_MTD"></div>
+					</div>
+				</div>
+			</div>
+			<!-- /nightingale roses (hidden labels) -->
+
+		</div>
+	</div>
+	<!-- /nightingale roses -->
+	<!-- Basic columns -->
+	<div class="card">
+		<div class="card-body">
+			<div class="chart-container">
+				<div class="chart" style="min-width: 350px; height: 400px;" id="occDaily"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="card">
+		<div class="card-body">
+			<div class="chart-container">
+				<div class="chart" style="min-width: 350px; height: 400px;" id="arrDaily"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body">
+			<div class="chart-container">
+				<div class="chart" style="min-width: 350px; height: 400px;" id="revparDaily"></div>
+			</div>
+		</div>
+	</div>
+	<!-- /basic columns -->
+
+
+
+	<!-- Dashboard content -->
+
+	<!-- /dashboard content -->
+
+</div>
+<!-- /content area -->
+<?php include 'dashboard_graph.php';?>

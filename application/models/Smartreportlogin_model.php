@@ -39,6 +39,7 @@ class Smartreportlogin_model extends CI_Model{
                     $result['idhotels'] = $user_data->idhotels;
                     $result['hotels_name'] = $user_data->hotels_name;
                     $this->session->set_flashdata('success_login','message');
+                    $this->session->set_flashdata('information_update','message');
                 }
             } else {
                 $result['validation'] = false;

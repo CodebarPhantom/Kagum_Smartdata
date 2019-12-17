@@ -134,4 +134,17 @@
 			});
 	</script>
 <?php }?>
+<?php if ($this->session->flashdata('information_update')) {?>   
+	<script type="text/javascript">
+	    $(function(){
+			new PNotify({  
+                
+                title: 'Update Notice',
+                text: '<b>Update</b> Penambahan Input Room out of Order di DSR data sebelumnya tidak perlu di ubah lanjutkan saja',
+                addclass: 'bg-info-800 border-info-800'
+            });
+			});
+	</script>
+<?php }?>
+
 

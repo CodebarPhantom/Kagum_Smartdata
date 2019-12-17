@@ -139,8 +139,8 @@
 	    $(function(){
 			new PNotify({  
                 
-                title: 'Update Notice',
-                text: '<b>Update</b> Penambahan Input Room out of Order di DSR data sebelumnya tidak perlu di ubah lanjutkan saja',
+                title: '<b>Update Notice</b>',
+                text: 'Penambahan Input & Report <b>Room out of Order</b> pada Daily Sales Report',
                 addclass: 'bg-info-800 border-info-800'
             });
 			});

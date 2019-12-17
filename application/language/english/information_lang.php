@@ -265,6 +265,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['arr'] = 'Average Room Rate';
     $lang['statistic'] = 'STATISTIC';
     $lang['sales'] = 'SALES';
+    $lang['outoforder'] = 'Room Out of Order';
 
     $lang['select_month'] = 'Select Month';
     $lang['select_year'] = 'Select Year';

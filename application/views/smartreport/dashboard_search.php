@@ -57,7 +57,7 @@ $monthObj  = DateTime::createFromFormat('!m', $graphMonth);
 // room inventory
 $ri_mtd = 0; $ri_ytd = 0; 
 //room sold
-$rs_mtd = 0; $rs_ytd=0;
+$rs_today = 0; $rs_mtd = 0; $rs_ytd=0;
 //occupancy 
 $occ_ytd = 0; $occ_mtd =0;
 
@@ -67,6 +67,16 @@ $arr_mtd = 0; $arr_ytd=0; $trr_ytd= 0;
 $fnb_today = 0; $fnb_mtd = 0; $fnb_ytd = 0;
 //other
 $oth_today = 0; $oth_mtd = 0; $oth_ytd = 0;
+//room out of order
+$outoforder_today = 0; $outoforder_mtd = 0; $outoforder_ytd = 0;
+
+//room out of order
+$dt_outofordermtd = $this->Smartreport_dsr_model->select_outofordermtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
+$outoforder_mtd = $dt_outofordermtd->OUTOFORDER_MTD;
+$dt_outoforderytd = $this->Smartreport_dsr_model->select_outoforderytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);                                  
+$outoforder_ytd = $dt_outoforderytd->OUTOFORDER_YTD;
+
+
 $dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$idhotel_dashboard);
 $rs_mtd = $dt_rsmtd->RS_MTD;
 $dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
@@ -77,6 +87,13 @@ $trr_mtd = $dt_trrmtd->TRR_MTD;
 $dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
 $trr_ytd = $dt_trrytd->TRR_YTD;
 
+$dt_analystoday = $this->Smartreport_hca_model->select_competitoranalysisondate_perhotel($idhotel_dashboard,$enddate_mtd);
+    if($dt_analystoday != NULL){
+        $rs_today = $dt_analystoday->room_sold;
+        //$arr_today = $dt_analystoday->avg_roomrate;
+    }
+
+//echo $rs_today;
 
 /*$ri_ytd  = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$idhotel_dashboard);
 if($rs_ytd != 0 && $ri_ytd->RI_YTD != 0){
@@ -265,6 +282,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 													$fnb_today = $dt_dsrtoday->sales_fnb;
 													$guest_today = $dt_dsrtoday->numberofguest;
 													$oth_today = $dt_dsrtoday->sales_other;
+													$outoforder_today = $dt_dsrtoday->sales_outoforder;
 												}?>
 											<tr>										
 												<td>
@@ -275,8 +293,11 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
-															<?php $occDailyData = $this->Smartreport_hca_model->getDailyOccForGraphById($getHotelByUser->idhotels,$enddate_mtd);
-															echo  $occDailyData->graph_OccDaily.'%';?>
+															<?php 	$ri_today =  $getHotelByUser->total_rooms - $outoforder_today;
+																	if($rs_today != 0 && $ri_today != 0){
+																		$occ_today = ($rs_today / $ri_today) * 100;
+																	}
+																	echo number_format($occ_today,2).'%';?>
 														</div>														
 													</a>
 												</td>
@@ -286,7 +307,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														<div class="font-weight-300">
 															<?php $ri_mtd = $getHotelByUser->total_rooms * $dashboardDate;
 																	if($rs_mtd != 0 && $ri_mtd != 0){
-																		$occ_mtd = ($rs_mtd / $ri_mtd) * 100;
+																		$occ_mtd = ($rs_mtd / ($ri_mtd - $outoforder_mtd)) * 100;
 																	}
 															echo number_format($occ_mtd,2).'%';?>
 														</div>														
@@ -301,7 +322,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														$ri_ytd = $getHotelByUser->total_rooms * ($diffdateytd->days + 1);
 
 														if($rs_ytd != 0 && $ri_ytd != 0){
-															$occ_ytd = ($rs_ytd / $ri_ytd) * 100;
+															$occ_ytd = ($rs_ytd / ($ri_ytd - $outoforder_ytd)) * 100;
 														}
 														?>
 														<div class="font-weight-300"><?php echo number_format($occ_ytd,2).'%'; ?></div>														

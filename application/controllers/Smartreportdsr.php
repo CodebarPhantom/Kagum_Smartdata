@@ -39,6 +39,11 @@ class Smartreportdsr extends CI_Controller{
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
     if($check_permission->num_rows() == 1){
 
+        $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+        if($getidhotel_custom == NULL){
+          $getidhotel_custom = $user_HotelForDSR; 
+        } 
+
         $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
         $date_dsr = date("Y-m-d", $getdate_dsr);
         $page_data['page_name'] = 'daily_sales_report';        
@@ -104,13 +109,16 @@ class Smartreportdsr extends CI_Controller{
         $page_data['lang_other'] = $this->lang->line('other');
         $page_data['lang_laundry'] = $this->lang->line('laundry');
         $page_data['lang_total_sales'] = $this->lang->line('total_sales');
+        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
+        $page_data['lang_outoforder'] = $this->lang->line('outoforder');
         
 
-        $getHotelByUser = $this->Smartreport_hca_model->getHotelByUserHotel($user_HotelForDSR);
+        $getHotelByUser = $this->Smartreport_hca_model->getHotelByUserHotel($getidhotel_custom);
         $page_data['getHotelByUser_data'] = $getHotelByUser;
 
         $page_data['date_dsr'] = $this->input->get('date_dsr', TRUE);
         $page_data['dateToView'] = $date_dsr;
+        $page_data['idhotel_custom'] = $getidhotel_custom;
        
 
     $this->load->view('smartreport/index',$page_data);
@@ -131,7 +139,8 @@ class Smartreportdsr extends CI_Controller{
           $data = array(    
             'sales_fnb'=>$this->input->post('dsr_fnb', TRUE),
             'sales_other'=>$this->input->post('dsr_other', TRUE),
-            'numberofguest'=>$this->input->post('dsr_guest', TRUE));  
+            'numberofguest'=>$this->input->post('dsr_guest', TRUE),
+            'sales_outoforder'=> $this->input->post('room_outoforder', TRUE));  
             $this->Smartreport_dsr_model->update_hoteldsrbyid($dt_hotel->row()->iddsr,$data);
 
         }else{
@@ -141,7 +150,8 @@ class Smartreportdsr extends CI_Controller{
             'sales_other'=>$this->input->post('dsr_other', TRUE),
             'numberofguest'=>$this->input->post('dsr_guest', TRUE),
             'date_dsr'=>$date_dsr,
-            'date_created' => date("Y-m-d H:i:s")
+            'date_created' => date("Y-m-d H:i:s"),
+            'sales_outoforder'=> $this->input->post('room_outoforder', TRUE)
             );  
             $this->Smartreport_dsr_model->insertData('smartreport_dsr',$data);
         }

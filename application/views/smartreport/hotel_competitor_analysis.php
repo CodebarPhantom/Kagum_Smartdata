@@ -62,7 +62,7 @@
 		$('.custom_category').select2({
 			//minimumInputLength: 3
 		});
-		$('.custom_city').select2();
+		$('.custom_select').select2();
 	});
 </script>
 <?php
@@ -70,6 +70,9 @@
    $url_date = '';
    $url_city = $city;
    $url_date = $date_analysis;
+   if($idhotel_custom == NULL){
+	$idhotel_custom = $user_ho; 
+   } 
    									
    $date =  $dateToView;	
    $peryear = substr($dateToView,0,4);
@@ -171,16 +174,16 @@
 	
 	
 	
-	$data_occTodayByUserTotal = $this->Smartreport_hca_model->getOccTodayByUser($date, $user_ho); //ok
-	$data_occMTDByUserTotal = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $user_ho); //ok
-	$data_occYTDByUserTotal = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $user_ho); //ok
-	$data_trrTodayByUserTotal = $this->Smartreport_hca_model->getTrrTodayByUser($date, $user_ho); //ok
-	$data_trrMTDByUserTotal = $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $user_ho); //ok
-	$data_trrYTDByUserTotal = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $user_ho);	//ok
-	$data_arrTodayByUserTotal = $this->Smartreport_hca_model->getArrTodayByUser($date, $user_ho); //ok
-	$data_arrMTDByUserTotal = $this->Smartreport_hca_model->getArrMTDByUser($startdate_mtd, $enddate_mtd, $user_ho); //ok
-	$data_arrYTDByUserTotal = $this->Smartreport_hca_model->getArrYTDByUser($startdate_ytd, $enddate_ytd, $user_ho); //ok
-	$data_riYTDByUserTotal = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $user_ho); // ok 
+	$data_occTodayByUserTotal = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom); //ok
+	$data_occMTDByUserTotal = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
+	$data_occYTDByUserTotal = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); //ok
+	$data_trrTodayByUserTotal = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom); //ok
+	$data_trrMTDByUserTotal = $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
+	$data_trrYTDByUserTotal = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom);	//ok
+	$data_arrTodayByUserTotal = $this->Smartreport_hca_model->getArrTodayByUser($date, $idhotel_custom); //ok
+	$data_arrMTDByUserTotal = $this->Smartreport_hca_model->getArrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
+	$data_arrYTDByUserTotal = $this->Smartreport_hca_model->getArrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); //ok
+	$data_riYTDByUserTotal = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); // ok 
 	
 
 ?>
@@ -206,7 +209,11 @@
 <div class="card">
 	<div class="card-header header-elements-inline">
 		<h6 class="card-title">
-			<strong><?php  $hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $hotel->hotels_name .' - '.$lang_hotel_comp_anl; ?></strong>
+			<strong><?php  if ($tab === 'hca1' || $tab === NULL){
+				echo $lang_hotel_comp_anl;
+			}else{
+				 $hotel = $this->Dashboard_model->getDataHotel($idhotel_custom); echo $hotel->hotels_name .' - '.$lang_hotel_comp_anl;	
+			}  ?></strong>
 		</h6>
 		<div class="header-elements">
 			<div class="list-icons">
@@ -218,23 +225,16 @@
 
 	<div class="card-body">
 		<ul class="nav nav-tabs nav-tabs-highlight justify-content-end">
-			<li class="nav-item"><a href="#right-hca1"
-					class="nav-link <?php if ($tab === 'hca1' || $tab === NULL){ echo "active"; } ?>"
-					data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data_all;?></a></li>
-			<li class="nav-item"><a href="#right-hca2" class="nav-link <?php if ($tab === 'hca2'){ echo "active"; } ?>"
-					data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data;?></a></li>
-			<li class="nav-item"><a href="#right-hca3" class="nav-link" data-toggle="tab"><i
-						class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
-			<li class="nav-item"><a href="#right-hca4" class="nav-link" data-toggle="tab"><i
-						class="icon-plus3 mr-2"></i><?php echo $lang_add_data_byhotel?></a></li>
+			<li class="nav-item"><a href="#right-hca1"class="nav-link <?php if ($tab === 'hca1' || $tab === NULL){ echo "active"; } ?>"	data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data_all;?></a></li>
+			<li class="nav-item"><a href="#right-hca2" class="nav-link <?php if ($tab === 'hca2'){ echo "active"; } ?>" data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data;?></a></li>
+			<li class="nav-item"><a href="#right-hca3" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
+			<li class="nav-item"><a href="#right-hca4" class="nav-link" data-toggle="tab"><i class="icon-plus3 mr-2"></i><?php echo $lang_add_data_byhotel?></a></li>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane fade <?php if ($tab === 'hca1' || $tab === NULL){ echo "show active"; } ?> "
-				id="right-hca1">
+			<div class="tab-pane fade <?php if ($tab === 'hca1' || $tab === NULL){ echo "show active"; } ?> "	id="right-hca1">
 				<div class="col-md-12">
-					<form action="<?php echo base_url()?>smartreport/hotel-competitor-analysis" method="get"
-						accept-charset="utf-8">
+					<form action="<?php echo base_url()?>smartreport/hotel-competitor-analysis" method="get" accept-charset="utf-8">
 						<input type="hidden" name="tab" value="hca1">
 						<div class="row">
 							<div class="col-md-2">
@@ -253,7 +253,7 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									<label><?php echo $lang_city; ?></label>
-									<select name="city" class="form-control custom_city" required autocomplete="off">
+									<select name="city" class="form-control custom_select" required autocomplete="off">
 										<option value><?php echo $lang_choose_city; ?></option>
 										<?php
 													$cityData = $this->Smartreport_hotels_model->getDataAll('smartreport_city', 'idcity', 'ASC');
@@ -1253,12 +1253,36 @@
 										<span class="input-group-prepend">
 											<span class="input-group-text"><i class="icon-calendar22"></i></span>
 										</span>
-										<input type="text" data-mask="99-99-9999" name="date_analysis"
-											class="form-control daterange-single" value="<?php echo $date_analysis; ?>"
-											required />
+										<input type="text" data-mask="99-99-9999" name="date_analysis"	class="form-control daterange-single" value="<?php echo $date_analysis; ?>" required />
+												
 									</div>
 								</div>
 							</div>
+							
+							<?php if($user_le === '1' ){ ?>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label><?php echo $lang_hotel; ?></label>									
+											<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
+												<option value=""><?php echo $lang_choose_hotels; ?></option>
+												<?php $hotel = $idhotel_custom;
+													  $hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+													  for ($p = 0; $p < count($hotelData); ++$p) {
+														$idhotel = $hotelData[$p]->idhotels;
+														$hotelname = $hotelData[$p]->hotels_name;?>
+												<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+													<?php echo $hotelname; ?>
+												</option>
+												<?php
+													unset($idhotel);
+													unset($hotelname);
+												 	}
+												?>
+											</select>									
+								</div>
+
+							</div>
+							<?php } ?>
 
 							<div class="col-md-1">
 								<div class="form-group">
@@ -1766,7 +1790,7 @@
 										autocomplete="off">
 										<option><?php echo $lang_choose_hotels; ?></option>
 										<?php												
-													$hotelsData = $this->Smartreport_hca_model->get_add_list($user_ho);
+													$hotelsData = $this->Smartreport_hca_model->get_add_list($idhotel_custom);
 													for ($p = 0; $p < count($hotelsData); ++$p) {
 														$idhotels = $hotelsData[$p]->idcompetitor;
 														$hotels_name = $hotelsData[$p]->competitor;?>

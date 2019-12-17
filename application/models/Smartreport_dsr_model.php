@@ -32,7 +32,7 @@ class Smartreport_dsr_model extends CI_Model
     }
 
     function select_dsrondate_perhotel($hotel=NULL, $date=NULL){
-        $this->db->select("ds.iddsr, ds.idhotels, ds.sales_fnb, ds.sales_other, ds.numberofguest, ds.date_dsr, ds.date_created");
+        $this->db->select("ds.iddsr, ds.idhotels, ds.sales_fnb, ds.sales_other, ds.numberofguest, ds.date_dsr, ds.sales_outoforder, ds.date_created");
         $this->db->from("smartreport_dsr as ds");
         $this->db->where("ds.idhotels", $hotel);
         $this->db->where("ds.date_dsr", $date);
@@ -41,6 +41,14 @@ class Smartreport_dsr_model extends CI_Model
 
     function select_guestmtd_perhotel($startdate,$enddate,$hotel) {
         $this->db->select("COALESCE(SUM(ds.numberofguest),0) AS GUEST_MTD"); // ane ubah biar dapet return 0
+        $this->db->from("smartreport_dsr as ds");
+        $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate'");
+        $this->db->where("ds.idhotels", $hotel);
+        return $this->db->get()->row();        
+    }
+
+    function select_outofordermtd_perhotel($startdate,$enddate,$hotel) {
+        $this->db->select("COALESCE(SUM(ds.sales_outoforder),0) AS OUTOFORDER_MTD"); // ane ubah biar dapet return 0
         $this->db->from("smartreport_dsr as ds");
         $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate'");
         $this->db->where("ds.idhotels", $hotel);
@@ -61,6 +69,14 @@ class Smartreport_dsr_model extends CI_Model
         $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate'");
         $this->db->where("ds.idhotels", $hotel);
         return $this->db->get()->row();        
+    }
+
+    function select_outoforderytd_perhotel($startdate,$enddate,$hotel){
+        $this->db->select("SUM(ds.sales_outoforder) AS OUTOFORDER_YTD");
+        $this->db->from("smartreport_dsr as ds");
+        $this->db->where("ds.date_dsr BETWEEN '$startdate' AND '$enddate'");
+        $this->db->where("ds.idhotels", $hotel);
+        return $this->db->get()->row(); 
     }
 
     function select_guestytd_perhotel($startdate,$enddate,$hotel){

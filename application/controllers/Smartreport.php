@@ -1120,17 +1120,21 @@ class Smartreport extends CI_Controller{
 
   function hotel_competitor_analysis(){
     $user_level = $this->session->userdata('user_level');    
-    $user_HotelForHCA = $this->session->userdata('user_hotel');    
+    $user_HotelForHCA = $this->session->userdata('user_hotel'); 
+      
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
     if($check_permission->num_rows() == 1){
 
+      $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+      if($getidhotel_custom == NULL){
+        $getidhotel_custom = $user_HotelForHCA; 
+      } 
+
         $getdate_analysis = strtotime($this->input->get('date_analysis', TRUE));
         $date_analysis = date("Y-m-d", $getdate_analysis);
-        //$date_analysisMTD = date("Y-m", $getdate_analysis);
-
         $idcity = $this->input->get('city');
-
-        $user_hotel = $this->session->userdata('user_hotel');
+        //$date_analysisMTD = date("Y-m", $getdate_analysis);
+        //$user_hotel = $this->session->userdata('user_hotel');
         $page_data['page_name'] = 'hotel_competitor_analysis';
         $page_data['lang_dashboard'] = $this->lang->line('dashboard');
         $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
@@ -1198,7 +1202,7 @@ class Smartreport extends CI_Controller{
         //$page_data['smartreport_hca_edithotel_data'] = $smartreport_hca_edithotel;
         //$page_data['get_hotel4star_data'] = $get_hotel4starnow;
         //$page_data['get_hotel4starMTD_data'] = $get_hotel4starMTD;
-        $smartreport_hca_addlist = $this->Smartreport_hca_model->get_add_list($user_hotel);
+        $smartreport_hca_addlist = $this->Smartreport_hca_model->get_add_list($getidhotel_custom);
         $page_data['smartreport_hca_addlist_data'] = $smartreport_hca_addlist;
         $getHotel4Star = $this->Smartreport_hca_model->getHotelAllStar($idcity, "4");
         $page_data['getHotel4Star_data'] = $getHotel4Star;
@@ -1206,13 +1210,14 @@ class Smartreport extends CI_Controller{
         $page_data['getHotel3Star_data'] = $getHotel3Star;
         $getHotel2Star = $this->Smartreport_hca_model->getHotelAllStar($idcity, "2");
         $page_data['getHotel2Star_data'] = $getHotel2Star;
-        $getHotelByUser = $this->Smartreport_hca_model->getHotelAllStarByUserHotel($user_HotelForHCA);
+        $getHotelByUser = $this->Smartreport_hca_model->getHotelAllStarByUserHotel($getidhotel_custom);
         $page_data['getHotelByUser_data'] = $getHotelByUser; 
 
         $page_data['date_analysis'] = $this->input->get('date_analysis', TRUE);
         $page_data['dateToView'] = $date_analysis;
         $page_data['city'] = $this->input->get('city');
         $page_data['tab'] = $this->input->get('tab');
+        $page_data['idhotel_custom'] = $getidhotel_custom;
 
         $this->load->view('smartreport/index',$page_data);
      }else{

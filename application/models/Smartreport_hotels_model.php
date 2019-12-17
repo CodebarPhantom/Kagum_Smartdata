@@ -54,7 +54,7 @@ class Smartreport_hotels_model extends CI_Model
         return $result;
     }
     public function getDataParent($table, $order_column, $parent, $order_type ){
-        $this->db->where('parent', $parent);
+        $this->db->where("parent = '$parent' and status = 'active' ");
         $this->db->order_by("$order_column", "$order_type");
         $query = $this->db->get("$table");
         $result = $query->result();

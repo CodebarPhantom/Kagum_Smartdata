@@ -2,7 +2,6 @@
 /* Ambil DATE SEMUANYA DARI DASHBOARD.PHP jaga2 buat minta tiba2 minta sortir dinamanis berdasarkan tanggal*/ 
 $dt_OccMTD = $this->Smartreport_hca_model->getOccTotalMTDAllStarById($startdate_mtd,$enddate_mtd);
 $session_hotel = $this->Dashboard_model->getDataHotel($idhotel_dashboard);
-echo $session_hotel->hotels_name
 
 
 ?>

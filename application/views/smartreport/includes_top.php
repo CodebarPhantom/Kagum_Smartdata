@@ -25,8 +25,7 @@
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/d3/d3.min.js"></script>
-	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/ui/moment/moment.min.js"></script>

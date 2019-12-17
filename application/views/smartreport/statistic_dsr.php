@@ -309,6 +309,7 @@ if ($dateToView == '1970-01-01') {
                                             $dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);                                    
                                             $dt_fnbmtd = $this->Smartreport_dsr_model->select_fnbmtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);
                                             $dt_othmtd = $this->Smartreport_dsr_model->select_othmtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);
+                                            $dt_ooomtd = $this->Smartreport_dsr_model->select_outofordermtd_perhotel($startdate_mtd,$enddate_mtd,$smartreport_hotelbrand->idhotels);
 
                                             $budget_rooms =  $this->Smartreport_pnl_model->get_rooms_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
                                             $budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
@@ -327,10 +328,22 @@ if ($dateToView == '1970-01-01') {
                                             if($dt_rsmtd != NULL){
                                                 $rs_mtd += $dt_rsmtd->RS_MTD;
                                             }
+                                            
+                                            if($dt_trrmtd != NULL && $dt_fnbmtd !=NULL && $dt_othmtd != NULL){                                        
+                                                $trr_mtd = $dt_trrmtd->TRR_MTD;                                  
+                                                $fnb_mtd = $dt_fnbmtd->FNB_MTD;                                    
+                                                $oth_mtd = $dt_othmtd->OTH_MTD; 
+                                                $ooo_mtd = $dt_ooomtd->OUTOFORDER_MTD;                                       
+                                            }else{
+                                                $trr_mtd = 0;
+                                                $fnb_mtd = 0;
+                                                $oth_mtd = 0;
+                                                $ooo_mtd = 0;                                        
+                                            }
 
                                             $ri_mtd += $smartreport_hotelbrand->total_rooms * $perdate;
                                             if($rs_mtd != 0 && $ri_mtd != 0){
-                                                $occ_mtd = ($rs_mtd / $ri_mtd) * 100;
+                                                $occ_mtd = ($rs_mtd / ($ri_mtd-$ooo_mtd)) * 100;
                                             }else{
                                                 $occ_mtd = 0;
                                             }
@@ -351,21 +364,15 @@ if ($dateToView == '1970-01-01') {
 
                                             if($dt_dsrtoday != NULL){
                                                 $fnb_today = $dt_dsrtoday->sales_fnb;
-                                                $oth_today = $dt_dsrtoday->sales_other;   
+                                                $oth_today = $dt_dsrtoday->sales_other; 
+                                                $outoforder_today = $dt_dsrtoday->sales_outoforder;  
                                             }else{
                                                 $fnb_today = 0;
                                                 $oth_today = 0; 
+                                                $outoforder_today = 0;
                                             }
                                             
-                                            if($dt_trrmtd != NULL && $dt_fnbmtd !=NULL && $dt_othmtd != NULL){                                        
-                                                $trr_mtd = $dt_trrmtd->TRR_MTD;                                  
-                                                $fnb_mtd = $dt_fnbmtd->FNB_MTD;                                    
-                                                $oth_mtd = $dt_othmtd->OTH_MTD;                                        
-                                            }else{
-                                                $trr_mtd = 0;
-                                                $fnb_mtd = 0;
-                                                $oth_mtd =0;                                        
-                                            }
+                                            
 
                                             
                                                 $getbudget_roomsmtd = ($budget_rooms->BUDGET_ROOMS/$days_this_month)*$perdate;
@@ -384,7 +391,7 @@ if ($dateToView == '1970-01-01') {
                                             <td class="rata-kanan"><?= $smartreport_hotelbrand->total_rooms;?></td>
                                             <td class="rata-kanan"> <?php echo  number_format($rs_today,0); ?></td>
                                             <td class="rata-kanan"><?php if ($rs_today != 0 && $smartreport_hotelbrand->total_rooms !=0){
-                                                echo number_format(($rs_today/$smartreport_hotelbrand->total_rooms)*100,2).'%';
+                                                echo number_format(($rs_today/($smartreport_hotelbrand->total_rooms-$outoforder_today))*100,2).'%';
                                                 } ?>
                                             </td>
                                             <td class="rata-kanan"><?php echo  number_format($arr_today,0); ?></td>

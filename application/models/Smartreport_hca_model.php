@@ -315,85 +315,117 @@ class Smartreport_hca_model extends CI_Model
     }*/
 
 
-    function getOccTodayByUser($date = NULL, $idhotels = NULL){
+    function getOccTodayByUser($date = NULL, $idhotels = NULL, $typecomp){
         $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_TODAYByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis ='$date' ", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getOccMTDByUser($startdate = NULL, $enddate = NULL,  $idhotels = NULL){
+    function getOccMTDByUser($startdate = NULL, $enddate = NULL,  $idhotels = NULL, $typecomp){
         $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_MTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getOccYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
+    function getOccYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("(sum(hc.room_sold)) / (sum(ht.total_rooms) * (DATEDIFF('$enddate', '$startdate') +1)) as OCC_YTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getTrrTodayByUser($date = NULL, $idhotels = NULL ){
+    function getTrrTodayByUser($date = NULL, $idhotels = NULL, $typecomp = NULL ){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_TodayByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis ='$date'", "LEFT");
-        $this->db->where(" ht.status = 'active' AND  ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where(" ht.status = 'active' AND  ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getTrrMTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
+    function getTrrMTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_MTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp'");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getTrrYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
+    function getTrrYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_YTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels AND hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp'");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getArrTodayByUser($date = NULL, $idhotels = NULL){
+    function getArrTodayByUser($date = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_TodayByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels AND hc.date_analysis ='$date' ", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels' ");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getArrMTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
+    function getArrMTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_MTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels AND hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp'");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getArrYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
+    function getArrYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_YTDByUser");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels AND hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp'");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
 
-    function getRIYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL){
-        $this->db->select(" sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_YTDByUser ");
+    function getRIYTDByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp = NULL){
+        $this->db->select(" ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1) as RI_YTDByUser ");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc","ht.idhotels = hc.idhotels AND hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
-        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' or ht.idhotels = '$idhotels'");
+        $this->db->where("ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");
+        if($typecomp == 'direct'){
+            $this->db->or_where('ht.idhotels', $idhotels);
+        }
         return $this->db->get()->row();   
     }
+
+   
 
     // get total rows
     function total_rows($q = NULL) {
@@ -467,10 +499,22 @@ class Smartreport_hca_model extends CI_Model
         return true;
     }
 
+    /* Direct and Incdirect Competitor */
+    function getHotelByUserHotelTypeComp($idhotels, $typecomp){
+        $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name,  h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.type_competitor, h1.hotel_star, h1.status, h1.date_created');       
+        $this->db->from('smartreport_hotels as h');              
+        $this->db->join('smartreport_hotels as h1', 'h.idhotels=h1.idhotels','left');
+        $this->db->join('smartreport_city as c', 'h1.idcity=c.idcity','left');
+        $this->db->where('h1.parent', $idhotels);
+        $this->db->where('h1.type_competitor', $typecomp);
+        $this->db->where('h1.status', 'active');
+        if($typecomp == 'direct'){
+            $this->db->or_where('h1.idhotels', $idhotels);
+        }        
+        $this->db->order_by('h1.hotels_name', 'ASC');
+        return $this->db->get();
+    }
+    
+
 }
 
-/* End of file Smartreport_hca_model.php */
-/* Location: ./application/models/Smartreport_hca_model.php */
-/* Please DO NOT modify this information : */
-/* Generated by Harviacode Codeigniter CRUD Generator 2019-10-10 04:22:40 */
-/* http://harviacode.com */

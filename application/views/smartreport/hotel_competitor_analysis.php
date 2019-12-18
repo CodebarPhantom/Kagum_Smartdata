@@ -83,6 +83,8 @@
 	$enddate_ytd = $dateToView;
 	$startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
 	$enddate_mtd = $dateToView;   
+	$diffdateytd = date_diff(new DateTime($startdate_ytd), new DateTime($enddate_ytd)); 
+
 	//Total avg room rate diambil dari setiap model perbintang
 	//Total occupany diambil dari setiap model perbintang 	
 	// Total room inventory tahunan diambil daro model perbitnang
@@ -135,7 +137,19 @@
 	$total_rvr_ytd2star = 0;	
 	$total_rvr_todaybyuser = 0;
 	$total_rvr_mtdbyuser = 0;
-	$total_rvr_ytdbyuser = 0;									
+	$total_rvr_ytdbyuser = 0;	
+	
+	$total_ri_todaybyindirect = 0;
+	$total_ri_mtdbyindirect = 0;
+	$total_rs_todaybyindirect = 0;
+	$total_rs_mtdbyindirect = 0;
+	$total_rs_ytdbyindirect = 0;
+	$total_rvr_todaybyindirect = 0;
+	$total_rvr_mtdbyindirect = 0;
+	$total_rvr_ytdbyindirect = 0;	
+	$total_trr_todaybyindirect = 0;
+	$total_trr_mtdbyindirect = 0;
+	$total_trr_ytdbyindirect = 0;
 
 	
 	/* Untuk Occupany pembagi  MPI ARI RGI perhotel ga bisa dari looping @_@ Hadeeh*/
@@ -174,16 +188,27 @@
 	
 	
 	
-	$data_occTodayByUserTotal = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom); //ok
-	$data_occMTDByUserTotal = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
-	$data_occYTDByUserTotal = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); //ok
-	$data_trrTodayByUserTotal = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom); //ok
-	$data_trrMTDByUserTotal = $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
-	$data_trrYTDByUserTotal = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom);	//ok
-	$data_arrTodayByUserTotal = $this->Smartreport_hca_model->getArrTodayByUser($date, $idhotel_custom); //ok
-	$data_arrMTDByUserTotal = $this->Smartreport_hca_model->getArrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom); //ok
-	$data_arrYTDByUserTotal = $this->Smartreport_hca_model->getArrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); //ok
-	$data_riYTDByUserTotal = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom); // ok 
+	$data_occTodayByUserDirect = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom,'direct'); //ok1
+	$data_occMTDByUserDirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
+	$data_occYTDByUserDirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); //ok1
+	$data_trrTodayByUserDirect = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom,'direct'); //ok1
+	$data_trrMTDByUserDirect = $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
+	$data_trrYTDByUserDirect = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');	//ok1
+	$data_arrTodayByUserDirect = $this->Smartreport_hca_model->getArrTodayByUser($date, $idhotel_custom,'direct'); //ok1
+	$data_arrMTDByUserDirect = $this->Smartreport_hca_model->getArrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
+	$data_arrYTDByUserDirect = $this->Smartreport_hca_model->getArrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); //ok1
+	$data_riYTDByUserDirect = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); // ok 1
+
+	$data_occTodayByUserIndirect = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom,'indirect'); //ok1
+	$data_occMTDByUserIndirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
+	$data_occYTDByUserIndirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect'); //ok1
+	$data_trrTodayByUserIndirect = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom,'indirect'); //ok1
+	$data_trrMTDByUserIndirect= $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
+	$data_trrYTDByUserIndirect = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect');	//ok1
+	$data_arrTodayByUserIndirect = $this->Smartreport_hca_model->getArrTodayByUser($date, $idhotel_custom,'indirect'); //ok1
+	$data_arrMTDByUserIndirect = $this->Smartreport_hca_model->getArrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
+	$data_arrYTDByUserIndirect = $this->Smartreport_hca_model->getArrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect'); //ok1
+	$data_riYTDByUserIndirect = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect'); // ok 1
 	
 
 ?>
@@ -225,16 +250,23 @@
 
 	<div class="card-body">
 		<ul class="nav nav-tabs nav-tabs-highlight justify-content-end">
-			<li class="nav-item"><a href="#right-hca1"class="nav-link <?php if ($tab === 'hca1' || $tab === NULL){ echo "active"; } ?>"	data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data_all;?></a></li>
-			<li class="nav-item"><a href="#right-hca2" class="nav-link <?php if ($tab === 'hca2'){ echo "active"; } ?>" data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data;?></a></li>
-			<li class="nav-item"><a href="#right-hca3" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
-			<li class="nav-item"><a href="#right-hca4" class="nav-link" data-toggle="tab"><i class="icon-plus3 mr-2"></i><?php echo $lang_add_data_byhotel?></a></li>
+			<li class="nav-item"><a href="#right-hca1"
+					class="nav-link <?php if ($tab === 'hca1' || $tab === NULL){ echo "active"; } ?>"
+					data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data_all;?></a></li>
+			<li class="nav-item"><a href="#right-hca2" class="nav-link <?php if ($tab === 'hca2'){ echo "active"; } ?>"
+					data-toggle="tab"><i class="icon-table2 mr-2"></i><?php echo $lang_view_data;?></a></li>
+			<li class="nav-item"><a href="#right-hca3" class="nav-link" data-toggle="tab"><i
+						class="icon-stack-plus mr-2"></i><?php echo $lang_add_data?></a></li>
+			<li class="nav-item"><a href="#right-hca4" class="nav-link" data-toggle="tab"><i
+						class="icon-plus3 mr-2"></i><?php echo $lang_add_data_byhotel?></a></li>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane fade <?php if ($tab === 'hca1' || $tab === NULL){ echo "show active"; } ?> "	id="right-hca1">
+			<div class="tab-pane fade <?php if ($tab === 'hca1' || $tab === NULL){ echo "show active"; } ?> "
+				id="right-hca1">
 				<div class="col-md-12">
-					<form action="<?php echo base_url()?>smartreport/hotel-competitor-analysis" method="get" accept-charset="utf-8">
+					<form action="<?php echo base_url()?>smartreport/hotel-competitor-analysis" method="get"
+						accept-charset="utf-8">
 						<input type="hidden" name="tab" value="hca1">
 						<div class="row">
 							<div class="col-md-2">
@@ -1253,32 +1285,36 @@
 										<span class="input-group-prepend">
 											<span class="input-group-text"><i class="icon-calendar22"></i></span>
 										</span>
-										<input type="text" data-mask="99-99-9999" name="date_analysis"	class="form-control daterange-single" value="<?php echo $date_analysis; ?>" required />
-												
+										<input type="text" data-mask="99-99-9999" name="date_analysis"
+											class="form-control daterange-single" value="<?php echo $date_analysis; ?>"
+											required />
+
 									</div>
 								</div>
 							</div>
-							
+
 							<?php if($user_le === '1' ){ ?>
 							<div class="col-md-3">
 								<div class="form-group">
-									<label><?php echo $lang_hotel; ?></label>									
-											<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
-												<option value=""><?php echo $lang_choose_hotels; ?></option>
-												<?php $hotel = $idhotel_custom;
+									<label><?php echo $lang_hotel; ?></label>
+									<select name="idhotelcustom" class="form-control custom_select" required
+										autocomplete="off">
+										<option value=""><?php echo $lang_choose_hotels; ?></option>
+										<?php $hotel = $idhotel_custom;
 													  $hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
 													  for ($p = 0; $p < count($hotelData); ++$p) {
 														$idhotel = $hotelData[$p]->idhotels;
 														$hotelname = $hotelData[$p]->hotels_name;?>
-												<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
-													<?php echo $hotelname; ?>
-												</option>
-												<?php
+										<option value="<?php echo $idhotel; ?>"
+											<?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+											<?php echo $hotelname; ?>
+										</option>
+										<?php
 													unset($idhotel);
 													unset($hotelname);
 												 	}
 												?>
-											</select>									
+									</select>
 								</div>
 
 							</div>
@@ -1356,7 +1392,42 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($getHotelByUser_data->result() as $getHotelByUser){ /*Looping nama Hotel bintang 4 dan kamarnya*/ 										
+							<tr>
+								<td colspan="27"><b>Direct Comp.</b></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+							</tr>
+							<?php foreach ($getHotelByUserDirect_data->result() as $getHotelByUserDirect){ 									
 										//room inventory		
 										$ri_today = 0;$ri_mtd = 0;$ri_ytd = 0;
 										//room sold
@@ -1375,9 +1446,11 @@
 										$rgi_today = 0;$rgi_mtd = 0;$rgi_ytd = 0;
 										//ARI
 										$ari_today = 0;$ari_mtd = 0;$ari_ytd = 0;
+
+										
 										$group_ln = "";
 										/* $dateToView its GET from controller hotel_competitor_analysis */										
-										$dt_analystoday = $this->Smartreport_hca_model->select_competitoranalysisondate_perhotel($getHotelByUser->idhotels,$dateToView);
+										$dt_analystoday = $this->Smartreport_hca_model->select_competitoranalysisondate_perhotel($getHotelByUserDirect->idhotels,$dateToView);
 										if($dt_analystoday != NULL){
 											$rs_today = $dt_analystoday->room_sold;
 											$arr_today = $dt_analystoday->avg_roomrate;
@@ -1385,14 +1458,14 @@
 										}
 
 										/* Mulai -  Hitung Room Sold*/										
-										$dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUser->idhotels);
+										$dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUserDirect->idhotels);
 										if($dt_rsmtd != NULL)
 										{
 											$rs_mtd += $dt_rsmtd->RS_MTD;
 										}
 
 										
-										$dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUser->idhotels);
+										$dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserDirect->idhotels);
 										if($dt_rsytd != NULL)
 										{
 											$rs_ytd += $dt_rsytd->RS_YTD;
@@ -1402,13 +1475,13 @@
 										/* Mulai -  Hitung Total Room Revenue*/
 										$trr_today = $rs_today * $arr_today;
 
-										$dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUser->idhotels);
+										$dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUserDirect->idhotels);
 										if($dt_trrmtd != NULL)
 										{
 											$trr_mtd = $dt_trrmtd->TRR_MTD;
 										}
 				
-										$dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUser->idhotels);
+										$dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserDirect->idhotels);
 										if($dt_trrytd != NULL)
 										{
 											 $trr_ytd = $dt_trrytd->TRR_YTD;
@@ -1427,9 +1500,9 @@
 										/* Selesai -  Hitung Average Room Rate*/
 
 										/* Mulai -  Occupancy*/
-										$ri_today += $getHotelByUser->total_rooms;
-										$ri_mtd += $getHotelByUser->total_rooms * $perdate;
-										$ri_ytd = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUser->idhotels);
+										$ri_today += $getHotelByUserDirect->total_rooms;
+										$ri_mtd += $getHotelByUserDirect->total_rooms * $perdate;
+										$ri_ytd = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserDirect->idhotels);
 
 										if($rs_today != 0 && $ri_today !=0){
 											$occ_today = ($rs_today / $ri_today) * 100;
@@ -1456,8 +1529,8 @@
 										}
 										/* Selesai -  Rev Par*/
 
-										$total_ri_todaybyuser += $getHotelByUser->total_rooms;
-										$total_ri_mtdbyuser += $getHotelByUser->total_rooms * $perdate;
+										$total_ri_todaybyuser += $getHotelByUserDirect->total_rooms;
+										$total_ri_mtdbyuser += $getHotelByUserDirect->total_rooms * $perdate;
 
 										$total_rs_todaybyuser += $rs_today;
 										$total_rs_mtdbyuser += $rs_mtd;
@@ -1473,43 +1546,43 @@
 
 
 										if($occ_today != 0 ){
-											$mpi_today = ($rs_today / $ri_today) / $data_occTodayByUserTotal->OCC_TODAYByUser ;
+											$mpi_today = ($rs_today / $ri_today) / $data_occTodayByUserDirect->OCC_TODAYByUser ;
 										}
 										if($occ_mtd != 0 && $total_rs_mtdbyuser !=0 ){
-											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDByUserTotal->OCC_MTDByUser;
+											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDByUserDirect->OCC_MTDByUser;
 										}
 										if($occ_ytd != 0 ){
-											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDByUserTotal->OCC_YTDByUser;
+											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDByUserDirect->OCC_YTDByUser;
 										}
 
 										if($arr_today !=0  ){
-											$ari_today = $arr_today / $data_arrTodayByUserTotal->ARR_TodayByUser;
+											$ari_today = $arr_today / $data_arrTodayByUserDirect->ARR_TodayByUser;
 										}
 
 										if ($arr_mtd != 0 ){
-											$ari_mtd = $arr_mtd / $data_arrMTDByUserTotal->ARR_MTDByUser;
+											$ari_mtd = $arr_mtd / $data_arrMTDByUserDirect->ARR_MTDByUser;
 										}
 
 										if($arr_ytd != 0 ){
-											$ari_ytd = $arr_ytd / $data_arrYTDByUserTotal->ARR_YTDByUser;
+											$ari_ytd = $arr_ytd / $data_arrYTDByUserDirect->ARR_YTDByUser;
 										}
 
 										
 
 										if($occ_today != 0 ){
-											$rgi_today = ($rs_today / $ri_today) / $data_occTodayByUserTotal->OCC_TODAYByUser ;
+											$rgi_today = ($rs_today / $ri_today) / $data_occTodayByUserDirect->OCC_TODAYByUser ;
 										}
 
-										if ($trr_today != 0 && $data_trrTodayByUserTotal->TRR_TodayByUser != 0){
-											$rgi_today = $trr_today / $data_trrTodayByUserTotal->TRR_TodayByUser;
+										if ($trr_today != 0 && $data_trrTodayByUserDirect->TRR_TodayByUser != 0){
+											$rgi_today = $trr_today / $data_trrTodayByUserDirect->TRR_TodayByUser;
 										}
 
-										if ($trr_mtd != 0 && $data_trrMTDByUserTotal->TRR_MTDByUser != 0){
-											$rgi_mtd = $trr_mtd  / $data_trrMTDByUserTotal->TRR_MTDByUser;
+										if ($trr_mtd != 0 && $data_trrMTDByUserDirect->TRR_MTDByUser != 0){
+											$rgi_mtd = $trr_mtd  / $data_trrMTDByUserDirect->TRR_MTDByUser;
 										}
 
-										if ($trr_ytd != 0 && $data_trrYTDByUserTotal->TRR_YTDByUser != 0){
-											$rgi_ytd = $trr_ytd  / $data_trrYTDByUserTotal->TRR_YTDByUser;
+										if ($trr_ytd != 0 && $data_trrYTDByUserDirect->TRR_YTDByUser != 0){
+											$rgi_ytd = $trr_ytd  / $data_trrYTDByUserDirect->TRR_YTDByUser;
 										}
 										
 										
@@ -1521,38 +1594,39 @@
 										if($total_trr_mtdbyuser !=0 && $total_ri_mtdbyuser !=0){
 											$total_rvr_mtdbyuser = $total_trr_mtdbyuser/$total_ri_mtdbyuser;
 										}
-										if($data_trrYTDByUserTotal->TRR_YTDByUser != 0 && $data_riYTDByUserTotal->RI_YTDByUser !=0){
-											$total_rvr_ytdbyuser = $data_trrYTDByUserTotal->TRR_YTDByUser / $data_riYTDByUserTotal->RI_YTDByUser;
+										if($data_trrYTDByUserDirect->TRR_YTDByUser != 0){
+											$total_rvr_ytdbyuser = $data_trrYTDByUserDirect->TRR_YTDByUser / ($total_ri_todaybyuser*($diffdateytd->days + 1));
 										}
 
 										?>
 							<tr>
+								
 								<!-- Hotel and Room Inventory -->
-								<td><?= $getHotelByUser->hotels_name;?>
+								<td><?= $getHotelByUserDirect->hotels_name;?>
 									<br />
-									<?php if ($getHotelByUser->hotel_star === '1') { ?>
+									<?php if ($getHotelByUserDirect->hotel_star === '1') { ?>
 									<span>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 									</span>
-									<?php } else if ($getHotelByUser->hotel_star === '2') { ?>
+									<?php } else if ($getHotelByUserDirect->hotel_star === '2') { ?>
 									<span>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 									</span>
-									<?php } else if ($getHotelByUser->hotel_star === '3') { ?>
-									<span>
-										<i class="icon-star-full2 customstarsize text-warning-300"></i>
-										<i class="icon-star-full2 customstarsize text-warning-300"></i>
-										<i class="icon-star-full2 customstarsize text-warning-300"></i>
-									</span>
-									<?php } else if ($getHotelByUser->hotel_star === '4') { ?>
+									<?php } else if ($getHotelByUserDirect->hotel_star === '3') { ?>
 									<span>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } else if ($getHotelByUserDirect->hotel_star === '4') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 									</span>
-									<?php } else if ($getHotelByUser->hotel_star === '5') { ?>
+									<?php } else if ($getHotelByUserDirect->hotel_star === '5') { ?>
 									<span>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
 										<i class="icon-star-full2 customstarsize text-warning-300"></i>
@@ -1562,7 +1636,7 @@
 									</span>
 									<?php } ?>
 								</td>
-								<td><?= number_format($getHotelByUser->total_rooms);?></td>
+								<td><?= number_format($getHotelByUserDirect->total_rooms);?></td>
 
 								<!-- Room Sold -->
 								<td><?php echo number_format($rs_today); ?></td>
@@ -1607,14 +1681,11 @@
 								<td><?php echo $group_ln; ?></td>
 
 							</tr>
-
-
-
 							<?php } ?>
 							<tr style="font-weight:bold">
 								<!-- Baris Total untuk bintang 4 -->
 								<!-- Hotel and Room Inventory -->
-								<td>Total </td>
+								<td>Total Direct Competitor</td>
 								<td><?php echo number_format($total_ri_todaybyuser); ?></td>
 
 								<!-- Room Sold -->
@@ -1624,20 +1695,20 @@
 
 								<!-- Occupancy -->
 
-								<td><?php echo number_format($data_occTodayByUserTotal->OCC_TODAYByUser*100,1).'%'; ?>
+								<td><?php echo number_format($data_occTodayByUserDirect->OCC_TODAYByUser*100,1).'%'; ?>
 								</td>
-								<td><?php echo number_format($data_occMTDByUserTotal->OCC_MTDByUser*100,2).'%'; ?></td>
-								<td><?php echo number_format($data_occYTDByUserTotal->OCC_YTDByUser*100,2).'%'; ?></td>
+								<td><?php echo number_format($data_occMTDByUserDirect->OCC_MTDByUser*100,2).'%'; ?></td>
+								<td><?php echo number_format($data_occYTDByUserDirect->OCC_YTDByUser*100,2).'%'; ?></td>
 
 								<!-- Average Room Rate -->
-								<td><?php echo number_format($data_arrTodayByUserTotal->ARR_TodayByUser,0); ?></td>
-								<td><?php echo number_format($data_arrMTDByUserTotal->ARR_MTDByUser,0);?></td>
-								<td><?php echo number_format($data_arrYTDByUserTotal->ARR_YTDByUser,0); ?></td>
+								<td><?php echo number_format($data_arrTodayByUserDirect->ARR_TodayByUser,0); ?></td>
+								<td><?php echo number_format($data_arrMTDByUserDirect->ARR_MTDByUser,0);?></td>
+								<td><?php echo number_format($data_arrYTDByUserDirect->ARR_YTDByUser,0); ?></td>
 
 								<!-- Total Room Revenue -->
-								<td><?php echo number_format($data_trrTodayByUserTotal->TRR_TodayByUser,0); ?></td>
-								<td><?php echo number_format($data_trrMTDByUserTotal->TRR_MTDByUser,0); ?></td>
-								<td><?php echo number_format($data_trrYTDByUserTotal->TRR_YTDByUser,0); ?></td>
+								<td><?php echo number_format($data_trrTodayByUserDirect->TRR_TodayByUser,0); ?></td>
+								<td><?php echo number_format($data_trrMTDByUserDirect->TRR_MTDByUser,0); ?></td>
+								<td><?php echo number_format($data_trrYTDByUserDirect->TRR_YTDByUser,0); ?></td>
 
 								<!-- Rev Par -->
 								<td><?php echo number_format($total_rvr_todaybyuser); ?></td>
@@ -1657,6 +1728,348 @@
 								<td style="display: none;"></td>
 								<td style="display: none;"></td>
 							</tr>
+
+							<tr>
+								<td colspan="27"><b>Indirect Comp.</b></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+
+							</tr>
+							<?php foreach ($getHotelByUserIndirect_data->result() as $getHotelByUserIndirect){								
+								//room inventory		
+								$ri_today = 0;$ri_mtd = 0;$ri_ytd = 0;
+								//room sold
+								$rs_today = 0;$rs_mtd = 0;$rs_ytd = 0;
+								//avg room rate
+								$arr_today = 0;$arr_mtd = 0;$arr_ytd = 0;
+								//occupany
+								$occ_today = 0;$occ_mtd = 0;$occ_ytd = 0;
+								//total room revenue
+								$trr_today = 0;$trr_mtd = 0;$trr_ytd = 0;								
+								//Rev Par
+								$rvr_today = 0;$rvr_mtd = 0;$rvr_ytd = 0;
+								//MPI
+								$mpi_today = 0;$mpi_mtd = 0;$mpi_ytd = 0;
+								//RGI
+								$rgi_today = 0;$rgi_mtd = 0;$rgi_ytd = 0;
+								//ARI
+								$ari_today = 0;$ari_mtd = 0;$ari_ytd = 0;
+								$group_ln = "";
+								/* $dateToView its GET from controller hotel_competitor_analysis */										
+								$dt_analystoday = $this->Smartreport_hca_model->select_competitoranalysisondate_perhotel($getHotelByUserIndirect->idhotels,$dateToView);
+								if($dt_analystoday != NULL){
+									$rs_today = $dt_analystoday->room_sold;
+									$arr_today = $dt_analystoday->avg_roomrate;
+									$group_ln = $dt_analystoday->remark;
+								}
+
+								/* Mulai -  Hitung Room Sold*/										
+								$dt_rsmtd = $this->Smartreport_hca_model->select_rsmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUserIndirect->idhotels);
+								if($dt_rsmtd != NULL)
+								{
+									$rs_mtd += $dt_rsmtd->RS_MTD;
+								}
+
+								
+								$dt_rsytd = $this->Smartreport_hca_model->select_rsytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserIndirect->idhotels);
+								if($dt_rsytd != NULL)
+								{
+									$rs_ytd += $dt_rsytd->RS_YTD;
+								}
+								/* Selesai -  Hitung Room Sold*/
+
+								/* Mulai -  Hitung Total Room Revenue*/
+								$trr_today = $rs_today * $arr_today;
+
+								$dt_trrmtd = $this->Smartreport_hca_model->select_trrmtd_perhotel($startdate_mtd,$enddate_mtd,$getHotelByUserIndirect->idhotels);
+								if($dt_trrmtd != NULL)
+								{
+									$trr_mtd = $dt_trrmtd->TRR_MTD;
+								}
+		
+								$dt_trrytd = $this->Smartreport_hca_model->select_trrytd_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserIndirect->idhotels);
+								if($dt_trrytd != NULL)
+								{
+									$trr_ytd = $dt_trrytd->TRR_YTD;
+								}
+								/* Selesai -  Hitung Total Room Revenue*/
+
+								/* Mulai -  Hitung Average Room Rate MTD - YTD*/
+								if($rs_mtd != 0 && $rs_ytd != 0 ){
+									$arr_mtd = $trr_mtd / $rs_mtd;
+									
+								}
+
+								if($trr_ytd != 0 && $trr_ytd != 0){
+									$arr_ytd = $trr_ytd /$rs_ytd;
+								}
+								/* Selesai -  Hitung Average Room Rate*/
+
+								/* Mulai -  Occupancy*/
+								$ri_today += $getHotelByUserIndirect->total_rooms;
+								$ri_mtd += $getHotelByUserIndirect->total_rooms * $perdate;
+								$ri_ytd = $this->Smartreport_hca_model->select_RIYTD_perhotel($startdate_ytd,$enddate_ytd,$getHotelByUserIndirect->idhotels);
+
+								if($rs_today != 0 && $ri_today !=0){
+									$occ_today = ($rs_today / $ri_today) * 100;
+								}
+								if($rs_mtd != 0 && $ri_mtd != 0)
+								{
+									$occ_mtd = ($rs_mtd / $ri_mtd) * 100;
+								}
+								if($rs_ytd != 0 && $ri_ytd->RI_YTD != 0)
+								{
+									$occ_ytd = ($rs_ytd / $ri_ytd->RI_YTD) * 100;
+								}
+								/* Selesai -  Occupancy*/
+
+								/* Mulai -  Rev Par*/
+								if($trr_today != 0 && $ri_today !=0){
+									$rvr_today = $trr_today / $ri_today;
+								}
+								if($trr_mtd != 0 && $ri_mtd !=0){
+									$rvr_mtd = $trr_mtd / $ri_mtd;
+								}
+								if($trr_ytd != 0 && $ri_ytd->RI_YTD != 0){
+									$rvr_ytd = $trr_ytd / $ri_ytd->RI_YTD;
+								}
+								/* Selesai -  Rev Par*/
+
+								$total_ri_todaybyindirect += $getHotelByUserIndirect->total_rooms;
+								$total_ri_mtdbyindirect += $getHotelByUserIndirect->total_rooms * $perdate;
+
+								$total_rs_todaybyindirect += $rs_today;
+								$total_rs_mtdbyindirect += $rs_mtd;
+								$total_rs_ytdbyindirect += $rs_ytd;
+
+							
+
+								$total_trr_todaybyindirect += $trr_today;
+								$total_trr_mtdbyindirect += $trr_mtd;
+								$total_trr_ytdbyindirect += $trr_ytd;
+
+
+
+
+								if($occ_today != 0 ){
+									$mpi_today = ($rs_today / $ri_today) / $data_occTodayByUserIndirect->OCC_TODAYByUser ;
+								}
+								if($occ_mtd != 0 && $total_rs_mtdbyindirect !=0 ){
+									$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDByUserIndirect->OCC_MTDByUser;
+								}
+								if($occ_ytd != 0 ){
+									$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDByUserIndirect->OCC_YTDByUser;
+								}
+
+								if($arr_today !=0  ){
+									$ari_today = $arr_today / $data_arrTodayByUserIndirect->ARR_TodayByUser;
+								}
+
+								if ($arr_mtd != 0 ){
+									$ari_mtd = $arr_mtd / $data_arrMTDByUserIndirect->ARR_MTDByUser;
+								}
+
+								if($arr_ytd != 0 ){
+									$ari_ytd = $arr_ytd / $data_arrYTDByUserIndirect->ARR_YTDByUser;
+								}
+
+								
+
+								if($occ_today != 0 ){
+									$rgi_today = ($rs_today / $ri_today) / $data_occTodayByUserIndirect->OCC_TODAYByUser ;
+								}
+
+								if ($trr_today != 0 && $data_trrTodayByUserIndirect->TRR_TodayByUser != 0){
+									$rgi_today = $trr_today / $data_trrTodayByUserIndirect->TRR_TodayByUser;
+								}
+
+								if ($trr_mtd != 0 && $data_trrMTDByUserIndirect->TRR_MTDByUser != 0){
+									$rgi_mtd = $trr_mtd  / $data_trrMTDByUserIndirect->TRR_MTDByUser;
+								}
+
+								if ($trr_ytd != 0 && $data_trrYTDByUserIndirect->TRR_YTDByUser != 0){
+									$rgi_ytd = $trr_ytd  / $data_trrYTDByUserIndirect->TRR_YTDByUser;
+								}
+								
+								
+								
+								
+								if($total_trr_todaybyindirect != 0 && $total_ri_todaybyindirect != 0){
+									$total_rvr_todaybyindirect = $total_trr_todaybyindirect/$total_ri_todaybyindirect;
+								}
+								if($total_trr_mtdbyindirect !=0 && $total_ri_mtdbyindirect !=0){
+									$total_rvr_mtdbyindirect = $total_trr_mtdbyindirect/$total_ri_mtdbyindirect;
+								}
+								if($data_trrYTDByUserIndirect->TRR_YTDByUser != 0 && $data_riYTDByUserIndirect->RI_YTDByUser !=0){
+									$total_rvr_ytdbyindirect = $data_trrYTDByUserIndirect->TRR_YTDByUser / ($total_ri_todaybyindirect*($diffdateytd->days + 1));
+								}
+
+								?>
+							<tr>
+								<!-- Hotel and Room Inventory -->
+								<td><?= $getHotelByUserIndirect->hotels_name;?>
+									<br />
+									<?php if ($getHotelByUserIndirect->hotel_star === '1') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } else if ($getHotelByUserIndirect->hotel_star === '2') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } else if ($getHotelByUserIndirect->hotel_star === '3') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } else if ($getHotelByUserIndirect->hotel_star === '4') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } else if ($getHotelByUserIndirect->hotel_star === '5') { ?>
+									<span>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+										<i class="icon-star-full2 customstarsize text-warning-300"></i>
+									</span>
+									<?php } ?>
+								</td>
+								<td><?= number_format($getHotelByUserIndirect->total_rooms);?></td>
+
+								<!-- Room Sold -->
+								<td><?php echo number_format($rs_today); ?></td>
+								<td><?php echo number_format($rs_mtd); ?></td>
+								<td><?php echo number_format($rs_ytd); ?></td>
+
+								<!-- Occupancy -->
+								<td><?php echo number_format($occ_today,1).'%'; ?></td>
+								<td><?php echo number_format($occ_mtd,2).'%'; ?></td>
+								<td><?php echo number_format($occ_ytd,2).'%'; ?></td>
+
+								<!-- Average Room Rate -->
+								<td><?php echo number_format($arr_today,0); ?></td>
+								<td><?php echo number_format($arr_mtd,0);?></td>
+								<td><?php echo number_format($arr_ytd,0);?></td>
+
+								<!-- Total Room Revenue -->
+								<td><?php echo number_format($trr_today); ?></td>
+								<td><?php echo number_format($trr_mtd); ?></td>
+								<td><?php echo number_format($trr_ytd); ?></td>
+
+								<!-- Rev Par -->
+								<td><?php echo number_format($rvr_today);?></td>
+								<td><?php echo number_format($rvr_mtd);?></td>
+								<td><?php echo number_format($rvr_ytd);?></td>
+
+								<!-- MPI -->
+								<td><?php echo number_format($mpi_today,2); ?></td>
+								<td><?php echo number_format($mpi_mtd,2); ?></td>
+								<td><?php echo number_format($mpi_ytd,2); ?></td>
+
+								<!-- ARI -->
+								<td><?php echo number_format($ari_today,2); ?></td>
+								<td><?php echo number_format($ari_mtd,2); ?></td>
+								<td><?php echo number_format($ari_ytd,2); ?></td>
+
+								<!-- RGI -->
+								<td><?php echo number_format($rgi_today,2); ?></td>
+								<td><?php echo number_format($rgi_mtd,2); ?></td>
+								<td><?php echo number_format($rgi_ytd,2); ?></td>
+
+								<td><?php echo $group_ln; ?></td>
+
+							</tr>
+							<?php } ?>
+							<tr style="font-weight:bold">
+								<!-- Baris Total untuk bintang 4 -->
+								<!-- Hotel and Room Inventory -->
+								<td>Total Indirect Competitor</td>
+								<td><?php echo number_format($total_ri_todaybyindirect); ?></td>
+
+								<!-- Room Sold -->
+								<td><?php echo number_format($total_rs_todaybyindirect); ?></td>
+								<td><?php echo number_format($total_rs_mtdbyindirect); ?></td>
+								<td><?php echo number_format($total_rs_ytdbyindirect); ?></td>
+
+								<!-- Occupancy -->
+
+								<td><?php echo number_format($data_occTodayByUserIndirect->OCC_TODAYByUser*100,1).'%'; ?>
+								</td>
+								<td><?php echo number_format($data_occMTDByUserIndirect->OCC_MTDByUser*100,2).'%'; ?>
+								</td>
+								<td><?php echo number_format($data_occYTDByUserIndirect->OCC_YTDByUser*100,2).'%'; ?>
+								</td>
+
+								<!-- Average Room Rate -->
+								<td><?php echo number_format($data_arrTodayByUserIndirect->ARR_TodayByUser,0); ?></td>
+								<td><?php echo number_format($data_arrMTDByUserIndirect->ARR_MTDByUser,0);?></td>
+								<td><?php echo number_format($data_arrYTDByUserIndirect->ARR_YTDByUser,0); ?></td>
+
+								<!-- Total Room Revenue -->
+								<td><?php echo number_format($data_trrTodayByUserIndirect->TRR_TodayByUser,0); ?></td>
+								<td><?php echo number_format($data_trrMTDByUserIndirect->TRR_MTDByUser,0); ?></td>
+								<td><?php echo number_format($data_trrYTDByUserIndirect->TRR_YTDByUser,0); ?></td>
+
+								<!-- Rev Par -->
+								<td><?php echo number_format($total_rvr_todaybyindirect); ?></td>
+								<td><?php echo number_format($total_rvr_mtdbyindirect); ?></td>
+								<td><?php echo number_format($total_rvr_ytdbyindirect); ?></td>
+
+
+
+								<td colspan="10"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+								<td style="display: none;"></td>
+							</tr>
+
+
+
+
+
+
 
 						</tbody>
 					</table>

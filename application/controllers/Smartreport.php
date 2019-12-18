@@ -762,7 +762,8 @@ class Smartreport extends CI_Controller{
       'parent' => 'PARENT',
       'hotel_star' => $this->input->post('hotel_star',TRUE),
       'date_created' => date('Y-m-d H:i:s'),
-      'status' => $this->input->post('status',TRUE)
+      'status' => $this->input->post('status',TRUE),
+      'type_competitor'=>'direct'
       );  
         $this->Smartreport_city_model->insertData('smartreport_hotels',$data);
         $this->session->set_flashdata('input_success','message');        
@@ -901,6 +902,9 @@ class Smartreport extends CI_Controller{
         $page_data['lang_hotel_star'] = $this->lang->line('hotel_star');
         $page_data['lang_all_hotels'] = $this->lang->line('all_hotels');
         $page_data['lang_all_city'] = $this->lang->line('all_city');
+        $page_data['lang_type_competitor'] = $this->lang->line('type_competitor');
+        $page_data['lang_type'] = $this->lang->line('type');
+        $page_data['lang_choose_type'] = $this->lang->line('choose_type');
 
 
 
@@ -933,7 +937,7 @@ class Smartreport extends CI_Controller{
       'parent' => $this->input->post('idparent',TRUE),
       'hotel_star' => $this->input->post('hotel_star',TRUE),
       'date_created' => date('Y-m-d H:i:s'),
-      //'idhotelscategory'=>'-',
+      'type_competitor'=>$this->input->post('type_competitor',TRUE),
       'status' => $this->input->post('status',TRUE)
       );  
         $this->Smartreport_city_model->insertData('smartreport_hotels',$data);
@@ -954,12 +958,14 @@ class Smartreport extends CI_Controller{
       'idcity' => $this->input->post('idcity',TRUE),
       'parent' => $this->input->post('idparent',TRUE),
       'hotel_star' => $this->input->post('hotel_star',TRUE),
+      'type_competitor'=>$this->input->post('type_competitor',TRUE),
       'status' => $this->input->post('status',TRUE)
       );  
      
         $this->Smartreport_hotels_model->updateDataHotels('smartreport_hotels', $data, $this->input->post('idcompetitor_old', TRUE));
         $this->session->set_flashdata('update_success','message');
-        redirect(site_url('smartreport/competitor-hotel'));
+        //redirect(site_url('smartreport/competitor-hotel'));
+        redirect($_SERVER['HTTP_REFERER']);
       }else{
         redirect('errorpage/error403');
     }
@@ -1210,8 +1216,11 @@ class Smartreport extends CI_Controller{
         $page_data['getHotel3Star_data'] = $getHotel3Star;
         $getHotel2Star = $this->Smartreport_hca_model->getHotelAllStar($idcity, "2");
         $page_data['getHotel2Star_data'] = $getHotel2Star;
-        $getHotelByUser = $this->Smartreport_hca_model->getHotelAllStarByUserHotel($getidhotel_custom);
-        $page_data['getHotelByUser_data'] = $getHotelByUser; 
+
+        $getHotelByUserDirect = $this->Smartreport_hca_model->getHotelByUserHotelTypeComp($getidhotel_custom,'direct');
+        $getHotelByUserIndirect = $this->Smartreport_hca_model->getHotelByUserHotelTypeComp($getidhotel_custom,'indirect');
+        $page_data['getHotelByUserDirect_data'] = $getHotelByUserDirect; 
+        $page_data['getHotelByUserIndirect_data'] = $getHotelByUserIndirect;
 
         $page_data['date_analysis'] = $this->input->get('date_analysis', TRUE);
         $page_data['dateToView'] = $date_analysis;

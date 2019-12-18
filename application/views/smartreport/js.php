@@ -140,7 +140,7 @@
 			new PNotify({  
                 
                 title: '<b>Update Notice</b>',
-                text: 'Penambahan Input & Report <b>Room out of Order</b> pada Daily Sales Report',
+                text: 'Penambahan <b>Direct & Indirect Competitor</b> pada <b>Competitor Hotel</b> berpengaruh di Comset - <b>View Data</b><br/><br/>Penambahan Input & Report <b>Room out of Order</b> pada Daily Sales Report',
                 addclass: 'bg-info-800 border-info-800'
             });
 			});

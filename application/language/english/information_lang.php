@@ -20,6 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['month'] = 'Month';
     $lang['year'] = 'Year';
     $lang['add_data_bypnl'] = 'Add Data by PNL';
+    $lang['type'] = 'Type';
 
 
     $lang['input_success'] = 'Input Success !';
@@ -97,6 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['competitor'] = "Competitor";
     $lang['add_competitor'] = "Add Competitor";
     $lang['edit_competitor'] = "Edit Competitor";
+    $lang['type_competitor'] = "Type Competitor";
     $lang['total_rooms'] = "Total Rooms";
     $lang['rooms'] = "Rooms";
     $lang['hotel_star'] = "Hotel Star";

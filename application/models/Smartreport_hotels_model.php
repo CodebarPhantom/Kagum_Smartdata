@@ -107,7 +107,7 @@ class Smartreport_hotels_model extends CI_Model
 
         // get total rows
     function total_rows_competitor($competitor = NULL, $city = NULL, $listhotel = NULL) {
-        $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name, h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.hotel_star, h1.status, h1.date_created');       
+        $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name, h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.hotel_star, h1.status, h1.type_competitor, h1.date_created');       
         $this->db->from('smartreport_hotels as h');        
         $this->db->join('smartreport_hotels as h1', 'h.idhotels=h1.parent','left');
         $this->db->join('smartreport_city as c', 'h1.idcity=c.idcity','left');
@@ -127,7 +127,7 @@ class Smartreport_hotels_model extends CI_Model
 
     // get data with limit and search
     function get_limit_data_competitor($limit, $start = 0, $competitor = NULL, $city = NULL, $listhotel = NULL) {
-        $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name,  h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.hotel_star, h1.status, h1.date_created');       
+        $this->db->select('h1.idhotels as idcompetitor, h.idhotels, h1.idcity, c.city_name,  h.hotels_name, h1.hotels_name as competitor, h1.total_rooms, h1.hotel_star, h1.status, h1.type_competitor, h1.date_created');       
         $this->db->from('smartreport_hotels as h');
               
         $this->db->join('smartreport_hotels as h1', 'h.idhotels=h1.parent','left');

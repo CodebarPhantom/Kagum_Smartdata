@@ -146,7 +146,7 @@
 								<div class="col-md-1">
 									<div class="form-group">
 										<?php if ($competitor != '' || $city != '' || $listhotel != ''){?>
-											<label>&nbsp;</label>
+											<label>&nbsp;</label><br/>
 											<a href="<?php echo site_url('smartreport/competitor-hotel'); ?>" class="btn btn-warning">Reset</a>
 										<?php } ?>
 									</div>
@@ -158,7 +158,7 @@
 					
 					</div>
 
-					<table class="table table-bordered table-togglable table-hover  ">
+					<table class="table table-bordered table-togglable table-hover table-xs  ">
 						<thead>
 							<tr>
 								<th data-hide="phone">#</th>
@@ -168,6 +168,7 @@
 								<th data-hide="phone,tablet"><?php echo $lang_city; ?></th>
 								<th data-hide="phone"><?php echo $lang_total_rooms; ?></th>
 								<th data-hide="phone,tablet"><?php echo $lang_hotel_star; ?></th>
+								<th data-hide="phone,tablet"><?php echo $lang_type; ?></th>
 								<th data-hide="phone,tablet"><?php echo $lang_status; ?></th>								
 								<th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
 							</tr>
@@ -214,6 +215,11 @@
 									</span>
 								<?php } ?>
 								</td>
+								<td><?php if($smartreport_competitor->type_competitor === 'direct') { ?>
+									<span class="badge bg-brown d-block">Direct</span> 
+								<?php }else if ($smartreport_competitor->type_competitor === 'indirect'){ ?>
+									<span class="badge bg-slate d-block">Indirect</span>
+								<?php } ?></td>
 								<td><?php if($smartreport_competitor->status === 'inactive') { ?>
 									<span class="badge badge-danger d-block">Inactive</span> 
 								<?php }else if ($smartreport_competitor->status === 'active'){ ?>
@@ -338,14 +344,22 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="row">											
+										<div class="row">
+											<div class="col-sm-6">
+												<label><?php echo $lang_type_competitor; ?></label>
+												<select name="type_competitor" class="form-control" required autocomplete="off">
+													<option ><?php echo $lang_choose_type; ?></option>
+													<option value="direct"><?php echo "Direct"; ?></option>
+													<option value="indirect"><?php echo "Indirect"; ?></option>
+													
+												</select>
+											</div>											
 											<div class="col-sm-6">
 												<label><?php echo $lang_status; ?></label>
 												<select name="status" class="form-control" required autocomplete="off">
 													<option ><?php echo $lang_choose_status; ?></option>
 													<option value="active"><?php echo "Active"; ?></option>
-													<option value="inactive"><?php echo "Inactive"; ?></option>
-													
+													<option value="inactive"><?php echo "Inactive"; ?></option>													
 												</select>
 											</div>
 										</div>
@@ -452,6 +466,23 @@
 												</select>
 											</div>
 
+											<div class="col-sm-6">
+												<label><?php echo $lang_type_competitor; ?></label>
+												<select name="type_competitor" class="form-control" required autocomplete="off">
+													<option ><?php echo $lang_choose_type; ?></option>
+													<option value="direct" <?php if ($smartreport_competitor->type_competitor === 'direct') {echo 'selected="selected"';} ?>><?php echo "Direct"; ?></option>
+													<option value="indirect" <?php if ($smartreport_competitor->type_competitor === 'indirect') {echo 'selected="selected"';} ?>><?php echo "Indirect"; ?></option>
+													
+												</select>
+											</div>	
+
+											
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+																					
 											<div class="col-sm-6">
 												<label><?php echo $lang_status; ?></label>
 												<select name="status" class="form-control" required autocomplete="off">

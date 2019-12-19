@@ -144,7 +144,7 @@ function cal_days_in_year($dateToView){
 						
 						<div class="tab-pane fade show active" id="right-pnl1">
 							<form action="<?php echo base_url()?>smartreportpnl/budget_pnl" method="get" accept-charset="utf-8" enctype="multipart/form-data">		
-								<div class="col-md-12">	
+								<div class="col-md-5">	
 									<div class="form-group">
 										<div class="row">											
                                             <div class="col-sm-3">

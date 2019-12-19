@@ -610,9 +610,6 @@
 
 
 							</tr>
-
-
-
 							<?php } ?>
 							<tr style="font-weight:bold">
 								<!-- Baris Total untuk bintang 4 -->
@@ -1714,10 +1711,10 @@
 								<td><?php echo number_format($total_rvr_todaybyuser); ?></td>
 								<td><?php echo number_format($total_rvr_mtdbyuser); ?></td>
 								<td><?php echo number_format($total_rvr_ytdbyuser); ?></td>
+										
 
 
-
-								<td colspan="10"></td>
+								<td colspan="10"><?php echo $data_occMTDByUserDirect->room_sold.' '.$data_occMTDByUserDirect->tot_room; ?></td>
 								<td style="display: none;"></td>
 								<td style="display: none;"></td>
 								<td style="display: none;"></td>

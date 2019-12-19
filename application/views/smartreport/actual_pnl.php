@@ -49,7 +49,7 @@
 		$('.custom_category').select2({
 			//minimumInputLength: 3
 		});	
-	
+		$('.custom_select').select2();	
 
 	$('#categorypnl').change(function(){ 
 		var id=$(this).val();
@@ -114,29 +114,29 @@
     
 $arr_actual_ytd =0;
 
-$total_rooms = $this->Dashboard_model->getDataHotel($user_ho);
-$trr_actual_mtd = $this->Smartreport_actual_model->get_total_actual( "4", $user_ho, $monthact, $yearact); //4 adalah idpnl Room
-$rs_actual_mtd = $this->Smartreport_actual_model->get_total_actual( "7", $user_ho, $monthact, $yearact); //7 adalah idpnl occupied room / room sold
-$trr_budget_mtd = $this->Smartreport_actual_model->get_total_budget( "4", $user_ho, $monthact, $yearact); //4 adalah idpnl Room
-$rs_budget_mtd = $this->Smartreport_actual_model->get_total_budget( "7", $user_ho, $monthact, $yearact); //7 adalah idpnl occupied room / room sold
+$total_rooms = $this->Dashboard_model->getDataHotel($idhotel_custom);
+$trr_actual_mtd = $this->Smartreport_actual_model->get_total_actual( "4", $idhotel_custom, $monthact, $yearact); //4 adalah idpnl Room
+$rs_actual_mtd = $this->Smartreport_actual_model->get_total_actual( "7", $idhotel_custom, $monthact, $yearact); //7 adalah idpnl occupied room / room sold
+$trr_budget_mtd = $this->Smartreport_actual_model->get_total_budget( "4", $idhotel_custom, $monthact, $yearact); //4 adalah idpnl Room
+$rs_budget_mtd = $this->Smartreport_actual_model->get_total_budget( "7", $idhotel_custom, $monthact, $yearact); //7 adalah idpnl occupied room / room sold
 
 if ($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
-    $trr_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "4", $user_ho, $lastmonth, $lastyear); //4 adalah idpnl Room
-	$rs_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "7", $user_ho, $lastmonth, $lastyear); //7 adalah idpnl occupied room / room sold
-	$trr_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "4", $user_ho, $lastmonth, $lastyear); //4 adalah idpnl Room
-    $rs_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "7", $user_ho, $lastmonth, $lastyear); //7 adalah idpnl occupied room / room sold
+    $trr_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "4", $idhotel_custom, $lastmonth, $lastyear); //4 adalah idpnl Room
+	$rs_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "7", $idhotel_custom, $lastmonth, $lastyear); //7 adalah idpnl occupied room / room sold
+	$trr_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "4", $idhotel_custom, $lastmonth, $lastyear); //4 adalah idpnl Room
+    $rs_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "7", $idhotel_custom, $lastmonth, $lastyear); //7 adalah idpnl occupied room / room sold
     
 }else{
-    $trr_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "4", $user_ho, $lastmonth, $yearact); //4 adalah idpnl Room
-	$rs_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "7", $user_ho, $lastmonth, $yearact); //7 adalah idpnl occupied room / room sold
-	$trr_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "4", $user_ho, $lastmonth, $yearact); //4 adalah idpnl Room
-    $rs_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "7", $user_ho, $lastmonth, $yearact); //7 adalah idpnl occupied room / room sold
+    $trr_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "4", $idhotel_custom, $lastmonth, $yearact); //4 adalah idpnl Room
+	$rs_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( "7", $idhotel_custom, $lastmonth, $yearact); //7 adalah idpnl occupied room / room sold
+	$trr_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "4", $idhotel_custom, $lastmonth, $yearact); //4 adalah idpnl Room
+    $rs_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( "7", $idhotel_custom, $lastmonth, $yearact); //7 adalah idpnl occupied room / room sold
 }
 
-$trr_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( "4", $user_ho, $startdate_ytd, $enddate_ytd); //4 adalah idpnl Room
-$rs_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( "7", $user_ho, $startdate_ytd, $enddate_ytd); //7 adalah idpnl occupied room / room sold
-$trr_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( "4", $user_ho, $startdate_ytd, $enddate_ytd); //4 adalah idpnl Room
-$rs_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( "7", $user_ho, $startdate_ytd, $enddate_ytd); //7 adalah idpnl occupied room / room sold
+$trr_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( "4", $idhotel_custom, $startdate_ytd, $enddate_ytd); //4 adalah idpnl Room
+$rs_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( "7", $idhotel_custom, $startdate_ytd, $enddate_ytd); //7 adalah idpnl occupied room / room sold
+$trr_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( "4", $idhotel_custom, $startdate_ytd, $enddate_ytd); //4 adalah idpnl Room
+$rs_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( "7", $idhotel_custom, $startdate_ytd, $enddate_ytd); //7 adalah idpnl occupied room / room sold
 
 
 
@@ -168,7 +168,7 @@ function cal_days_in_year($yearact){
 			<!-- Content area -->
 			<div class="card">
 				<div class="card-header header-elements-inline">
-					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $hotel->hotels_name .' - '.$lang_pnl_expense; ?></strong></h6>
+					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($idhotel_custom); echo $hotel->hotels_name .' - '.$lang_pnl_expense; ?></strong></h6>
 					<div class="header-elements">
 						<div class="list-icons">
 				            <a class="list-icons-item" data-action="collapse"></a>
@@ -188,10 +188,34 @@ function cal_days_in_year($yearact){
 						
 						<div class="tab-pane fade show active" id="right-pnl1">
 							<form action="<?php echo base_url()?>smartreportpnl/actual_pnl" method="get" accept-charset="utf-8" enctype="multipart/form-data">		
-								<div class="col-md-5">	
+								<div class="col-md-6">	
 									<div class="form-group">
-										<div class="row">	
-                                        <div class="col-sm-5">
+										<div class="row">
+										<?php if($user_le === '1' ){ ?>
+											<div class="col-md-4">
+												<div class="form-group">
+												<label><?php echo $lang_hotel ?></label>								
+													<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
+														<option value=""><?php echo $lang_choose_hotels; ?></option>
+														<?php $hotel = $idhotel_custom;
+															$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+															for ($p = 0; $p < count($hotelData); ++$p) {
+																$idhotel = $hotelData[$p]->idhotels;
+																$hotelname = $hotelData[$p]->hotels_name;?>
+														<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+															<?php echo $hotelname; ?>
+														</option>
+														<?php
+															unset($idhotel);
+															unset($hotelname);
+															}
+														?>
+													</select>									
+												</div>
+
+											</div>
+										<?php } ?>   	
+                                        <div class="col-sm-4">
 												<label><?php echo $lang_month; ?></label>
 													<select name="month_actual" class="form-control" required>
 														<option <?php if ($monthact === '01') {echo 'selected="selected"';} ?> value="01">January</option>
@@ -208,7 +232,7 @@ function cal_days_in_year($yearact){
 														<option <?php if ($monthact === '12') {echo 'selected="selected"';} ?> value="12">December</option>
 													</select>
 											</div>										
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-3">
 												<label><?php echo $lang_year ?></label>
 												<select name="year_actual" class="form-control" required>
 													<?php
@@ -219,6 +243,8 @@ function cal_days_in_year($yearact){
 													}?>
 												</select>  
 											</div>
+
+											
 
 											<div class="col-sm-1">
 												<div class="form-group">
@@ -388,17 +414,17 @@ function cal_days_in_year($yearact){
 												/* Terlalu Dinamis parah, PNL Statistic sudah hilang karena sudah jadi header diatas IDPNLCATEGORY 1 itu adalah STATISTIC*/
 												//$yearact itu ada year
 												$smartreport_pnllist_data = $this->Smartreport_actual_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
-												$grandtotal_pnlcategory = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $monthact, $yearact);
-												$grandtotal_pnlcategorybudget = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $user_ho, $monthact, $yearact);
+												$grandtotal_pnlcategory = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $monthact, $yearact);
+												$grandtotal_pnlcategorybudget = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $monthact, $yearact);
                                                 if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
-													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $lastmonth, $lastyear); 
-													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $user_ho, $lastmonth, $lastyear);                                                        
+													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $lastyear); 
+													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $lastyear);                                                        
                                                 }else{
-													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $lastmonth, $yearact);   
-													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $user_ho, $lastmonth, $yearact);   
+													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $yearact);   
+													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $yearact);   
                                                 } 
-												$grandtotal_pnlcategoryytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategoryytd($smartreport_pnlcategory->idpnlcategory, $user_ho,$startdate_ytd, $enddate_ytd);
-												$grandtotal_pnlcategorybudgetytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudgetytd($smartreport_pnlcategory->idpnlcategory, $user_ho,$startdate_ytd, $enddate_ytd);?>
+												$grandtotal_pnlcategoryytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategoryytd($smartreport_pnlcategory->idpnlcategory, $idhotel_custom,$startdate_ytd, $enddate_ytd);
+												$grandtotal_pnlcategorybudgetytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudgetytd($smartreport_pnlcategory->idpnlcategory, $idhotel_custom,$startdate_ytd, $enddate_ytd);?>
                                                 
 											<tr >
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> ><strong><?php echo $smartreport_pnlcategory->pnl_category;?></strong></td>	
@@ -420,17 +446,17 @@ function cal_days_in_year($yearact){
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> style="display: none;"></td>                                												
 											</tr>		
 												<?php foreach ($smartreport_pnllist_data as $smartreport_pnllist ){
-														$total_actual_mtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $user_ho, $monthact, $yearact);
-														$total_budget_mtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $user_ho, $monthact, $yearact);
+														$total_actual_mtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $idhotel_custom, $monthact, $yearact);
+														$total_budget_mtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $monthact, $yearact);
                                                         if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
-															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $user_ho, $lastmonth, $lastyear);
-															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $user_ho, $lastmonth, $lastyear);                                                        
+															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $lastyear);
+															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $lastyear);                                                        
                                                         }else{
-															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $user_ho, $lastmonth, $yearact);
-															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $user_ho, $lastmonth, $yearact);   
+															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $yearact);
+															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $yearact);   
                                                         }
-														$total_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( $smartreport_pnllist->idpnl, $user_ho, $startdate_ytd, $enddate_ytd);
-														$total_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( $smartreport_pnllist->idpnl, $user_ho, $startdate_ytd, $enddate_ytd);?>
+														$total_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( $smartreport_pnllist->idpnl, $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														$total_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( $smartreport_pnllist->idpnl, $idhotel_custom, $startdate_ytd, $enddate_ytd);?>
                                                       
                                                         <tr>															
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>

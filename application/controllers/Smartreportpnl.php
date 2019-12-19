@@ -283,11 +283,18 @@ class Smartreportpnl extends CI_Controller{
 
     function budget_pnl(){
         $user_level = $this->session->userdata('user_level');
+        $userHotelForBudget = $this->session->userdata('user_hotel');
         $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
         if($check_permission->num_rows() == 1){
             $page_data['page_name'] = 'budget_pnl';
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
-           // $year_budget = date("Y", $getyear_budget);        
+           // $year_budget = date("Y", $getyear_budget);
+           
+           $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+            if($getidhotel_custom == NULL){
+                $getidhotel_custom = $userHotelForBudget; 
+            } 
+
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
             $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
@@ -351,11 +358,14 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_select_year'] = $this->lang->line('select_year');   
             $page_data['lang_choose_pnl_category'] = $this->lang->line('choose_pnl_category');
             $page_data['lang_choose_pnl_list'] = $this->lang->line('choose_pnl_list');    
-            $page_data['lang_budget'] = $this->lang->line('budget');    
+            $page_data['lang_budget'] = $this->lang->line('budget');
+            $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');    
             
             $smartreport_pnlcategory = $this->Smartreport_pnl_model->get_data_pnlcategory();
             $page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
             $page_data['dateToView'] =$this->input->get('year_budget', TRUE);
+
+            $page_data['idhotel_custom'] = $getidhotel_custom;
 
             $this->load->view('smartreport/index', $page_data);
         }else{
@@ -442,11 +452,18 @@ class Smartreportpnl extends CI_Controller{
 
     function actual_pnl(){
         $user_level = $this->session->userdata('user_level');
+        $userHotelForActual = $this->session->userdata('user_hotel');
         $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
         if($check_permission->num_rows() == 1){
             $page_data['page_name'] = 'actual_pnl';
             //$getyear_budget = strtotime($this->input->get('year_budget', TRUE));
-           // $year_budget = date("Y", $getyear_budget);        
+           // $year_budget = date("Y", $getyear_budget);  
+           
+           $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+            if($getidhotel_custom == NULL){
+                $getidhotel_custom = $userHotelForActual; 
+            } 
+
             $page_data['lang_dashboard'] = $this->lang->line('dashboard');
             $page_data['lang_dashboard_hotel'] = $this->lang->line('dashboard_hotel');
             $page_data['lang_add_city'] = $this->lang->line('add_city');
@@ -512,11 +529,15 @@ class Smartreportpnl extends CI_Controller{
             $page_data['lang_choose_pnl_list'] = $this->lang->line('choose_pnl_list');
             $page_data['lang_actual'] = $this->lang->line('actual');
 
+            $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels'); 
+
             
             $smartreport_pnlcategory = $this->Smartreport_actual_model->get_data_pnlcategory();
             $page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
             $page_data['yearact'] =$this->input->get('year_actual', TRUE);
             $page_data['monthact'] =$this->input->get('month_actual', TRUE);
+
+            $page_data['idhotel_custom'] = $getidhotel_custom;
 
             $this->load->view('smartreport/index', $page_data);
         }else{

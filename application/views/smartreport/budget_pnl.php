@@ -50,6 +50,8 @@
 			//minimumInputLength: 3
 		});	
 
+		$('.custom_select').select2();
+
 		$('#categorypnl').change(function(){ 
 		var id=$(this).val();
 			$.ajax({
@@ -90,9 +92,9 @@
 	$enddate_ytd = $dateToView;
 	$startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
 	$enddate_mtd = $dateToView;  */
-$total_rooms = $this->Dashboard_model->getDataHotel($user_ho);
-$total_room_revenue = $this->Smartreport_pnl_model->get_total_budget( "4", $user_ho, $dateToView); //4 adalah idpnl Room
-$occupied_room = $this->Smartreport_pnl_model->get_total_budget( "7", $user_ho, $dateToView); //7 adalah idpnl occupied room / room sold
+$total_rooms = $this->Dashboard_model->getDataHotel($idhotel_custom);
+$total_room_revenue = $this->Smartreport_pnl_model->get_total_budget( "4", $idhotel_custom, $dateToView); //4 adalah idpnl Room
+$occupied_room = $this->Smartreport_pnl_model->get_total_budget( "7", $idhotel_custom, $dateToView); //7 adalah idpnl occupied room / room sold
 
 function cal_days_in_year($dateToView){
 	$days=0; 
@@ -122,7 +124,7 @@ function cal_days_in_year($dateToView){
 			<!-- Content area -->
 			<div class="card">
 				<div class="card-header header-elements-inline">
-					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($user_ho); echo $hotel->hotels_name .' - '.$lang_pnl_budget; ?></strong></h6>
+					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($idhotel_custom); echo $hotel->hotels_name .' - '.$lang_pnl_budget; ?></strong></h6>
 					<div class="header-elements">
 						<div class="list-icons">
 				            <a class="list-icons-item" data-action="collapse"></a>
@@ -142,10 +144,10 @@ function cal_days_in_year($dateToView){
 						
 						<div class="tab-pane fade show active" id="right-pnl1">
 							<form action="<?php echo base_url()?>smartreportpnl/budget_pnl" method="get" accept-charset="utf-8" enctype="multipart/form-data">		
-								<div class="col-md-5">	
+								<div class="col-md-12">	
 									<div class="form-group">
 										<div class="row">											
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-3">
 												<label><?php echo $lang_year ?></label>
 												<select name="year_budget" class="form-control" required>
 													<?php
@@ -156,6 +158,31 @@ function cal_days_in_year($dateToView){
 													}?>
 												</select>  
 											</div>
+
+											<?php if($user_le === '1' ){ ?>
+											<div class="col-md-5">
+												<div class="form-group">
+												<label><?php echo $lang_hotel ?></label>								
+													<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
+														<option value=""><?php echo $lang_choose_hotels; ?></option>
+														<?php $hotel = $idhotel_custom;
+															$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+															for ($p = 0; $p < count($hotelData); ++$p) {
+																$idhotel = $hotelData[$p]->idhotels;
+																$hotelname = $hotelData[$p]->hotels_name;?>
+														<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+															<?php echo $hotelname; ?>
+														</option>
+														<?php
+															unset($idhotel);
+															unset($hotelname);
+															}
+														?>
+													</select>									
+												</div>
+
+											</div>
+											<?php } ?>   
 
 											<div class="col-sm-1">
 												<div class="form-group">
@@ -243,7 +270,7 @@ function cal_days_in_year($dateToView){
 												<?php for($month= 1; $month<=12; $month++ ){ ?>													
 												<td class="rata-kanan"><?php 
 														if($total_rooms->total_rooms != 0){
-																$budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($user_ho, $month, $dateToView);
+																$budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($idhotel_custom, $month, $dateToView);
 																$dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
 																$occupancy = ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
 																
@@ -255,7 +282,7 @@ function cal_days_in_year($dateToView){
 												/* Terlalu Dinamis parah, PNL Statistic sudah hilang karena sudah jadi header diatas IDPNLCATEGORY 1 itu adalah STATISTIC*/
 												//$dateToView itu ada year
 												$smartreport_pnllist_data = $this->Smartreport_pnl_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
-												$grandtotal_pnlcategory = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $user_ho, $dateToView); ?>
+												$grandtotal_pnlcategory = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $dateToView); ?>
 											<tr >
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> colspan="3"><strong><?php echo $smartreport_pnlcategory->pnl_category;?></strong></td>	
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> style="display: none;"></td>
@@ -274,7 +301,7 @@ function cal_days_in_year($dateToView){
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> style="display: none;"></td>                                												
 											</tr>		
 												<?php foreach ($smartreport_pnllist_data as $smartreport_pnllist ){
-													  $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist->idpnl, $user_ho, $dateToView);?>
+													  $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $dateToView);?>
                                                         <tr>															
 															<td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
 															<td class="rata-kanan" ><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
@@ -293,7 +320,7 @@ function cal_days_in_year($dateToView){
 															</td>
 															<?php for($month= 1; $month<=12; $month++ ){ ?>																
 															<td class="rata-kanan">
-																<?php $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist->idpnl, $user_ho, $month, $dateToView);
+																<?php $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $month, $dateToView);
 																echo number_format($budget_data->BUDGET,0);?>
 															</td>  
 													  		<?php } ?>                                           
@@ -308,7 +335,7 @@ function cal_days_in_year($dateToView){
 													
 													<?php for($month= 1; $month<=12; $month++ ){ ?>					
 													<td  <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>> 
-														 <?php $total_pnlcategorybymonth = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth($smartreport_pnlcategory->idpnlcategory, $user_ho, $month, $dateToView); 
+														 <?php $total_pnlcategorybymonth = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $month, $dateToView); 
 														 echo number_format($total_pnlcategorybymonth->TOTAL_PNLCATEGORYBYMONTH,0); ?>														
 													</td>
 													<?php } ?> 

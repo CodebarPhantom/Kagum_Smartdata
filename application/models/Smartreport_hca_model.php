@@ -327,7 +327,7 @@ class Smartreport_hca_model extends CI_Model
     }
 
     function getOccMTDByUser($startdate = NULL, $enddate = NULL,  $idhotels = NULL, $typecomp){
-        $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_MTDByUser");
+        $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_MTDByUser, sum(hc.room_sold) as room_sold, sum(ht.total_rooms) as tot_room  ");
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels and hc.date_analysis BETWEEN '$startdate' AND '$enddate'", "LEFT");
         $this->db->where(" ht.status = 'active' AND ht.parent = '$idhotels' AND ht.type_competitor ='$typecomp' ");

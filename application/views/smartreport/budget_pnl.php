@@ -348,12 +348,37 @@ function cal_days_in_year($dateToView){
 
 						<div class="tab-pane fade" id="right-pnl2">							
 							<form action="<?php echo base_url()?>smartreportpnl/insert_budget_pnl" method="post" accept-charset="utf-8" enctype="multipart/form-data">								
-								<div class="col-md-5">	
+								<div class="col-md-6">	
 									<div class="form-group">
 										<div class="row">
-											<div class="col-sm-6">
+										<?php if($user_le === '1' ){ ?>
+											<div class="col-md-4">
+												<div class="form-group">
+												<label><?php echo $lang_hotel ?></label>								
+													<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
+														<option value=""><?php echo $lang_choose_hotels; ?></option>
+														<?php $hotel = $idhotel_custom;
+															$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+															for ($p = 0; $p < count($hotelData); ++$p) {
+																$idhotel = $hotelData[$p]->idhotels;
+																$hotelname = $hotelData[$p]->hotels_name;?>
+														<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+															<?php echo $hotelname; ?>
+														</option>
+														<?php
+															unset($idhotel);
+															unset($hotelname);
+															}
+														?>
+													</select>									
+												</div>
+
+											</div>
+											<?php } ?> 
+											<div class="col-sm-4">
 												<label><?php echo $lang_month; ?></label>
 													<select name="month_budget" class="form-control" required>
+														<option  value="" >--  <?php echo $lang_select_month;?> --</option>
 														<option value="01">January</option>
 														<option value="02">February</option>
 														<option value="03">March</option>
@@ -368,9 +393,10 @@ function cal_days_in_year($dateToView){
 														<option value="12">December</option>
 													</select>
 											</div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-3">
 												<label><?php echo $lang_year ?></label>
 												<select name="year_budget" class="form-control" required>
+												<option value="">-- <?php echo $lang_select_year;?> --</option>
 													<?php
 														for($i=date('Y'); $i>=2018; $i--) {
 														$selected = '';
@@ -423,7 +449,33 @@ function cal_days_in_year($dateToView){
 
 						<div class="tab-pane fade" id="right-pnl3">
 							<form action="<?php echo base_url()?>smartreportpnl/add_budget_data_bypnl" method="post" accept-charset="utf-8">
-								<div class="col-md-7">	
+								<div class="col-md-7">
+								<?php if($user_le === '1' ){ ?>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"><strong><?php echo $lang_hotel; ?></strong></label>
+										<div class="col-lg-10">
+											<div class="input-group">												
+												<select name="idhotelcustom" class="form-control custom_select" required autocomplete="off">
+													<option value=""><?php echo $lang_choose_hotels; ?></option>
+													<?php $hotel = $idhotel_custom;
+														$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+														for ($p = 0; $p < count($hotelData); ++$p) {
+															$idhotel = $hotelData[$p]->idhotels;
+															$hotelname = $hotelData[$p]->hotels_name;?>
+													<option value="<?php echo $idhotel; ?>" <?php if ($hotel == $idhotel) {	echo 'selected="selected"';	} ?>>
+														<?php echo $hotelname; ?>
+													</option>
+													<?php
+														unset($idhotel);
+														unset($hotelname);
+														}
+													?>
+												</select>	
+											</div>
+										</div>
+									</div>
+									<?php } ?>
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2"><strong><?php echo $lang_month; ?></strong></label>
 										<div class="col-lg-10">

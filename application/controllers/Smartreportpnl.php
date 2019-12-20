@@ -375,9 +375,15 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_budget_pnl(){
         $user_level = $this->session->userdata('user_level');
+        $idhotels= $this->session->userdata('user_hotel');
         $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
         if($check_permission->num_rows() == 1){
-            $idhotels= $this->session->userdata('user_hotel');
+            
+            $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
+            if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
+                $getidhotel_custom = $idhotels; 
+            } 
+            
             $year_budget = $this->input->post('year_budget');
             $month_budget = $this->input->post('month_budget');
             $idpnl = $_POST['idpnl'];
@@ -389,15 +395,15 @@ class Smartreportpnl extends CI_Controller{
             foreach($idpnl as $idp ){       
         
                 if($idp != ''){
-                      $dt_pnl = $this->Smartreport_pnl_model->select_pnlbyiddate($idhotels,$idp,$date_budget)->num_rows();
+                      $dt_pnl = $this->Smartreport_pnl_model->select_pnlbyiddate($getidhotel_custom,$idp,$date_budget)->num_rows();
                     if($dt_pnl > 0){
-                      $this->Smartreport_pnl_model->delete_pnlbyiddate($idhotels,$idp,$date_budget);
+                      $this->Smartreport_pnl_model->delete_pnlbyiddate($getidhotel_custom,$idp,$date_budget);
                     }
                     array_push($data_budget,array(
                       //'idanalysis'=> $idhotels[$count_anl].str_replace("-","",$date_analysis),
                       'idpnl'=> $idpnl[$count_budget],
                       'budget_value'=>$budget_value[$count_budget],
-                      'idhotels'=>$idhotels,
+                      'idhotels'=>$getidhotel_custom,
                       'date_budget'=>$date_budget,
                       'date_created' => date("Y-m-d H:i:s")
                       
@@ -417,15 +423,20 @@ class Smartreportpnl extends CI_Controller{
 
     function add_budget_data_bypnl(){
         $user_level = $this->session->userdata('user_level');
+        $idhotels= $this->session->userdata('user_hotel');
         $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
         if($check_permission->num_rows() == 1){
         
-        $idhotels= $this->session->userdata('user_hotel');
+        $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
+        if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
+            $getidhotel_custom = $idhotels; 
+        } 
+        
         $year_budget = $this->input->post('year_budget' , TRUE);
         $month_budget = $this->input->post('month_budget', TRUE);
         $date_budget = $year_budget.'-'.$month_budget.'-'.'01'; 
         $idpnl = $this->input->post('idpnllist', TRUE);      
-        $data_budget = $this->Smartreport_pnl_model->select_budgetpnlbydate($idhotels,$idpnl,$date_budget);
+        $data_budget = $this->Smartreport_pnl_model->select_budgetpnlbydate($getidhotel_custom,$idpnl,$date_budget);
             if($data_budget->num_rows() > 0){
             $data = array(    
                 'idpnl'=>$idpnl,
@@ -435,7 +446,7 @@ class Smartreportpnl extends CI_Controller{
 
             }else{
             $data = array(       
-                'idhotels'=> $idhotels,
+                'idhotels'=> $getidhotel_custom,
                 'idpnl'=>$idpnl,
                 'budget_value'=>$this->input->post('budget_value', TRUE),
                 'date_budget'=>$date_budget,
@@ -547,9 +558,16 @@ class Smartreportpnl extends CI_Controller{
 
     function insert_actual_pnl(){
         $user_level = $this->session->userdata('user_level');
-        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);  
+        $idhotels= $this->session->userdata('user_hotel');  
         if($check_permission->num_rows() == 1){
-            $idhotels= $this->session->userdata('user_hotel');
+
+            $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
+            if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
+                $getidhotel_custom = $idhotels; 
+            } 
+
+            
             $year_actual = $this->input->post('year_actual');
             $month_actual = $this->input->post('month_actual');
             $idpnl = $_POST['idpnl'];
@@ -558,18 +576,20 @@ class Smartreportpnl extends CI_Controller{
             $data_actual = array();
             $count_actual = 0;
 
+            
+
             foreach($idpnl as $idp ){       
         
                 if($idp != ''){
-                      $dt_pnl = $this->Smartreport_actual_model->select_pnlbyiddate($idhotels,$idp,$date_actual)->num_rows();
+                      $dt_pnl = $this->Smartreport_actual_model->select_pnlbyiddate($getidhotel_custom,$idp,$date_actual)->num_rows();
                     if($dt_pnl > 0){
-                      $this->Smartreport_actual_model->delete_pnlbyiddate($idhotels,$idp,$date_actual);
+                      $this->Smartreport_actual_model->delete_pnlbyiddate($getidhotel_custom,$idp,$date_actual);
                     }
                     array_push($data_actual,array(
                       //'idanalysis'=> $idhotels[$count_anl].str_replace("-","",$date_analysis),
                       'idpnl'=> $idpnl[$count_actual],
                       'actual_value'=>$actual_value[$count_actual],
-                      'idhotels'=>$idhotels,
+                      'idhotels'=>$getidhotel_custom,
                       'date_actual'=>$date_actual,
                       'date_created' => date("Y-m-d H:i:s")
                       
@@ -590,15 +610,21 @@ class Smartreportpnl extends CI_Controller{
     
     function add_actual_data_bypnl(){
         $user_level = $this->session->userdata('user_level');
-        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);  
+        $idhotels= $this->session->userdata('user_hotel');  
         if($check_permission->num_rows() == 1){
+
+        $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
+        if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
+            $getidhotel_custom = $idhotels; 
+        } 
         
         $idhotels= $this->session->userdata('user_hotel');
         $year_actual = $this->input->post('year_actual' , TRUE);
         $month_actual = $this->input->post('month_actual', TRUE);
         $date_actual = $year_actual.'-'.$month_actual.'-'.'01'; 
         $idpnl = $this->input->post('idpnllist', TRUE);      
-        $data_actual = $this->Smartreport_actual_model->select_actualpnlbydate($idhotels,$idpnl,$date_actual);
+        $data_actual = $this->Smartreport_actual_model->select_actualpnlbydate($getidhotel_custom,$idpnl,$date_actual);
             if($data_actual->num_rows() > 0){
             $data = array(    
                 'idpnl'=>$idpnl,
@@ -608,7 +634,7 @@ class Smartreportpnl extends CI_Controller{
 
             }else{
             $data = array(       
-                'idhotels'=> $idhotels,
+                'idhotels'=> $getidhotel_custom,
                 'idpnl'=>$idpnl,
                 'actual_value'=>$this->input->post('actual_value', TRUE),
                 'date_actual'=>$date_actual,

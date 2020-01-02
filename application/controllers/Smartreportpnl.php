@@ -29,7 +29,8 @@ class Smartreportpnl extends CI_Controller{
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->helper('mydate');
-        $this->load->helper('text');      
+        $this->load->helper('text');
+        $this->load->library('pdfgenerator');      
     }
 
     function pnl_category(){
@@ -459,6 +460,36 @@ class Smartreportpnl extends CI_Controller{
         }else{
             redirect('errorpage/error403');
         } 
+    }
+
+    function budget_pnlpdf(){
+        //$user_level = $this->session->userdata('user_level');        
+        //$check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+        //if($check_permission->num_rows() == 1){
+          
+            $userHotelForBudget = $this->session->userdata('user_hotel');
+            $get_yearbudget = $this->input->get('year_budget', TRUE);
+            $get_idhotelcustom = $this->input->get('idhotelcustom', TRUE);
+            if($get_idhotelcustom == NULL){
+               $get_idhotelcustom = $userHotelForBudget; 
+            } 
+
+            $page_data['lang_pnl_budget'] = $this->lang->line('pnl_budget');
+            $smartreport_pnlcategory = $this->Smartreport_pnl_model->get_data_pnlcategory();
+            $page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
+            $page_data['dateToView'] = $get_yearbudget;
+            $page_data['idhotel_custom'] = $get_idhotelcustom;
+               
+            
+         
+    
+          $this->pdfgenerator->setPaper('A4', 'landscape');
+          $this->pdfgenerator->filename = "Report Budget.pdf";
+          $this->pdfgenerator->load_view('smartreport/pdf_budgetpnl', $page_data);
+          //$this->load->view('smartreport/pdf_budgetpnl',$page_data);
+       // }else{
+       //     redirect('errorpage/error403');
+        //}
     }
 
     function actual_pnl(){

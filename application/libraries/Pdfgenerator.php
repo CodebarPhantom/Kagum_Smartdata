@@ -20,7 +20,7 @@ class Pdfgenerator extends Dompdf{
     public $filename;
     public function __construct(){
         parent::__construct();
-        $this->filename = "laporan.pdf";
+        $this->filename = "eryan fauzan.pdf";
     }
     /**
      * Get an instance of CodeIgniter

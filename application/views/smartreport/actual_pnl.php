@@ -416,15 +416,27 @@ function cal_days_in_year($yearact){
 												$smartreport_pnllist_data = $this->Smartreport_actual_model->select_pnllist_percategory($smartreport_pnlcategory->idpnlcategory);
 												$grandtotal_pnlcategory = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $monthact, $yearact);
 												$grandtotal_pnlcategorybudget = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $monthact, $yearact);
+
+												$grandtotal_totalsalesactual= $this->Smartreport_actual_model->get_grandtotal_pnlcategory('2', $idhotel_custom, $monthact, $yearact);
+												$grandtotal_totalsalesbudget = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget('2', $idhotel_custom, $monthact, $yearact);
                                                 if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
 													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $lastyear); 
-													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $lastyear);                                                        
+													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $lastyear); 
+													
+													$grandtotal_totalsalesactual_lastmtd= $this->Smartreport_actual_model->get_grandtotal_pnlcategory('2', $idhotel_custom, $lastmonth, $lastyear);
+													$grandtotal_totalsalesbudget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget('2', $idhotel_custom, $lastmonth, $lastyear);
                                                 }else{
 													$grandtotal_pnlcategorylastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $yearact);   
-													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $yearact);   
+													$grandtotal_pnlcategorybudgetlastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget($smartreport_pnlcategory->idpnlcategory, $idhotel_custom, $lastmonth, $yearact);
+													
+													$grandtotal_totalsalesactual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('2', $idhotel_custom, $lastmonth, $yearact);
+													$grandtotal_totalsalesbudget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudget('2', $idhotel_custom, $lastmonth, $yearact);
                                                 } 
 												$grandtotal_pnlcategoryytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategoryytd($smartreport_pnlcategory->idpnlcategory, $idhotel_custom,$startdate_ytd, $enddate_ytd);
-												$grandtotal_pnlcategorybudgetytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudgetytd($smartreport_pnlcategory->idpnlcategory, $idhotel_custom,$startdate_ytd, $enddate_ytd);?>
+												$grandtotal_pnlcategorybudgetytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudgetytd($smartreport_pnlcategory->idpnlcategory, $idhotel_custom,$startdate_ytd, $enddate_ytd);
+												$grandtotal_totalsalesactual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategoryytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+												$grandtotal_totalsalesbudget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategorybudgetytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+												?>
                                                 
 											<tr >
 												<td <?php if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?> ><strong><?php echo $smartreport_pnlcategory->pnl_category;?></strong></td>	
@@ -450,10 +462,10 @@ function cal_days_in_year($yearact){
 														$total_budget_mtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $monthact, $yearact);
                                                         if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
 															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $lastyear);
-															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $lastyear);                                                        
+															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $lastyear);
                                                         }else{
 															$total_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $yearact);
-															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $yearact);   
+															$total_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget( $smartreport_pnllist->idpnl, $idhotel_custom, $lastmonth, $yearact);
                                                         }
 														$total_actual_ytd = $this->Smartreport_actual_model->get_total_actualytd( $smartreport_pnllist->idpnl, $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$total_budget_ytd = $this->Smartreport_actual_model->get_total_budgetytd( $smartreport_pnllist->idpnl, $idhotel_custom, $startdate_ytd, $enddate_ytd);?>
@@ -465,18 +477,143 @@ function cal_days_in_year($yearact){
                                                                 <?php echo number_format($total_actual_mtd->TOTAL_ACTUAL);?>	
                                                             </td>
 															<td class="rata-kanan">
-                                                                <?php if($smartreport_pnllist->idpnlcategory != 1){
+                                                                <?php if($smartreport_pnllist->idpnlcategory == 2){
 																	if($total_actual_mtd->TOTAL_ACTUAL !=0 && $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 ){
 																		echo number_format(($total_actual_mtd->TOTAL_ACTUAL/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
 																	}
-																}?>
+																}else if ($smartreport_pnllist->idpnlcategory == 6){
+																	$total_room_sales = $this->Smartreport_actual_model->get_total_actual('4', $idhotel_custom, $monthact, $yearact);
+																	$total_fnb_sales = $this->Smartreport_actual_model->get_total_actual('3', $idhotel_custom, $monthact, $yearact);
+																	$total_laundry_sales = $this->Smartreport_actual_model->get_total_actual('5', $idhotel_custom, $monthact, $yearact);
+																	$total_business_sales = $this->Smartreport_actual_model->get_total_actual('6', $idhotel_custom, $monthact, $yearact);
+																	$total_sport_sales = $this->Smartreport_actual_model->get_total_actual('24', $idhotel_custom, $monthact, $yearact);
+																	$total_spa_sales = $this->Smartreport_actual_model->get_total_actual('25', $idhotel_custom, $monthact, $yearact);
+
+																	$total_room_profit = $this->Smartreport_actual_model->get_total_actual('14', $idhotel_custom, $monthact, $yearact);
+																	$total_fnb_profit = $this->Smartreport_actual_model->get_total_actual('15', $idhotel_custom, $monthact, $yearact);
+																	$total_laundry_profit = $this->Smartreport_actual_model->get_total_actual('26', $idhotel_custom, $monthact, $yearact);
+																	$total_business_profit = $this->Smartreport_actual_model->get_total_actual('16', $idhotel_custom, $monthact, $yearact);
+																	$total_sport_profit = $this->Smartreport_actual_model->get_total_actual('27', $idhotel_custom, $monthact, $yearact);
+																	$total_spa_profit = $this->Smartreport_actual_model->get_total_actual('28', $idhotel_custom, $monthact, $yearact);
+
+																	if ($smartreport_pnllist->idpnl == 14){
+																		if ($total_room_profit->TOTAL_ACTUAL !=0 && $total_room_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_room_profit->TOTAL_ACTUAL / $total_room_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 15){
+																		if ($total_fnb_profit->TOTAL_ACTUAL !=0 && $total_fnb_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_fnb_profit->TOTAL_ACTUAL / $total_fnb_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 26){
+																		if ($total_laundry_profit->TOTAL_ACTUAL !=0 && $total_laundry_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_laundry_profit->TOTAL_ACTUAL / $total_laundry_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 16){
+																		if ($total_business_profit->TOTAL_ACTUAL !=0 && $total_business_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_business_profit->TOTAL_ACTUAL / $total_business_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 27){
+																		if ($total_sport_profit->TOTAL_ACTUAL !=0 && $total_sport_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_sport_profit->TOTAL_ACTUAL / $total_sport_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 28){
+																		if ($total_spa_profit->TOTAL_ACTUAL !=0 && $total_spa_sales->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_spa_profit->TOTAL_ACTUAL / $total_spa_sales->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}
+																}else if ($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																	if($total_actual_mtd->TOTAL_ACTUAL !=0 && $grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY !=0 ){
+																		echo number_format(($total_actual_mtd->TOTAL_ACTUAL/$grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																}
+																  ?>
                                                             </td>													
                                                             <td class="rata-kanan"><?php echo number_format($total_budget_mtd->TOTAL_BUDGET);?></td> 
-                                                            <td class="rata-kanan"><?php if($smartreport_pnllist->idpnlcategory != 1){
-																	if($total_budget_mtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY !=0 ){
-																		echo number_format(($total_budget_mtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+                                                            <td class="rata-kanan">
+																<?php 
+																	if($smartreport_pnllist->idpnlcategory == 2){
+																		if($total_budget_mtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_mtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnlcategory == 6){
+																		
+																		$total_room_sales = $this->Smartreport_actual_model->get_total_budget('4', $idhotel_custom, $monthact, $yearact);
+																		$total_fnb_sales = $this->Smartreport_actual_model->get_total_budget('3', $idhotel_custom, $monthact, $yearact);
+																		$total_laundry_sales = $this->Smartreport_actual_model->get_total_budget('5', $idhotel_custom, $monthact, $yearact);
+																		$total_business_sales = $this->Smartreport_actual_model->get_total_budget('6', $idhotel_custom, $monthact, $yearact);
+																		$total_sport_sales = $this->Smartreport_actual_model->get_total_budget('24', $idhotel_custom, $monthact, $yearact);
+																		$total_spa_sales = $this->Smartreport_actual_model->get_total_budget('25', $idhotel_custom, $monthact, $yearact);
+
+																		$total_room_profit = $this->Smartreport_actual_model->get_total_budget('14', $idhotel_custom, $monthact, $yearact);
+																		$total_fnb_profit = $this->Smartreport_actual_model->get_total_budget('15', $idhotel_custom, $monthact, $yearact);
+																		$total_laundry_profit = $this->Smartreport_actual_model->get_total_budget('26', $idhotel_custom, $monthact, $yearact);
+																		$total_business_profit = $this->Smartreport_actual_model->get_total_budget('16', $idhotel_custom, $monthact, $yearact);
+																		$total_sport_profit = $this->Smartreport_actual_model->get_total_budget('27', $idhotel_custom, $monthact, $yearact);
+																		$total_spa_profit = $this->Smartreport_actual_model->get_total_budget('28', $idhotel_custom, $monthact, $yearact);
+
+																		if ($smartreport_pnllist->idpnl == 14){
+																			if ($total_room_profit->TOTAL_BUDGET !=0 && $total_room_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_room_profit->TOTAL_BUDGET / $total_room_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 15){
+																			if ($total_fnb_profit->TOTAL_BUDGET !=0 && $total_fnb_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_fnb_profit->TOTAL_BUDGET / $total_fnb_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 26){
+																			if ($total_laundry_profit->TOTAL_BUDGET !=0 && $total_laundry_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_laundry_profit->TOTAL_BUDGET / $total_laundry_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 16){
+																			if ($total_business_profit->TOTAL_BUDGET !=0 && $total_business_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_business_profit->TOTAL_BUDGET / $total_business_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 27){
+																			if ($total_sport_profit->TOTAL_BUDGET !=0 && $total_sport_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_sport_profit->TOTAL_BUDGET / $total_sport_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 28){
+																			if ($total_spa_profit->TOTAL_BUDGET !=0 && $total_spa_sales->TOTAL_BUDGET !=0){
+																				echo number_format(($total_spa_profit->TOTAL_BUDGET / $total_spa_sales->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}
+																	}else if ($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																		if($total_budget_mtd->TOTAL_BUDGET !=0 && $grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_mtd->TOTAL_BUDGET/$grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
 																	}
-																}?>
+																?>
 															</td> 
 															<td class="rata-kanan">
 																<?php $variance_pnl = $total_actual_mtd->TOTAL_ACTUAL - $total_budget_mtd->TOTAL_BUDGET;
@@ -490,19 +627,168 @@ function cal_days_in_year($yearact){
                                                                 <?php echo number_format($total_actual_lastmtd->TOTAL_ACTUAL);?>	
                                                             </td>
 															<td class="rata-kanan">
-                                                                <?php if($smartreport_pnllist->idpnlcategory != 1){
+                                                                <?php if($smartreport_pnllist->idpnlcategory == 2){
 																	if($total_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
 																		echo number_format(($total_actual_lastmtd->TOTAL_ACTUAL/$grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 																	}
-																}?>
+																}else if ($smartreport_pnllist->idpnlcategory == 6){
+																	if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
+																		$total_room_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('4', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_fnb_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('3', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_laundry_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('5', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_business_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('6', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_sport_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('24', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_spa_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('25', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_room_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('14', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_fnb_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('15', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_laundry_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('26', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_business_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('16', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_sport_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('27', $idhotel_custom, $lastmonth, $lastyear);
+																		$total_spa_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('28', $idhotel_custom, $lastmonth, $lastyear);
+																	}else{
+																		$total_room_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('4', $idhotel_custom, $lastmonth, $yearact);
+																		$total_fnb_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('3', $idhotel_custom, $lastmonth, $yearact);
+																		$total_laundry_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('5', $idhotel_custom, $lastmonth, $yearact);
+																		$total_business_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('6', $idhotel_custom, $lastmonth, $yearact);
+																		$total_sport_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('24', $idhotel_custom, $lastmonth, $yearact);
+																		$total_spa_sales_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('25', $idhotel_custom, $lastmonth, $yearact);
+																		$total_room_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('14', $idhotel_custom, $lastmonth, $yearact);
+																		$total_fnb_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('15', $idhotel_custom, $lastmonth, $yearact);
+																		$total_laundry_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('26', $idhotel_custom, $lastmonth, $yearact);
+																		$total_business_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('16', $idhotel_custom, $lastmonth, $yearact);
+																		$total_sport_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('27', $idhotel_custom, $lastmonth, $yearact);
+																		$total_spa_profit_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('28', $idhotel_custom, $lastmonth, $yearact);
+																	}
+
+																	if ($smartreport_pnllist->idpnl == 14){
+																		if ($total_room_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_room_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_room_profit_actual_lastmtd->TOTAL_ACTUAL / $total_room_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 15){
+																		if ($total_fnb_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_fnb_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_fnb_profit_actual_lastmtd->TOTAL_ACTUAL / $total_fnb_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 26){
+																		if ($total_laundry_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_laundry_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_laundry_profit_actual_lastmtd->TOTAL_ACTUAL / $total_laundry_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 16){
+																		if ($total_business_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_business_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_business_profit_actual_lastmtd->TOTAL_ACTUAL / $total_business_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 27){
+																		if ($total_sport_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_sport_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_sport_profit_actual_lastmtd->TOTAL_ACTUAL / $total_sport_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnl == 28){
+																		if ($total_spa_profit_actual_lastmtd->TOTAL_ACTUAL !=0 && $total_spa_sales_actual_lastmtd->TOTAL_ACTUAL !=0){
+																			echo number_format(($total_spa_profit_actual_lastmtd->TOTAL_ACTUAL / $total_spa_sales_actual_lastmtd->TOTAL_ACTUAL)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}
+																}else if($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																	if($total_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_totalsalesactual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																		echo number_format(($total_actual_lastmtd->TOTAL_ACTUAL/$grandtotal_totalsalesactual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																} ?>
                                                             </td>													
                                                             <td class="rata-kanan"><?php echo number_format($total_budget_lastmtd->TOTAL_BUDGET);?>	</td> 
                                                             <td class="rata-kanan">
-																<?php if($smartreport_pnllist->idpnlcategory != 1){
-																	if($total_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
-																		echo number_format(($total_budget_lastmtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																<?php 
+																	if($smartreport_pnllist->idpnlcategory == 2){
+																		if($total_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_lastmtd->TOTAL_BUDGET/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if($smartreport_pnllist->idpnlcategory == 6){
+																		if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
+																			$total_room_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('4', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_fnb_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('3', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_laundry_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('5', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_business_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('6', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_sport_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('24', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_spa_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('25', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_room_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('14', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_fnb_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('15', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_laundry_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('26', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_business_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('16', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_sport_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('27', $idhotel_custom, $lastmonth, $lastyear);
+																			$total_spa_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('28', $idhotel_custom, $lastmonth, $lastyear);
+																		}else{
+																			$total_room_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('4', $idhotel_custom, $lastmonth, $yearact);
+																			$total_fnb_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('3', $idhotel_custom, $lastmonth, $yearact);
+																			$total_laundry_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('5', $idhotel_custom, $lastmonth, $yearact);
+																			$total_business_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('6', $idhotel_custom, $lastmonth, $yearact);
+																			$total_sport_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('24', $idhotel_custom, $lastmonth, $yearact);
+																			$total_spa_sales_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('25', $idhotel_custom, $lastmonth, $yearact);
+																			$total_room_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('14', $idhotel_custom, $lastmonth, $yearact);
+																			$total_fnb_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('15', $idhotel_custom, $lastmonth, $yearact);
+																			$total_laundry_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('26', $idhotel_custom, $lastmonth, $yearact);
+																			$total_business_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('16', $idhotel_custom, $lastmonth, $yearact);
+																			$total_sport_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('27', $idhotel_custom, $lastmonth, $yearact);
+																			$total_spa_profit_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('28', $idhotel_custom, $lastmonth, $yearact);
+																			
+																		}
+
+																		if ($smartreport_pnllist->idpnl == 14){
+																			if ($total_room_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_room_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_room_profit_budget_lastmtd->TOTAL_BUDGET / $total_room_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 15){
+																			if ($total_fnb_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_fnb_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_fnb_profit_budget_lastmtd->TOTAL_BUDGET / $total_fnb_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 26){
+																			if ($total_laundry_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_laundry_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_laundry_profit_budget_lastmtd->TOTAL_BUDGET / $total_laundry_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 16){
+																			if ($total_business_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_business_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_business_profit_budget_lastmtd->TOTAL_BUDGET / $total_business_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 27){
+																			if ($total_sport_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_sport_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_sport_profit_budget_lastmtd->TOTAL_BUDGET / $total_sport_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 28){
+																			if ($total_spa_profit_budget_lastmtd->TOTAL_BUDGET !=0 && $total_spa_sales_budget_lastmtd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_spa_profit_budget_lastmtd->TOTAL_BUDGET / $total_spa_sales_budget_lastmtd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}
+																	}else if($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																		if($total_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_totalsalesbudget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_lastmtd->TOTAL_BUDGET/$grandtotal_totalsalesbudget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
 																	}
-																}?>
+																?>
 															</td> 
 															<td class="rata-kanan">
 																<?php $variance_pnllastmtd = $total_actual_lastmtd->TOTAL_ACTUAL - $total_budget_lastmtd->TOTAL_BUDGET;
@@ -513,7 +799,8 @@ function cal_days_in_year($yearact){
 
 															<!--START YTD-->
                                                             <td class="rata-kanan">
-                                                                        <?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
+																		<?php 
+																		if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
 																			if($trr_actual_ytd->TOTAL_ACTUAL!=0 && $rs_actual_ytd->TOTAL_ACTUAL !=0){
 																				$arr_actual_ytd = $trr_actual_ytd->TOTAL_ACTUAL/$rs_actual_ytd->TOTAL_ACTUAL;
 																				echo number_format($arr_actual_ytd,0);
@@ -523,11 +810,72 @@ function cal_days_in_year($yearact){
                                                                         }?>	
                                                             </td>
 															<td class="rata-kanan">
-                                                                <?php if($smartreport_pnllist->idpnlcategory != 1){
+																<?php 
+																if($smartreport_pnllist->idpnlcategory == 2){
 																	if($total_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY !=0 ){
 																		echo number_format(($total_actual_ytd->TOTAL_ACTUAL/$grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
 																	}
-																}?>
+																}else if($smartreport_pnllist->idpnlcategory == 6){
+																		$total_room_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_fnb_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('3', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_laundry_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('5', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_business_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('6', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_sport_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('24', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_spa_sales_ytd = $this->Smartreport_actual_model->get_total_actualytd('25', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+
+																		$total_room_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('14', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_fnb_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('15', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_laundry_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('26', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_business_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('16', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_sport_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('27', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_spa_profit_ytd = $this->Smartreport_actual_model->get_total_actualytd('28', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+
+																		if ($smartreport_pnllist->idpnl == 14){
+																			if ($total_room_profit_ytd->TOTAL_ACTUAL !=0 && $total_room_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_room_profit_ytd->TOTAL_ACTUAL / $total_room_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 15){
+																			if ($total_fnb_profit_ytd->TOTAL_ACTUAL !=0 && $total_fnb_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_fnb_profit_ytd->TOTAL_ACTUAL / $total_fnb_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 26){
+																			if ($total_laundry_profit_ytd->TOTAL_ACTUAL !=0 && $total_laundry_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_laundry_profit_ytd->TOTAL_ACTUAL / $total_laundry_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 16){
+																			if ($total_business_profit_ytd->TOTAL_ACTUAL !=0 && $total_business_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_business_profit_ytd->TOTAL_ACTUAL / $total_business_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 27){
+																			if ($total_sport_profit_ytd->TOTAL_ACTUAL !=0 && $total_sport_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_sport_profit_ytd->TOTAL_ACTUAL / $total_sport_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 28){
+																			if ($total_spa_profit_ytd->TOTAL_ACTUAL !=0 && $total_spa_sales_ytd->TOTAL_ACTUAL !=0){
+																				echo number_format(($total_spa_profit_ytd->TOTAL_ACTUAL / $total_spa_sales_ytd->TOTAL_ACTUAL)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}
+																}else if($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																	if($total_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																		echo number_format(($total_actual_ytd->TOTAL_ACTUAL/$grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																} ?>
                                                             </td>													
                                                             <td class="rata-kanan"><?php if($smartreport_pnllist->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri																			
 																			if($trr_budget_ytd->TOTAL_BUDGET!=0 && $rs_budget_ytd->TOTAL_BUDGET !=0){
@@ -541,19 +889,79 @@ function cal_days_in_year($yearact){
 																		}?>	
 															</td> 
                                                             <td class="rata-kanan">
-																<?php if($smartreport_pnllist->idpnlcategory != 1){
-																	if($total_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY !=0 ){
-																		echo number_format(($total_budget_ytd->TOTAL_BUDGET/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																<?php if($smartreport_pnllist->idpnlcategory == 2){
+																		if($total_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_ytd->TOTAL_BUDGET/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+																	}else if ($smartreport_pnllist->idpnlcategory == 6){
+																		$total_room_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_fnb_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('3', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_laundry_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('5', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_business_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('6', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_sport_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('24', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_spa_sales_ytd = $this->Smartreport_actual_model->get_total_budgetytd('25', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+
+																		$total_room_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('14', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_fnb_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('15', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_laundry_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('26', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_business_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('16', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_sport_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('27', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+																		$total_spa_profit_ytd = $this->Smartreport_actual_model->get_total_budgetytd('28', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+
+																		if ($smartreport_pnllist->idpnl == 14){
+																			if ($total_room_profit_ytd->TOTAL_BUDGET !=0 && $total_room_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_room_profit_ytd->TOTAL_BUDGET / $total_room_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 15){
+																			if ($total_fnb_profit_ytd->TOTAL_BUDGET !=0 && $total_fnb_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_fnb_profit_ytd->TOTAL_BUDGET / $total_fnb_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 26){
+																			if ($total_laundry_profit_ytd->TOTAL_BUDGET !=0 && $total_laundry_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_laundry_profit_ytd->TOTAL_BUDGET / $total_laundry_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 16){
+																			if ($total_business_profit_ytd->TOTAL_BUDGET !=0 && $total_business_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_business_profit_ytd->TOTAL_BUDGET / $total_business_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 27){
+																			if ($total_sport_profit_ytd->TOTAL_BUDGET !=0 && $total_sport_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_sport_profit_ytd->TOTAL_BUDGET / $total_sport_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}else if ($smartreport_pnllist->idpnl == 28){
+																			if ($total_spa_profit_ytd->TOTAL_BUDGET !=0 && $total_spa_sales_ytd->TOTAL_BUDGET !=0){
+																				echo number_format(($total_spa_profit_ytd->TOTAL_BUDGET / $total_spa_sales_ytd->TOTAL_BUDGET)*100,2).'%';
+																			}else{
+																				echo '0%';
+																			}
+																		}
+																	}else if ($smartreport_pnllist->idpnlcategory !=1 && $smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=6 ){
+																		if($total_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_totalsalesbudget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+																			echo number_format(($total_budget_ytd->TOTAL_BUDGET/$grandtotal_totalsalesbudget_ytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
 																	}
-																}?>
+																?>
 															</td> 
 															<td class="rata-kanan">
 																<?php if($smartreport_pnllist->idpnl == 1){ 
 																	if($total_rooms->total_rooms != 0){$variance_pnlytd = $arr_actual_ytd - $arr_budget_ytd;}
 																}else{
 																	$variance_pnlytd = $total_actual_ytd->TOTAL_ACTUAL - $total_budget_ytd->TOTAL_BUDGET;
-																}
-																
+																}																
 																($variance_pnlytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
 																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_pnlytd,0); ?></div>
 															</td>
@@ -562,32 +970,129 @@ function cal_days_in_year($yearact){
                                                         </tr>
 												<?php } ?>
 												<tr>
-													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?>"><strong><?php echo "TOTAL ".$smartreport_pnlcategory->pnl_category;?></strong></td>
-                                                    
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY,0);?></td>
-													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY,0);?></td>
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategory = $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY;
-																																													($variance_grandtotal_pnlcategory <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategory,0); ?></div></td>	
+													<!--START TOTAL MTD-->
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?>"><strong><?php echo "TOTAL ".$smartreport_pnlcategory->pnl_category;?></strong></td>                                                    
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><?php echo number_format($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY,0);?></td>
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>>
+														<?php  
+															if($smartreport_pnllist->idpnlcategory == 2){
+																if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																}else{
+																	echo '0%';
+																}
+															}else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY != 0){
+																	echo number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																}else{
+																	echo '0%';
+																}
+															} ?>
+													</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><?php echo number_format($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY,0);?></td>
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>>
+														<?php  
+															if($smartreport_pnllist->idpnlcategory == 2){
+																if($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY != 0){
+																	echo number_format(($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																}else{
+																	echo '0%';
+																}
+															}else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																if($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY != 0){
+																	echo number_format(($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																}else{
+																	echo '0%';
+																}
+															} 
+														?>
+													</td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php 	
+															$variance_grandtotal_pnlcategory = $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY;
+															($variance_grandtotal_pnlcategory <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
+														?>
+															<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategory,0); ?></div>
+													</td>
+													<!--END TOTAL MTD-->
 
+													<!--START TOTAL LAST MTD-->
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
-													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php  if($smartreport_pnllist->idpnlcategory == 2){
+																	if($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																}else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																	if($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesactual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesactual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																		
+																}	?></td>	
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategorylastmtd = $grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY;
-																																													($variance_grandtotal_pnlcategorylastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategorylastmtd,0); ?></div></td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php  
+														if($smartreport_pnllist->idpnlcategory == 2){
+															if($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+															}else{
+																echo '0%';
+															}
+														}else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																if($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesbudget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesbudget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																}else{
+																	echo '0%';
+																}
+														}	 ?>
+													</td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php 	$variance_grandtotal_pnlcategorylastmtd = $grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY;
+																($variance_grandtotal_pnlcategorylastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategorylastmtd,0); ?></div>
+													</td>	
+													<!--END TOTAL LAST MTD-->
 
+													<!--START TOTAL YTD-->		
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
-													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php  if($smartreport_pnllist->idpnlcategory == 2){  
+																	if($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																}else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																	if($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																	}else{
+																		echo '0%';
+																	}
+																}?></td>	
                                                     <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php if($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php 	$variance_grandtotal_pnlcategoryytd = $grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY;
-																																													($variance_grandtotal_pnlcategoryytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-																																													<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategoryytd,0); ?></div></td>	
-													
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php  if($smartreport_pnllist->idpnlcategory == 2){
+																	if($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+															 }else if($smartreport_pnllist->idpnlcategory !=2 && $smartreport_pnllist->idpnlcategory !=1){
+																	if($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_totalsalesbudget_ytd->GRANDTOTAL_PNLCATEGORY != 0){
+																		echo number_format(($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsalesbudget_ytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																		}else{
+																			echo '0%';
+																		}
+															 } ?></td>	
+													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<?php $variance_grandtotal_pnlcategoryytd = $grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY;
+																($variance_grandtotal_pnlcategoryytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
+																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategoryytd,0); ?></div>
+													</td>	
+													<!--END TOTAL YTD-->
 												</tr>	
 											<?php } ?>			
 									</tbody>
@@ -771,7 +1276,7 @@ function cal_days_in_year($yearact){
 											<select name="idpnlcategory" class="form-control" required id="categorypnl" autocomplete="off">
 													<option value=""><?php echo $lang_choose_pnl_category; ?></option>
 												<?php
-													$pnlcategoryData = $this->Smartreport_pnl_model->getDataAll('smartreport_pnlcategory', 'idpnlcategory', 'ASC');
+													$pnlcategoryData = $this->Smartreport_actual_model->getDataAll('smartreport_pnlcategory', 'idpnlcategory', 'ASC');
 													for ($p = 0; $p < count($pnlcategoryData); ++$p) {
 														$idpnlcategory = $pnlcategoryData[$p]->idpnlcategory;
 														$pnlcategoryname = $pnlcategoryData[$p]->pnl_category;?>

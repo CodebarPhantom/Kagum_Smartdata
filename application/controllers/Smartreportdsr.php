@@ -108,6 +108,7 @@ class Smartreportdsr extends CI_Controller{
         $page_data['lang_fnb'] = $this->lang->line('fnb');
         $page_data['lang_other'] = $this->lang->line('other');
         $page_data['lang_laundry'] = $this->lang->line('laundry');
+        $page_data['lang_spa'] = $this->lang->line('spa');
         $page_data['lang_total_sales'] = $this->lang->line('total_sales');
         $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
         $page_data['lang_outoforder'] = $this->lang->line('outoforder');

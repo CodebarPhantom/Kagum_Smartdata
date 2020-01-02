@@ -259,6 +259,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['fnb'] = 'Food & Beverage';
     $lang['other'] = 'Others';
     $lang['laundry'] = 'Laundry';
+    $lang['spa'] = 'SPA';
     $lang['total_sales'] = 'TOTAL SALES';
     $lang['today'] = 'Today';
     $lang['actual'] = 'Actual';

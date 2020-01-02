@@ -270,6 +270,38 @@ class Smartreport_pnl_model extends CI_Model
         $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='6'   AND MONTH(sb.date_budget) BETWEEN '01' AND '$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
         return $this->db->get()->row();
     }
+
+    function get_sport_budget($idhotels, $month, $year){
+        $this->db->select("sum(sb.budget_value) as BUDGET_SPORT");
+        $this->db->from("smartreport_budget as sb");
+        $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
+        $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='24'  AND MONTH(sb.date_budget) ='$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
+        return $this->db->get()->row();
+    }
+
+    function get_sport_budgetytd($idhotels, $month, $year){
+        $this->db->select("sum(sb.budget_value) as BUDGET_SPORTYTD");
+        $this->db->from("smartreport_budget as sb");
+        $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
+        $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='24'   AND MONTH(sb.date_budget) BETWEEN '01' AND '$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
+        return $this->db->get()->row();
+    }
+
+    function get_spa_budget($idhotels, $month, $year){
+        $this->db->select("sum(sb.budget_value) as BUDGET_SPA");
+        $this->db->from("smartreport_budget as sb");
+        $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
+        $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='25'  AND MONTH(sb.date_budget) ='$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
+        return $this->db->get()->row();
+    }
+
+    function get_spa_budgetytd($idhotels, $month, $year){
+        $this->db->select("sum(sb.budget_value) as BUDGET_SPAYTD");
+        $this->db->from("smartreport_budget as sb");
+        $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
+        $this->db->where(" sp.idpnlcategory= '2' AND sb.idpnl='25'   AND MONTH(sb.date_budget) BETWEEN '01' AND '$month' AND YEAR(sb.date_budget) = '$year' AND sb.idhotels = '$idhotels'");
+        return $this->db->get()->row();
+    }
     /* END- UNTUK DSR ambil dari BUDGET */
     
     function get_sub_category($idpnlcategory){

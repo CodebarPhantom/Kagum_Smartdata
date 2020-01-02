@@ -315,6 +315,8 @@ if ($dateToView == '1970-01-01') {
                                             $budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
                                             $budget_other =  $this->Smartreport_pnl_model->get_other_budget($smartreport_hotelbrand->idhotels,$permonth, $peryear);
                                             $budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
+                                            $budget_sport =  $this->Smartreport_pnl_model->get_sport_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
+                                            $budget_spa =  $this->Smartreport_pnl_model->get_spa_budget($smartreport_hotelbrand->idhotels, $permonth, $peryear);
 
                                             /* Mulai -  Hitung Room Sold*/	
                                             $rs_mtd = 0; $ri_mtd = 0;	 $arr_mtd = 0;
@@ -379,11 +381,13 @@ if ($dateToView == '1970-01-01') {
                                                 $getbudget_laundrymtd = ($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$perdate;
                                                 $getbudget_othermtd = ($budget_other->BUDGET_OTHER/$days_this_month)*$perdate;
                                                 $getbudget_fnbmtd = ($budget_fnb->BUDGET_FNB/$days_this_month)*$perdate;
+                                                $getbudget_sportmtd = ($budget_sport->BUDGET_SPORT/$days_this_month)*$perdate;
+                                                $getbudget_spamtd = ($budget_spa->BUDGET_SPA/$days_this_month)*$perdate;
 
                                                 $trr_today = $rs_today * $arr_today;
                                                 $tot_sales_today = $trr_today + $fnb_today + $oth_today;
                                                 $tot_sales_mtd = $trr_mtd + $fnb_mtd + $oth_mtd;
-                                                $totalbudget_mtd = $getbudget_roomsmtd+$getbudget_fnbmtd+$getbudget_laundrymtd+$getbudget_othermtd;
+                                                $totalbudget_mtd = $getbudget_roomsmtd+$getbudget_fnbmtd+$getbudget_laundrymtd+$getbudget_othermtd+$getbudget_sportmtd+$getbudget_spamtd;
                                                 
                                             ?>
                                         <tr>

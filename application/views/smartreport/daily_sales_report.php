@@ -275,6 +275,8 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                                    $budget_fnb =  $this->Smartreport_pnl_model->get_fnb_budget($idhotel_custom, $permonth, $peryear);
                                    $budget_other =  $this->Smartreport_pnl_model->get_other_budget($idhotel_custom, $permonth, $peryear);
                                    $budget_laundry =  $this->Smartreport_pnl_model->get_laundry_budget($idhotel_custom, $permonth, $peryear);
+                                   $budget_sport =  $this->Smartreport_pnl_model->get_sport_budget($idhotel_custom, $permonth, $peryear);
+                                   $budget_spa =  $this->Smartreport_pnl_model->get_spa_budget($idhotel_custom, $permonth, $peryear);
                                    
                                    $budget_roomsoldytd = $this->Smartreport_pnl_model->get_roomsold_budgetytd($idhotel_custom, $lastmtd, $peryear);
                                    $budget_guestytd = $this->Smartreport_pnl_model->get_guest_budgetytd($idhotel_custom, $lastmtd, $peryear);
@@ -283,6 +285,8 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                                    $budget_fnbytd = $this->Smartreport_pnl_model->get_fnb_budgetytd($idhotel_custom, $lastmtd, $peryear);
                                    $budget_otherytd = $this->Smartreport_pnl_model->get_other_budgetytd($idhotel_custom, $lastmtd, $peryear);
                                    $budget_laundryytd = $this->Smartreport_pnl_model->get_laundry_budgetytd($idhotel_custom, $lastmtd, $peryear);
+                                   $budget_sportytd = $this->Smartreport_pnl_model->get_sport_budgetytd($idhotel_custom, $lastmtd, $peryear);
+                                   $budget_spaytd = $this->Smartreport_pnl_model->get_spa_budgetytd($idhotel_custom, $lastmtd, $peryear);
 
                                    $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$perdate;
 
@@ -301,10 +305,18 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                                    $getbudget_othernow = $budget_other->BUDGET_OTHER/$days_this_month; 
                                    $getbudget_othermtd = ($budget_other->BUDGET_OTHER/$days_this_month)*$perdate;
                                    $getbudget_otherytd = $budget_otherytd->BUDGET_OTHERYTD+($budget_other->BUDGET_OTHER/$days_this_month)*$perdate;
+
+                                   $getbudget_sportnow = $budget_sport->BUDGET_SPORT/$days_this_month; 
+                                   $getbudget_sportmtd = ($budget_sport->BUDGET_SPORT/$days_this_month)*$perdate;
+                                   $getbudget_sportytd = $budget_sportytd->BUDGET_SPORTYTD+($budget_sport->BUDGET_SPORT/$days_this_month)*$perdate;
+
+                                   $getbudget_spanow = $budget_spa->BUDGET_SPA/$days_this_month; 
+                                   $getbudget_spamtd = ($budget_spa->BUDGET_SPA/$days_this_month)*$perdate;
+                                   $getbudget_spaytd = $budget_spaytd->BUDGET_SPAYTD+($budget_spa->BUDGET_SPA/$days_this_month)*$perdate;
                                    
-                                   $totalbudget_now = $getbudget_roomsnow+$getbudget_fnbnow+$getbudget_laundrynow+$getbudget_othernow;
-                                   $totalbudget_mtd = $getbudget_roomsmtd+$getbudget_fnbmtd+$getbudget_laundrymtd+$getbudget_othermtd;
-                                   $totalbudget_ytd = $getbudget_roomsytd+$getbudget_fnbytd+$getbudget_laundryytd+$getbudget_otherytd;
+                                   $totalbudget_now = $getbudget_roomsnow+$getbudget_fnbnow+$getbudget_laundrynow+$getbudget_othernow+$getbudget_sportnow+$getbudget_spanow;
+                                   $totalbudget_mtd = $getbudget_roomsmtd+$getbudget_fnbmtd+$getbudget_laundrymtd+$getbudget_othermtd+$getbudget_sportmtd+$getbudget_spamtd;
+                                   $totalbudget_ytd = $getbudget_roomsytd+$getbudget_fnbytd+$getbudget_laundryytd+$getbudget_otherytd+$getbudget_sportytd+$getbudget_spaytd;
                                 ?>
 
                 <tr>
@@ -569,32 +581,32 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                     </td>
                 </tr>
 
-                <!--Laundry & Other-->
+                <!--Laundry & Other & SPA-->
                 <tr>
-                    <td>&emsp;&emsp;<?php echo $lang_other.' + '.$lang_laundry; ?></td>
+                    <td>&emsp;&emsp;<?php echo $lang_other.' + '.$lang_laundry.' + '.$lang_spa; ?></td>
 
                     <td><?php echo number_format($oth_today);?></td>
                     <td><?php if($oth_today != 0 && $tot_sales_today != 0){ echo number_format(($oth_today/$tot_sales_today)*100,2).'%';}?>
                     </td>
 
-                    <td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
-                    <td><?php if ($totalbudget_now != 0 && $getbudget_othernow !=0 && $getbudget_laundrynow){echo number_format((($getbudget_laundrynow+$getbudget_othernow)/$totalbudget_now)*100,2).'%';}?>
+                    <td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow+$getbudget_sportnow+$getbudget_spanow);?></td>
+                    <td><?php if ($totalbudget_now != 0 ){echo number_format((($getbudget_laundrynow+$getbudget_othernow+$getbudget_sportnow+$getbudget_spanow)/$totalbudget_now)*100,2).'%';}?>
                     </td>
 
                     <td><?php echo number_format($oth_mtd);?></td>
                     <td><?php if($oth_mtd != 0 && $tot_sales_mtd != 0){ echo number_format(($oth_mtd/$tot_sales_mtd)*100,2).'%';}?>
                     </td>
 
-                    <td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd);?></td>
-                    <td><?php if ($totalbudget_mtd != 0 && $getbudget_othermtd !=0 && $getbudget_laundrymtd){echo number_format((($getbudget_laundrymtd+$getbudget_othermtd)/$totalbudget_mtd)*100,2).'%';}?>
+                    <td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd+$getbudget_sportmtd+$getbudget_spamtd);?></td>
+                    <td><?php if ($totalbudget_mtd != 0 ){echo number_format((($getbudget_laundrymtd+$getbudget_othermtd+$getbudget_sportmtd+$getbudget_spamtd)/$totalbudget_mtd)*100,2).'%';}?>
                     </td>
 
                     <td><?php echo number_format($oth_ytd);?></td>
                     <td><?php if($oth_ytd != 0 && $tot_sales_ytd != 0){ echo number_format(($oth_ytd/$tot_sales_ytd)*100,2).'%';}?>
                     </td>
 
-                    <td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
-                    <td><?php if ($totalbudget_ytd != 0 && $getbudget_otherytd !=0 && $getbudget_laundryytd){echo number_format((($getbudget_laundryytd+$getbudget_otherytd)/$totalbudget_ytd)*100,2).'%';}?>
+                    <td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd+$getbudget_sportytd+$getbudget_spaytd);?></td>
+                    <td><?php if ($totalbudget_ytd != 0  ){echo number_format((($getbudget_laundryytd+$getbudget_otherytd+$getbudget_sportytd+$getbudget_spaytd)/$totalbudget_ytd)*100,2).'%';}?>
                     </td>
                 </tr>
 
@@ -668,7 +680,7 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label><?php echo $lang_other.' + '.$lang_laundry; ?></label>
+                                <label><?php echo $lang_other.' + '.$lang_laundry.' + '.$lang_spa; ?></label>
                                 <input type="text"
                                     oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');"
                                     name="dsr_other" class="form-control" required>

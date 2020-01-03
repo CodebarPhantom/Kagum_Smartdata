@@ -184,7 +184,7 @@
 												<select name="idhotel" class="form-control" required autocomplete="off">
 													<option value=""><?php echo $lang_choose_hotels; ?></option>
 												<?php
-													$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+													$hotelData = $this->Smartreport_hotels_model->getDataHotelParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
 													for ($p = 0; $p < count($hotelData); ++$p) {
 														$idhotel = $hotelData[$p]->idhotels;
 														$hotelname = $hotelData[$p]->hotels_name;?>
@@ -306,7 +306,7 @@
 													<option value=""><?php echo $lang_choose_hotels; ?></option>
 												<?php
 													$hotel = $smartreport_users->idhotels;
-													$hotelData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+													$hotelData = $this->Smartreport_hotels_model->getDataHotelParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
 													for ($p = 0; $p < count($hotelData); ++$p) {
 														$idhotel = $hotelData[$p]->idhotels;
 														$hotelname = $hotelData[$p]->hotels_name;?>

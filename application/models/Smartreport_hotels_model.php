@@ -62,6 +62,15 @@ class Smartreport_hotels_model extends CI_Model
         return $result;
     }
 
+    public function getDataHotelParent($table, $order_column, $parent, $order_type ){
+        $this->db->where("parent = '$parent'");
+        $this->db->order_by("$order_column", "$order_type");
+        $query = $this->db->get("$table");
+        $result = $query->result();
+        $this->db->save_queries = false;
+        return $result;
+    }
+
     // get total rows
     function total_rows_hotels($q = NULL) {
         $this->db->select('h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created');       

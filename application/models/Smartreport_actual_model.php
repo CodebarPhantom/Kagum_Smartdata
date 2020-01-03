@@ -67,21 +67,21 @@ class Smartreport_actual_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    function get_total_actualytd($idpnl, $idhotels, $startdate_ytd, $enddate_ytd ){ 
+    function get_total_actual_ytd($idpnl, $idhotels, $startdate_ytd, $enddate_ytd ){ 
         $this->db->select("sum(actual_value) as TOTAL_ACTUAL");
         $this->db->from("smartreport_actual");
         $this->db->where("idpnl ='$idpnl' AND date_actual BETWEEN '$startdate_ytd' AND '$enddate_ytd' AND idhotels = '$idhotels'");
         return $this->db->get()->row();
     }
 
-    function get_total_budgetytd($idpnl, $idhotels, $startdate_ytd, $enddate_ytd ){ 
+    function get_total_budget_ytd($idpnl, $idhotels, $startdate_ytd, $enddate_ytd ){ 
         $this->db->select("sum(budget_value) as TOTAL_BUDGET");
         $this->db->from("smartreport_budget");
         $this->db->where("idpnl ='$idpnl' AND date_budget BETWEEN '$startdate_ytd' AND '$enddate_ytd' AND idhotels = '$idhotels'");
         return $this->db->get()->row();
     }
 
-    function get_grandtotal_pnlcategory($idpnlcategory, $idhotels, $month, $year){ 
+    function get_grandtotal_pnlcategory_actual($idpnlcategory, $idhotels, $month, $year){ 
         $this->db->select("sum(sb.actual_value) as GRANDTOTAL_PNLCATEGORY");
         $this->db->from("smartreport_actual as sb");
         $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
@@ -97,7 +97,7 @@ class Smartreport_actual_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    function get_grandtotal_pnlcategoryytd($idpnlcategory, $idhotels, $startdate_ytd, $enddate_ytd){ 
+    function get_grandtotal_pnlcategory_actual_ytd($idpnlcategory, $idhotels, $startdate_ytd, $enddate_ytd){ 
         $this->db->select("sum(sb.actual_value) as GRANDTOTAL_PNLCATEGORY");
         $this->db->from("smartreport_actual as sb");
         $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");
@@ -113,7 +113,7 @@ class Smartreport_actual_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    function get_grandtotal_pnlcategorybudgetytd($idpnlcategory, $idhotels, $startdate_ytd, $enddate_ytd){ 
+    function get_grandtotal_pnlcategory_budget_ytd($idpnlcategory, $idhotels, $startdate_ytd, $enddate_ytd){ 
         $this->db->select("sum(sb.budget_value) as GRANDTOTAL_PNLCATEGORY");
         $this->db->from("smartreport_budget as sb");
         $this->db->join("smartreport_pnllist as sp", "sb.idpnl = sp.idpnl", "left");

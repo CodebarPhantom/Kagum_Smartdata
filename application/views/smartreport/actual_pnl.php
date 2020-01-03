@@ -972,8 +972,9 @@ function cal_days_in_year($yearact){
 												<tr>
 													<!--START TOTAL MTD-->
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";} ?>"><strong><?php echo "TOTAL ".$smartreport_pnlcategory->pnl_category;?></strong></td>                                                    
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><?php echo number_format($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY,0);?></td>
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><strong><?php echo number_format($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>>
+														<strong>
 														<?php  
 															if($smartreport_pnllist->idpnlcategory == 2){
 																if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0){echo number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
@@ -987,9 +988,11 @@ function cal_days_in_year($yearact){
 																	echo '0%';
 																}
 															} ?>
+															</strong>
 													</td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><?php echo number_format($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY,0);?></td>
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>><strong><?php echo number_format($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";} ?>>
+														<strong>
 														<?php  
 															if($smartreport_pnllist->idpnlcategory == 2){
 																if($grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY != 0){
@@ -1005,19 +1008,21 @@ function cal_days_in_year($yearact){
 																}
 															} 
 														?>
+														</strong>
 													</td>	
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
 														<?php 	
 															$variance_grandtotal_pnlcategory = $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudget->GRANDTOTAL_PNLCATEGORY;
 															($variance_grandtotal_pnlcategory <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 														?>
-															<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategory,0); ?></div>
+															<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategory,0); ?></div></strong>
 													</td>
 													<!--END TOTAL MTD-->
 
 													<!--START TOTAL LAST MTD-->
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><strong><?php echo number_format($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<strong>
 														<?php  if($smartreport_pnllist->idpnlcategory == 2){
 																	if($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY != 0){
 																		echo number_format(($grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
@@ -1031,9 +1036,12 @@ function cal_days_in_year($yearact){
 																		echo '0%';
 																	}
 																		
-																}	?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY,0);?></td>
+																}	?>
+														</strong>
+													</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><strong><?php echo number_format($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<strong>
 														<?php  
 														if($smartreport_pnllist->idpnlcategory == 2){
 															if($grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY != 0){
@@ -1048,17 +1056,19 @@ function cal_days_in_year($yearact){
 																	echo '0%';
 																}
 														}	 ?>
+														</strong>
 													</td>	
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
 														<?php 	$variance_grandtotal_pnlcategorylastmtd = $grandtotal_pnlcategorylastmtd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetlastmtd->GRANDTOTAL_PNLCATEGORY;
 																($variance_grandtotal_pnlcategorylastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategorylastmtd,0); ?></div>
+																<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategorylastmtd,0); ?></div></strong>
 													</td>	
 													<!--END TOTAL LAST MTD-->
 
 													<!--START TOTAL YTD-->		
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><strong><?php echo number_format($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
+														<strong>
 														<?php  if($smartreport_pnllist->idpnlcategory == 2){  
 																	if($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY != 0){
 																		echo number_format(($grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
@@ -1071,10 +1081,13 @@ function cal_days_in_year($yearact){
 																	}else{
 																		echo '0%';
 																	}
-																}?></td>	
-                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><?php echo number_format($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY,0);?></td>
+																}?>
+														</strong>
+													</td>	
+                                                    <td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>><strong><?php echo number_format($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY,0);?></strong></td>
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
-														<?php  if($smartreport_pnllist->idpnlcategory == 2){
+														<strong>
+															<?php  if($smartreport_pnllist->idpnlcategory == 2){
 																	if($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY != 0){
 																		echo number_format(($grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 																		}else{
@@ -1086,15 +1099,280 @@ function cal_days_in_year($yearact){
 																		}else{
 																			echo '0%';
 																		}
-															 } ?></td>	
+															 } ?>
+														</strong>	 
+													</td>	
 													<td <?php  if ($smartreport_pnlcategory->idpnlcategory == 1) {echo "class='hidden'";}else{echo "class='rata-kanan'";}?>>
 														<?php $variance_grandtotal_pnlcategoryytd = $grandtotal_pnlcategoryytd->GRANDTOTAL_PNLCATEGORY - $grandtotal_pnlcategorybudgetytd->GRANDTOTAL_PNLCATEGORY;
 																($variance_grandtotal_pnlcategoryytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; ?>
-																<div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategoryytd,0); ?></div>
+																<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_pnlcategoryytd,0); ?></div></strong>
 													</td>	
 													<!--END TOTAL YTD-->
 												</tr>	
-											<?php } ?>			
+											<?php } ?>
+											<tr>
+												<td><strong>TOTAL UNDISTRIBUTED EXPENSE</strong></td>
+
+												<td class='rata-kanan'>
+												<?php 
+														$grandtotal_und_payroll_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('7', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_opr_exp_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('8', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_exp_actual = $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_actual->GRANDTOTAL_PNLCATEGORY;
+													?>	
+													<strong><?php echo number_format($grandtotal_und_exp_actual,0);?></strong>
+												</td>
+												<td class='rata-kanan'> 
+													<strong>
+														<?php
+															if($grandtotal_und_exp_actual !=0 && $grandtotal_totalsales_actual->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_und_exp_actual/$grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+															}else{
+																echo '0%';
+															}
+															
+														?>
+													</strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 
+														$grandtotal_und_payroll_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_opr_exp_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('8', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_exp_budget = $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_budget->GRANDTOTAL_PNLCATEGORY;
+													?>	
+													<strong><?php echo number_format($grandtotal_und_exp_budget,0);?></strong>
+												</td>
+												<td class='rata-kanan'> 
+													<strong>
+														<?php
+															if($grandtotal_und_exp_budget !=0 && $grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_und_exp_budget/$grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+															}else{
+																echo '0%';
+															}
+															
+														?>
+													</strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 	
+														$variance_grandtotal_und_exp = $grandtotal_und_exp_actual - $grandtotal_und_exp_budget;
+														($variance_grandtotal_und_exp <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
+													?>
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_und_exp,0); ?></div></strong>
+													
+												</td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>GROSS OPERATING PROFIT</strong></td>
+
+												<td class='rata-kanan'>
+													<?php 
+														$grandtotal_dept_profit_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('6', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_payroll_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('7', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_opr_exp_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory('8', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_gross_opr_profit_actual = $grandtotal_dept_profit_actual->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_actual->GRANDTOTAL_PNLCATEGORY);														
+													?>	
+													<strong><?php echo number_format($grandtotal_gross_opr_profit_actual,0);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<strong>
+														<?php
+															if($grandtotal_gross_opr_profit_actual != 0 && $grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_gross_opr_profit_actual/$grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+															}else{
+																echo '0%';
+															}
+															
+														?>
+													</strong>
+												</td>												
+												<td class='rata-kanan'>
+													<?php 
+														$grandtotal_dept_profit_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('6', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_payroll_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_und_opr_exp_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('8', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_gross_opr_profit_budget = $grandtotal_dept_profit_budget->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_budget->GRANDTOTAL_PNLCATEGORY);														
+													?>	
+													<strong><?php echo number_format($grandtotal_gross_opr_profit_budget,0);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<strong>
+														<?php
+															if($grandtotal_gross_opr_profit_budget != 0 && $grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY != 0){
+																echo number_format(($grandtotal_gross_opr_profit_budget/$grandtotal_totalsalesbudget->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+															}else{
+																echo '0%';
+															}
+															
+														?>
+													</strong>
+												</td>	
+												<td class='rata-kanan'>
+													<?php 	
+														$variance_grandtotal_gross_opr_profit = $grandtotal_gross_opr_profit_actual - $grandtotal_gross_opr_profit_budget;
+														($variance_grandtotal_gross_opr_profit <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
+													?>
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_gross_opr_profit,0); ?></div></strong>
+													
+												</td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											
+											<tr>
+												<td><strong>G.O.P. %</strong></td>	
+												
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>PAYROLL</strong></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>ENERGY COST</strong></td>	
+												
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>EXPENSE</strong></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>COST OF SALES</strong></td>	
+												
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>MARKETING EXPENSE</strong></td>	
+												
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
 									</tbody>
 								</table>
 							</div>

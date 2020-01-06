@@ -143,6 +143,18 @@ $getbudget_laundrynow = $budget_laundry->BUDGET_LAUNDRY/$days_this_month;
 $getbudget_laundrymtd = ($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate;
 $getbudget_laundryytd = $budget_laundryytd->BUDGET_LAUNDRYYTD+($budget_laundry->BUDGET_LAUNDRY/$days_this_month)*$dashboardDate; 
 
+$budget_sport = $this->Smartreport_pnl_model->get_sport_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_sportytd = $this->Smartreport_pnl_model->get_sport_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
+$getbudget_sportnow = $budget_sport->BUDGET_SPORT/$days_this_month; 
+$getbudget_sportmtd = ($budget_sport->BUDGET_SPORT/$days_this_month)*$dashboardDate;
+$getbudget_sportytd = $budget_sportytd->BUDGET_SPORTYTD+($budget_sport->BUDGET_SPORT/$days_this_month)*$dashboardDate; 
+
+$budget_spa = $this->Smartreport_pnl_model->get_spa_budget($idhotel_dashboard, $graphMonth,$graphYear);
+$budget_spaytd = $this->Smartreport_pnl_model->get_spa_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
+$getbudget_spanow = $budget_spa->BUDGET_SPA/$days_this_month; 
+$getbudget_spamtd = ($budget_spa->BUDGET_SPA/$days_this_month)*$dashboardDate;
+$getbudget_spaytd = $budget_spaytd->BUDGET_SPAYTD+($budget_spa->BUDGET_SPA/$days_this_month)*$dashboardDate; 
+
 $budget_roomsold = $this->Smartreport_pnl_model->get_roomsold_budget($idhotel_dashboard, $graphMonth,$graphYear);
 $budget_roomsoldytd = $this->Smartreport_pnl_model->get_roomsold_budgetytd($idhotel_dashboard, $lastmtd, $graphYear);
 $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomsold->BUDGET_ROOMSOLD/$days_this_month)*$dashboardDate;
@@ -296,6 +308,8 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 															<?php 	$ri_today =  $getHotelByUser->total_rooms - $outoforder_today;
 																	if($rs_today != 0 && $ri_today != 0){
 																		$occ_today = ($rs_today / $ri_today) * 100;
+																	}else{
+																		$occ_today = 0;
 																	}
 																	echo number_format($occ_today,2).'%';?>
 														</div>														
@@ -359,7 +373,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														<div class="font-weight-300"><?php echo number_format($arr_ytd); ?></div>														
 													</a>
 												</td>
-												<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd !=0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);} ?></td>
+												<td><?php if($getHotelByUser->total_rooms != 0 && $getbudget_roomsytd != 0 && $getbudget_roomsoldytd !=0 ){ echo number_format($getbudget_roomsytd/$getbudget_roomsoldytd);}else{echo 0;} ?></td>
 											</tr>
 
 											<tr>										
@@ -438,7 +452,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														</div>														
 													</a>
 												</td>
-												<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow);?></td>
+												<td><?php echo number_format($getbudget_laundrynow+$getbudget_othernow+$getbudget_sportnow+$getbudget_spanow);?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -446,7 +460,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
 														</div>														
 													</a>
 												</td>
-												<td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd);?></td>
+												<td><?php echo number_format($getbudget_laundrymtd+$getbudget_othermtd+$getbudget_sportmtd+$getbudget_spamtd);?></td>
 												<td>
 													<a href="#" class="text-default">
 														<div class="font-weight-300">
@@ -454,7 +468,7 @@ $oth_mtd = $dt_othmtd->OTH_MTD;
                                    								echo $oth_ytd = number_format($dt_othytd->OTH_YTD); ?></div>														
 													</a>
 												</td>
-												<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd);?></td>
+												<td><?php echo number_format($getbudget_laundryytd+$getbudget_otherytd+$getbudget_sportytd+$getbudget_spaytd);?></td>
 											</tr>
 											<?php } ?>
 										</tbody>

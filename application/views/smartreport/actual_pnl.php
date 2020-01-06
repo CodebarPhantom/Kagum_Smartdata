@@ -5,7 +5,7 @@
 }
 
 .customEryan{
-	font-size: 9px;
+	font-size: 11px;
 	width: 100%;  
 }
 
@@ -1853,7 +1853,7 @@ function cal_days_in_year($yearact){
 													if($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
 														$grandtotal_budget_energycost_ytd = ($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;	
 													}else{
-														$grandtotal_budget_energycost = 0;
+														$grandtotal_budget_energycost_ytd = 0;
 													}
 																									
 													?>

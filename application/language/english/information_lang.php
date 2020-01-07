@@ -322,6 +322,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['permissions_name'] = 'Permissions Name';
     $lang['choose_type'] = 'Choose Type';
     
+    $lang['forecast'] ="Forecast";
+    $lang['tendays_forecast'] = "10 Days Forecast";
 
 
     

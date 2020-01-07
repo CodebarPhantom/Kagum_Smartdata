@@ -32,9 +32,11 @@
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/notifications/sweet_alert.min.js"></script>
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/tables/footable/footable.min.js"></script>
+	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
 
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/inputs/inputmask.js"></script>
 	<script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="<?php echo base_url();?>assets/backend/global_assets/js/demo_pages/layout_fixed_sidebar_custom.js"></script>
 	
 		
 

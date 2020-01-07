@@ -1,7 +1,7 @@
 <style>
 	.form-control:focus {
 
-		box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
+		border-color: #009688;
 	}
 
 	.customEryan {
@@ -2152,11 +2152,11 @@
 									</td>
 									<td><input type="text"
 											oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');"
-											name="room_sold[]" class="form-control" required></td>
+											name="room_sold[]" class="form-control border-grey border-1" required></td>
 									<td><input type="text"
 											oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');"
-											name="avg_roomrate[]" class="form-control" required></td>
-									<td><input type="text" name="remark[]" class="form-control"></td>
+											name="avg_roomrate[]" class="form-control border-grey border-1" required></td>
+									<td><input type="text" name="remark[]" class="form-control border-grey border-1"></td>
 
 
 								</tr>

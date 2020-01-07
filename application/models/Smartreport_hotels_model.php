@@ -80,7 +80,7 @@ class Smartreport_hotels_model extends CI_Model
         if ($q !== NULL){
             $this->db->like('h.hotels_name', $q);
         } 
-        $this->db->where('parent', 'PARENT');
+        $this->db->where('h.parent', 'PARENT');
         $this->db->order_by('h.hotels_name', 'ASC');
         return $this->db->count_all_results();
     }
@@ -94,7 +94,7 @@ class Smartreport_hotels_model extends CI_Model
         if ($q !== NULL){
             $this->db->like('h.hotels_name', $q);
         } 
-        $this->db->where('parent', 'PARENT');
+        $this->db->where('h.parent', 'PARENT');
         $this->db->order_by('h.hotels_name', 'ASC');
         $this->db->limit($limit, $start);
         return $this->db->get()->result();

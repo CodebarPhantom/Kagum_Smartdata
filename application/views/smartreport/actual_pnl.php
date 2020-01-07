@@ -1,7 +1,7 @@
 <style>
 .form-control:focus {
 
-  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
+	border-color: #009688;
 }
 
 .customEryan{
@@ -2373,7 +2373,7 @@ function cal_days_in_year($yearact){
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
                                                             <td>
 																<input type="hidden" name="idpnl[]" value="<?php echo $smartreport_pnllist->idpnl;?>">
-																<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value[]" class="form-control" required>
+																<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value[]" class="form-control border-grey border-1" required>
 															</td>                                             
                                                         </tr>
                                                 <?php }?>

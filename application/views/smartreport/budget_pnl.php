@@ -1,7 +1,6 @@
 <style>
 .form-control:focus {
-
-  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
+	border-color: #009688;
 }
 
 .customEryan{
@@ -113,7 +112,7 @@ function cal_days_in_year($dateToView){
 	}
 	
 ?>
-<!-- Page header -->
+		<!-- Page header -->
         <div class="page-header page-header-light">
 				<div class="page-header-content header-elements-md-inline">
 					<div class="page-title d-flex">
@@ -133,12 +132,7 @@ function cal_days_in_year($dateToView){
 			<div class="card">
 				<div class="card-header header-elements-inline">
 					<h6 class="card-title"><strong><?php  $hotel = $this->Dashboard_model->getDataHotel($idhotel_custom); echo $hotel->hotels_name .' - '.$lang_pnl_budget; ?></strong></h6>
-					<div class="header-elements">
-						<div class="list-icons">
-				            <a class="list-icons-item" data-action="collapse"></a>
-				            
-				        </div>
-			        </div>
+					
 				</div>
 				
 				<div class="card-body">
@@ -846,7 +840,7 @@ function cal_days_in_year($dateToView){
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
                                                             <td>
 																<input type="hidden" name="idpnl[]" value="<?php echo $smartreport_pnllist->idpnl;?>">
-																<input type="text" onkeypress="return isNumberKeyDash(event)" name="budget_value[]" class="form-control" required>
+																<input type="text" onkeypress="return isNumberKeyDash(event)" name="budget_value[]" class="form-control border-grey border-1" required>
 															</td>                                             
                                                         </tr>
                                                 <?php }?>

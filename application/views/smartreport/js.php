@@ -140,7 +140,7 @@
 			new PNotify({  
                 
                 title: '<b>Update Notice</b>',
-                text: 'Update pada <b>BUDGET PNL</b> Bisa input Nilai Minus<br/><br/>Penambahan <b>Direct & Indirect Competitor</b> pada <b>Competitor Hotel</b> berpengaruh di Comset - <b>View Data</b>',
+                text: 'Update Report <b>7 Days Forecast</b><br/><br/>Penambahan <b>Direct & Indirect Competitor</b> pada <b>Competitor Hotel</b> berpengaruh di Comset - <b>View Data</b>',
                 addclass: 'bg-info-800 border-info-800'
             });
 			});

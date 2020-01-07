@@ -1136,7 +1136,7 @@ function cal_days_in_year($yearact){
 													<strong>
 														<?php
 															if($grandtotal_und_exp_actual !=0 && $grandtotal_totalsales_actual->GRANDTOTAL_PNLCATEGORY != 0){
-																echo number_format(($grandtotal_und_exp_actual/$grandtotal_totalsalesactual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
+																echo number_format(($grandtotal_und_exp_actual/$grandtotal_totalsales_actual->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 															}else{
 																echo '0%';
 															}															

@@ -1,5 +1,8 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Smartreportforecast extends CI_Controller{
 
   private $contoller_name;
@@ -34,6 +37,29 @@ class Smartreportforecast extends CI_Controller{
       $this->load->helper('text');
       
   }
+
+  function index(){
+    $excelForecast = new Spreadsheet();
+    // Settingan awal file excel
+    $excelForecast->getProperties()->setCreator('Eryan Fauzan')
+    ->setLastModifiedBy('Eryan Fauzan')
+    ->setTitle("Forecast Kagum Hotel")
+    ->setSubject("Forecast Kagum Hotel")
+    ->setDescription("Created By Eryan Fauzan")
+    ->setKeywords("Forecast Kagum Hotel");
+
+		$sheet = $excelForecast->getActiveSheet();
+		$sheet->setCellValue('A1', 'Hello World !');
+        
+		$writer = new Xlsx($excelForecast);
+		
+		$filename = 'simple';
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+		$writer->save('php://output');
+	}
 
   function forecast7days(){
       //Allowing akses to smartreport only

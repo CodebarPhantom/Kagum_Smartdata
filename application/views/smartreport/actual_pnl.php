@@ -1243,7 +1243,7 @@ function cal_days_in_year($yearact){
 												<td class='rata-kanan'> 
 													<strong>
 														<?php
-															if($grandtotal_und_exp_actual_ytd !=0 && $grandtotal_totalsales_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0){
+															if($grandtotal_und_exp_actual_ytd !=0 && $grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY != 0){
 																echo number_format(($grandtotal_und_exp_actual_ytd/$grandtotal_totalsalesactual_ytd->GRANDTOTAL_PNLCATEGORY)*100,2).'%';
 															}else{
 																echo '0%';

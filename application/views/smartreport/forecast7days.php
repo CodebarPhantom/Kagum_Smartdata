@@ -65,7 +65,7 @@
                                                     <tr>
                                                         <th><?php echo $lang_description; ?></th>
                                                         <?php for($days= 1; $days<=7; $days++ ){ ?>	
-                                                        <th class="rata-kanan"><?php echo date('d-M',strtotime("+$days days")); ?></th>
+                                                        <th class="rata-kanan"><?php echo date('D',strtotime("+$days days")).', '.date('d-M',strtotime("+$days days")); ?></th>
                                                         <?php } ?>    
                                                     </tr>
                                                 </thead>
@@ -269,11 +269,9 @@
 								<tr>
                                     <th><?php echo $lang_description; ?></th>
                                     <?php for($days= 1; $days<=7; $days++ ){ ?>	
-                                    <th class="rata-kanan"><?php echo date('d-M',strtotime("+$days days")); ?></th>
-                                    <?php } ?> 
-									
-
-								</tr>
+                                    <th class="rata-kanan"><?php echo date('D',strtotime("+$days days")).', '. date('d-M',strtotime("+$days days")); ?></th>
+                                    <?php } ?>
+                                </tr>
 							</thead>
 
 							<tbody>

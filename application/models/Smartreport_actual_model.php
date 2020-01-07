@@ -13,6 +13,14 @@ class Smartreport_actual_model extends CI_Model
         $this->load->database();
     }
 
+    public function getDataAll($table, $order_column, $order_type){
+        $this->db->order_by("$order_column", "$order_type");
+        $query = $this->db->get("$table");
+        $result = $query->result();
+        $this->db->save_queries = false;
+        return $result;
+    }
+
     
     function get_data_pnlcategory() {        
         $this->db->order_by("pnlcategory_order", "ASC");	    

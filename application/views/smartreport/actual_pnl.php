@@ -73,6 +73,14 @@
 			return false;
 		}); 
 	});
+
+	function isNumberKeyDash(evt){
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		if (charCode != 45  && charCode > 31 && (charCode < 48 || charCode > 57))
+			return false;
+
+		return true;
+	}
 </script> 
 <?php
 
@@ -2373,7 +2381,7 @@ function cal_days_in_year($yearact){
                                                             <td>&emsp;&emsp;<?= $smartreport_pnllist->pnl_name;?></td>
                                                             <td>
 																<input type="hidden" name="idpnl[]" value="<?php echo $smartreport_pnllist->idpnl;?>">
-																<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value[]" class="form-control border-grey border-1" required>
+																<input type="text" onkeypress="return isNumberKeyDash(event)" name="actual_value[]" class="form-control border-grey border-1" required>
 															</td>                                             
                                                         </tr>
                                                 <?php }?>
@@ -2497,7 +2505,7 @@ function cal_days_in_year($yearact){
 										<label class="col-form-label col-lg-2"><strong><?php echo $lang_actual; ?></strong></label>
 										<div class="col-lg-10">
 											<div class="input-group">												
-												<input type="text" oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');" name="actual_value" class="form-control" required>
+												<input type="text" onkeypress="return isNumberKeyDash(event)"  name="actual_value" class="form-control" required>
 											</div>
 										</div>
 									</div>

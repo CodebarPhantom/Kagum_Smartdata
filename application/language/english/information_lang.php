@@ -323,7 +323,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['choose_type'] = 'Choose Type';
     
     $lang['forecast'] ="Forecast";
-    $lang['tendays_forecast'] = "10 Days Forecast";
+    $lang['sevendays_forecast'] = "7 Days Forecast";   
+    $lang['last_update'] = "Last Update";
+
 
 
     

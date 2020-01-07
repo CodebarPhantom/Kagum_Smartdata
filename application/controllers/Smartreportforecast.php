@@ -46,6 +46,20 @@ class Smartreportforecast extends CI_Controller{
         
         
         $page_data['page_name'] = 'forecast7days';
+
+        $page_data['lang_sevendays_forecast'] = $this->lang->line('sevendays_forecast');
+        $page_data['lang_hotel'] = $this->lang->line('hotel');
+        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
+        $page_data['lang_description'] = $this->lang->line('description');
+        $page_data['lang_room_available'] = $this->lang->line('room_available');
+        $page_data['lang_avg_room_rate'] = $this->lang->line('avg_room_rate');
+        $page_data['lang_last_update'] = $this->lang->line('last_update');
+        $page_data['lang_forecast'] = $this->lang->line('forecast');
+        $page_data['lang_add_data'] = $this->lang->line('add_data');
+        $page_data['lang_outoforder'] = $this->lang->line('outoforder');
+
+
+
         $page_data['lang_input_success'] = $this->lang->line('input_success');
         $page_data['lang_success_input_data'] = $this->lang->line('success_input_data');
         $page_data['lang_delete_success'] = $this->lang->line('delete_success');
@@ -58,8 +72,7 @@ class Smartreportforecast extends CI_Controller{
         $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
         $page_data['lang_submit'] = $this->lang->line('submit');
         $page_data['lang_close'] = $this->lang->line('close');
-        $page_data['lang_hotel'] = $this->lang->line('hotel');
-        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
+        
         $get_data_hotels =  $this->Smartreport_forecast_model->get_data_hotels();
         $page_data['get_data_hotels'] = $get_data_hotels;
         $page_data['idhotel_custom'] = $user_HotelForForecast;
@@ -72,42 +85,51 @@ class Smartreportforecast extends CI_Controller{
   }
 
   function add_forecast7days_data(){
-    $idhotels= $this->session->userdata('user_hotel');
-    $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
-        if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
-            $getidhotel_custom = $idhotels; 
-        }
-    $room_out = $_POST['room_out'];
-    $confirmed = $_POST['confirmed'];
-    $tentative = $_POST['tentative'];
-    $arr = $_POST['arr'];
-    $date_forecast = $_POST['date_forecast'];
-    $count_forecast = 0;
-    $data_forecast = array();
-    
-    foreach($room_out as $roo ){
-        if($roo != ''){
-            $dt_forecast = $this->Smartreport_forecast_model->select_forecast_byiddate($getidhotel_custom)->num_rows();
-            if($dt_forecast > 0){
-              $this->Smartreport_forecast_model->delete_forecast_byiddate($getidhotel_custom);
+  //Allowing akses to smartreport only
+  $user_level = $this->session->userdata('user_level');
+  $user_HotelForForecast = $this->session->userdata('user_hotel');
+  // buat ngecek misal si user nakal main masukin URL
+  $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
+        $idhotels= $this->session->userdata('user_hotel');
+        $getidhotel_custom = $this->input->post('idhotelcustom', TRUE);
+            if($getidhotel_custom == NULL || $getidhotel_custom == '' ){
+                $getidhotel_custom = $idhotels; 
             }
-            array_push($data_forecast,array(             
-              'idhotels'=>$getidhotel_custom,
-              'iduser'=>$this->session->userdata('iduser'),
-              'outoforder'=>$room_out[$count_forecast],
-              'confirmed'=>$confirmed[$count_forecast],
-              'tentative'=>$tentative[$count_forecast],
-              'arr'=>$arr[$count_forecast],
-              'date_forecast'=>$date_forecast[$count_forecast],
-              'date_created' => date("Y-m-d H:i:s")
-              
-            ));
-            $count_forecast++;
-      }
+        $room_out = $_POST['room_out'];
+        $confirmed = $_POST['confirmed'];
+        $tentative = $_POST['tentative'];
+        $arr = $_POST['arr'];
+        $date_forecast = $_POST['date_forecast'];
+        $count_forecast = 0;
+        $data_forecast = array();
+        
+        foreach($room_out as $roo ){
+            if($roo != ''){
+                $dt_forecast = $this->Smartreport_forecast_model->select_forecast_byiddate($getidhotel_custom)->num_rows();
+                if($dt_forecast > 0){
+                  $this->Smartreport_forecast_model->delete_forecast_byiddate($getidhotel_custom);
+                }
+                array_push($data_forecast,array(             
+                  'idhotels'=>$getidhotel_custom,
+                  'iduser'=>$this->session->userdata('iduser'),
+                  'outoforder'=>$room_out[$count_forecast],
+                  'confirmed'=>$confirmed[$count_forecast],
+                  'tentative'=>$tentative[$count_forecast],
+                  'arr'=>$arr[$count_forecast],
+                  'date_forecast'=>$date_forecast[$count_forecast],
+                  'date_created' => date("Y-m-d H:i:s")
+                  
+                ));
+                $count_forecast++;
+          }
+        }
+            $this->Smartreport_forecast_model->insert_batch_data('smartreport_forecast',$data_forecast); 
+            $this->session->set_flashdata('input_success','message');        
+            redirect(site_url('smartreportforecast/forecast7days'));
+    }else{
+      redirect('errorpage/error403');
     }
-        $this->Smartreport_forecast_model->insert_batch_data('smartreport_forecast',$data_forecast); 
-        $this->session->set_flashdata('input_success','message');        
-        redirect(site_url('smartreportforecast/forecast7days'));
   }
 
 }

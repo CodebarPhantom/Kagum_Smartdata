@@ -2,6 +2,11 @@
 .form-control:focus {     
     border-color: #009688;    
 }
+
+.rata-kanan{
+	vertical-align: middle; 
+	text-align: right;
+}
 </style>
 
 <script type="text/javascript">
@@ -15,7 +20,7 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">7 Days Forecast</h4>
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><?php echo $lang_sevendays_forecast; ?></h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
 
@@ -31,8 +36,8 @@
 <div class="card">
     <div class="card-body">
         <ul class="nav nav-tabs nav-tabs-highlight justify-content-end">
-            <li class="nav-item"><a href="#right-fr1" class="nav-link active" data-toggle="tab"><i class="icon-cloud mr-2"></i>Forecast</a></li>
-            <li class="nav-item"><a href="#right-fr2" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i>Add Data</a></li>	
+            <li class="nav-item"><a href="#right-fr1" class="nav-link active" data-toggle="tab"><i class="icon-cloud mr-2"></i><?php echo $lang_forecast; ?></a></li>
+            <li class="nav-item"><a href="#right-fr2" class="nav-link" data-toggle="tab"><i class="icon-stack-plus mr-2"></i><?php echo $lang_add_data; ?></a></li>	
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="right-fr1">
@@ -58,36 +63,139 @@
                                             <table class="table table-bordered table-hover text-nowrap table-xs ">
                                                 <thead>
                                                     <tr>
-                                                        <th>Description</th>
+                                                        <th><?php echo $lang_description; ?></th>
                                                         <?php for($days= 1; $days<=7; $days++ ){ ?>	
-                                                        <th><?php echo date('d-M',strtotime("+$days days")); ?></th>
+                                                        <th class="rata-kanan"><?php echo date('d-M',strtotime("+$days days")); ?></th>
                                                         <?php } ?>    
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Room Available</td>
+                                                        <td><?php echo $lang_room_available; ?></td>
                                                         <?php for($days= 1; $days<=7; $days++ ){ ?>	
-                                                        <th><?php echo $get_hotels->total_rooms;  ?></th>
+                                                        <td class="rata-kanan">
+                                                            <?php 
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));  
+                                                                $roomout_forecast = $this->Smartreport_forecast_model->room_out_forecast($get_hotels->idhotels, $date_check);
+                                                                if($roomout_forecast != NULL){
+                                                                    $outoforder = $roomout_forecast->ROOM_OUT;
+                                                                }else{
+                                                                    $outoforder = 0;
+                                                                }
+
+                                                                echo number_format($get_hotels->total_rooms - $outoforder);  
+                                                            ?>
+                                                        </td>
                                                         <?php } ?>  
                                                     </tr>
                                                     <tr>
                                                         <td>Confirmed</td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>	
+                                                        <td class="rata-kanan">
+                                                            <?php
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+                                                                $confirmed_forecast = $this->Smartreport_forecast_model->confirmed_forecast($get_hotels->idhotels, $date_check);
+                                                                if($confirmed_forecast != NULL){
+                                                                    echo number_format($confirmed_forecast->CONFIRMED_FORECAST);
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
+                                                        <?php } ?>
                                                     </tr>
                                                     <tr>
                                                         <td>Tentative</td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>	
+                                                        <td class="rata-kanan">
+                                                            <?php
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+                                                                $tentative_forecast = $this->Smartreport_forecast_model->tentative_forecast($get_hotels->idhotels, $date_check);
+                                                                if($tentative_forecast != NULL){
+                                                                    echo number_format($tentative_forecast->TENTATIVE_FORECAST);
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
+                                                        <?php } ?>
                                                     </tr>
                                                     <tr>
                                                         <td>On Hand Confirmed + Tentative</td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>	
+                                                        <td class="rata-kanan">
+                                                            <?php
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+                                                                $confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($get_hotels->idhotels, $date_check);
+                                                                if($confirmed_tentative_forecast != NULL){
+                                                                    echo number_format($confirmed_tentative_forecast->TENTATIVE_FORECAST + $confirmed_tentative_forecast->CONFIRMED_FORECAST);
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
+                                                        <?php } ?>
                                                     </tr>
                                                     <tr>
                                                         <td>% Occ Confirmed</td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>
+                                                        <td class="rata-kanan">
+                                                            <?php 
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));  
+                                                                $occ_confirmed_forecast = $this->Smartreport_forecast_model->data_forecast($get_hotels->idhotels, $date_check);
+                                                                if($occ_confirmed_forecast != NULL){
+                                                                    $outoforder = $occ_confirmed_forecast->ROOM_OUT;
+                                                                    $confirmed = $occ_confirmed_forecast->CONFIRMED_FORECAST;
+                                                                }else{
+                                                                    $outoforder = 0;
+                                                                    $confirmed = 0;
+                                                                }
+
+                                                                echo number_format(($confirmed/($get_hotels->total_rooms - $outoforder))*100,2).'%';  
+                                                            ?>
+                                                        </td>
+                                                        <?php } ?>
                                                     </tr>
                                                     <tr>
                                                         <td>% Occ Confirmed + Tentative</td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>
+                                                        <td class="rata-kanan">
+                                                            <?php 
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));
+                                                                $outoforder = 0;
+                                                                $confirmed = 0;
+                                                                $tentative = 0;  
+                                                                $occ_confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($get_hotels->idhotels, $date_check);
+                                                                if($occ_confirmed_tentative_forecast != NULL){
+                                                                    $outoforder = $occ_confirmed_tentative_forecast->ROOM_OUT;
+                                                                    $confirmed = $occ_confirmed_tentative_forecast->CONFIRMED_FORECAST;
+                                                                    $tentative = $occ_confirmed_tentative_forecast->TENTATIVE_FORECAST;
+                                                                }else{
+                                                                    $outoforder = 0;
+                                                                    $confirmed = 0;
+                                                                    $tentative = 0;
+                                                                }
+
+                                                                echo number_format((($confirmed+$tentative)/($get_hotels->total_rooms - $outoforder))*100,2).'%';  
+                                                            ?>
+                                                        </td>
+                                                        <?php } ?>
                                                     </tr>
                                                     <tr>
-                                                        <td>Avg. Room Rate</td>
+                                                        <td><?php echo $lang_avg_room_rate; ?></td>
+                                                        <?php for($days= 1; $days<=7; $days++ ){ ?>	
+                                                        <td class="rata-kanan">
+                                                            <?php 
+                                                                $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+                                                                $arr_forecast = $this->Smartreport_forecast_model->avg_roomrate_forecast($get_hotels->idhotels, $date_check);
+                                                                if($arr_forecast != NULL){
+                                                                    echo number_format($arr_forecast->ARR_FORECAST);
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                         </td>
+                                                        <?php } ?> 
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -95,7 +203,22 @@
                                     </div>
 
                                     <div class="card-footer bg-transparent d-sm-flex align-items-sm-center border-top-0 pt-0">
-                                        <span class="text-muted">Latest update: May 25, 2015</span>
+                                        <span class="text-muted"><?php echo $lang_last_update; ?>
+                                            <?php 
+                                                
+                                                $check_update_forecast = $this->Smartreport_forecast_model->check_lastupdate_forecast($get_hotels->idhotels);
+                                                if($check_update_forecast != NULL){
+                                                    $username = $check_update_forecast->user_name;
+                                                    $datetime_update = $check_update_forecast->date_created;
+                                                }else{
+                                                    $username = "No Body";
+                                                    $datetime_update = "1970-01-01 00:00:00"; 
+                                                }
+
+                                                echo date('d F Y H:i', strtotime($datetime_update)).' by '.$username; 
+                                            
+                                            ?>
+                                        </span>
                                     
                                     </div>
                                 </div>
@@ -111,7 +234,7 @@
             </div>
             <div class="tab-pane fade" id="right-fr2">
                 <form action="<?php echo base_url()?>smartreportforecast/add_forecast7days_data" method="post" accept-charset="utf-8"	enctype="multipart/form-data">	
-                <div class="col-md-8">	
+                    <div class="col-md-8">	
                         <div class="form-group">
                             <div class="row">
                                 <?php if($user_le === '1' ){ ?>
@@ -144,9 +267,9 @@
 						<table class="table text-nowrap table-hover" id="example">
 							<thead>
 								<tr>
-                                    <th>Description</th>
+                                    <th><?php echo $lang_description; ?></th>
                                     <?php for($days= 1; $days<=7; $days++ ){ ?>	
-                                    <th><?php echo date('d-M',strtotime("+$days days")); ?></th>
+                                    <th class="rata-kanan"><?php echo date('d-M',strtotime("+$days days")); ?></th>
                                     <?php } ?> 
 									
 
@@ -155,7 +278,7 @@
 
 							<tbody>
 								<tr>
-									<td>Room Out of Order</td>                                    
+									<td><?php echo $lang_outoforder; ?></td>                                    
                                     <?php for($days= 1; $days<=7; $days++ ){ ?>	
                                         <td><input type="text"
 											oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');"
@@ -182,7 +305,7 @@
                                 </tr>
                                 
                                 <tr>
-									<td>Avg. Room Rate</td>                                    
+									<td><?php echo $lang_avg_room_rate; ?></td>                                    
                                     <?php for($days= 1; $days<=7; $days++ ){ ?>	
                                         <td><input type="text"
 											oninput="this.value = this.value.replace(/[^\d]/, '').replace(/(\..*)\./g, '$1');"
@@ -207,6 +330,7 @@
             </div>
         </div>
     
+    </div>
 </div>
     <!-- /inner container -->
 <!--</div>-->

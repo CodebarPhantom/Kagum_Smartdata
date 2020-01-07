@@ -149,91 +149,84 @@ if ($dateToView == '1970-01-01') {
                             ?>
                             <!-- Quick stats boxes -->
                             <div class="row">
-                                <div class="col-lg-2">
-
-                                    <!-- Members online -->
-                                    <div class="card bg-teal-600 animated flipInY">                                    
-                                        <div class="card-body " >
-                                            
-                                            <!--<i style="color: #4DB6AC;"class="icon-cash2 tile"></i>-->
-                                            <div class="d-flex">
-                                                <h3 class="font-weight-semibold mb-0 " ><?php echo number_format($alltotal_today_rev,0);?></h3>
+                                
+                                <div class="col-sm-6 col-xl-2">
+                                    <div class="card card-body bg-teal-600 has-bg-image animated flipInY">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><?php echo number_format($alltotal_today_rev,0);?></h3>
+                                                <span class="text-uppercase font-size-xs"><?php echo $lang_rev_today;?>	</span>
                                             </div>
-                                            
-                                            <div>
-                                                <?php echo $lang_rev_today;?>										
+
+                                            <div class="ml-3 align-self-center">
+                                                <i class=""></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /members online -->
+                                </div>
+                                  
 
+                                
+
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="card card-body bg-success-800 has-bg-image animated flipInY">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><?php echo number_format($alltotal_mtd_rev,0);?></h3>
+                                                <span class="text-uppercase font-size-xs"><?php echo $lang_mtd_rev.' '.$lang_actual;?></span>
+                                            </div>
+
+                                            <div class="ml-3 align-self-center">
+                                                <i class="icon-cash2 icon-3x opacity-75"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-lg-3">
-                                    <!-- Current server load -->
-                                    <div class="card bg-success-600 animated flipInY">
-                                        <div class="card-body">
-                                        <i style="color: #2E7D32;"class="icon-cash2 tile"></i>
-                                            <div class="d-flex">
-                                                <h3 class="font-weight-semibold mb-0"><?php echo number_format($alltotal_mtd_rev,0);?></h3>											
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="card card-body bg-info-600 has-bg-image animated flipInY">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><?php echo number_format($alltotal_mtd_budgetbybrand,0);?></h3>
+                                                <span class="text-uppercase font-size-xs"><?php echo $lang_mtd_rev.' '.$lang_budget;?></span>
                                             </div>
-                                            <div>
-                                                <?php echo $lang_mtd_rev.' '.$lang_actual;?>										
+
+                                            <div class="ml-3 align-self-center">
+                                                <i class="icon-stats-growth2 icon-3x opacity-75"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /current server load -->
-
                                 </div>
 
-                                <div class="col-lg-3">
-                                    <!-- Today's revenue -->
-                                    <div class="card bg-info-600 animated flipInY " >
-                                        <div class="card-body">
-                                        <i style="color: #0097A7;" class="icon-stats-growth2 tile"></i>
-                                            <div class="d-flex">
-                                                <h3 class="font-weight-semibold mb-0"><?php echo number_format($alltotal_mtd_budgetbybrand,0);?></h3>											
-                                            </div>					                	
-                                            <div>
-                                                <?php echo $lang_mtd_rev.' '.$lang_budget;?>										
+                                                     
+                                <div class="col-sm-6 col-xl-2">
+                                    <div class="card card-body bg-grey-700 has-bg-image animated flipInY">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><?php echo number_format($alltotal_mtd_rev/$perdate)?></h3>
+                                                <span class="text-uppercase font-size-xs"><?php echo $lang_achv.' / Day';?>	</span>
+                                            </div>
+
+                                            <div class="ml-3 align-self-center">
+                                                <i class=""></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /today's revenue -->
-                                </div>                           
-                                
-                                
-                                <div class="col-lg-2">
-                                    <!-- Today's revenue -->
-                                    <div class="card bg-grey-700 animated flipInY">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <h3 class="font-weight-semibold mb-0"><?php echo number_format($alltotal_mtd_rev/$perdate)?></h3>
-                                                
-                                            </div>
-                                            
-                                            <div>
-                                                <?php echo $lang_achv.' / Day';?>										
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /today's revenue -->
                                 </div>
-                                
-                                <div class="col-lg-2">
-                                    <!-- Today's revenue -->
-                                    <div class="card bg-brown-600 animated flipInY">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <h3 class="font-weight-semibold mb-0"><?php echo number_format(($alltotal_mtd_rev/$alltotal_mtd_budgetbybrand)*100,2).'%';?></h3>											
+
+                                <div class="col-sm-6 col-xl-2">
+                                    <div class="card card-body bg-brown-600 has-bg-image animated flipInY">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="mb-0"><?php echo number_format(($alltotal_mtd_rev/$alltotal_mtd_budgetbybrand)*100,2).'%';?></h3>
+                                                <span class="text-uppercase font-size-xs"><?php echo $lang_achv;?>	</span>
                                             </div>
-                                            
-                                            <div>
-                                                <?php echo $lang_achv;?>										
+
+                                            <div class="ml-3 align-self-center">
+                                                <i class=""></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /today's revenue -->
                                 </div>
                             </div>
                             <!-- /quick stats boxes -->

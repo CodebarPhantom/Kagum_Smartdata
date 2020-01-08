@@ -1930,7 +1930,7 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_expense_lastmtd_value = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY))*100;
+															$grandtotal_actual_expense_lastmtd_value = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY));
 														}else{
 															$grandtotal_actual_expense_lastmtd_value = 0;
 														}

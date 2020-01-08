@@ -1854,7 +1854,7 @@ function cal_days_in_year($yearact){
 														$grandtotal_ang_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('20', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_pomec_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('21', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom, $monthact, $yearact);
-														if($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 ){
+														if($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_actual_expense_value = (($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL + $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY));
 														}else{
 															$grandtotal_actual_expense_value = 0;

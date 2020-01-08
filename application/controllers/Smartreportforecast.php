@@ -38,22 +38,57 @@ class Smartreportforecast extends CI_Controller{
       
   }
 
-  function index(){
+  function forecast7days_export(){
     $excelForecast = new Spreadsheet();
     // Settingan awal file excel
     $excelForecast->getProperties()->setCreator('Eryan Fauzan')
     ->setLastModifiedBy('Eryan Fauzan')
-    ->setTitle("Forecast Kagum Hotel")
-    ->setSubject("Forecast Kagum Hotel")
+    ->setTitle("Forecast Kagum Hotels")
+    ->setSubject("Forecast Kagum Hotels")
     ->setDescription("Created By Eryan Fauzan")
-    ->setKeywords("Forecast Kagum Hotel");
+    ->setKeywords("Forecast Kagum Hotels");
 
-		$sheet = $excelForecast->getActiveSheet();
-		$sheet->setCellValue('A1', 'Hello World !');
+    $jj=2;
+    $kk=9;
+    $ll=4;
+
+    $sheet = $excelForecast->getActiveSheet();
+    $sheet->mergeCells('A1:H1');
+    $sheet->setCellValue('A1', "Forecast Kagum Hotels ".date("d F Y"));
+    $hotelsResult = $this->db
+                        ->select("h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created")       
+                        ->from("smartreport_hotels as h")
+                        ->join("smartreport_city as c", "h.idcity=c.idcity","left")
+                        ->join("smartreport_hotelscategory as hct", "hct.idhotelscategory=h.idhotelscategory","left")     
+                        ->where("h.parent='parent' and h.status='active'")
+                        ->order_by("h.hotels_name", "ASC")->get();
+    $hotelsRows = $hotelsResult->num_rows();  
+    if($hotelsRows > 0){
+      $hotelsData = $hotelsResult->result();
+      
+        
+      for($hd=0; $hd<count($hotelsData); $hd++){
+        $hotels_name = $hotelsData[$hd]->hotels_name;
+        
+        $sheet->mergeCells('A'.$jj.':A'.$kk);
+        $sheet->setCellValue("A$jj", "$hotels_name"); 
+        
+        $jj+=8;
+        $kk+=8;
+        
+      }
+
+      
+      unset($hotelsData);
+    }
+    unset($hotelsResult);
+    unset($hotelsRows);                        
+
+		
         
 		$writer = new Xlsx($excelForecast);
 		
-		$filename = 'simple';
+		$filename = 'Forecast Kagum Hotels';
 		
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

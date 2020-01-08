@@ -2342,7 +2342,7 @@ function cal_days_in_year($yearact){
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_salesmarketing_value);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 														

@@ -1463,17 +1463,17 @@ function cal_days_in_year($yearact){
 												
 												<!-- BEGIN MTD -->
 												<td class='rata-kanan'>
-												<?php
+													<?php
 													$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_payroll_rel_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('4', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_und_payroll_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $monthact, $yearact);
 													if($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY != 0 ){
-														$grandtotal_all_payroll_actual = (($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY));
+														$grandtotal_all_payroll_actual_value = (($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY));
 													}else{
-														$grandtotal_all_payroll_actual = 0;
+														$grandtotal_all_payroll_actual_value = 0;
 													}
 													?>
-													<strong><?php echo number_format($grandtotal_all_payroll_actual);?></strong>
+													<strong><?php echo number_format($grandtotal_all_payroll_actual_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1491,12 +1491,12 @@ function cal_days_in_year($yearact){
 													$grandtotal_payroll_rel_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('4', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_und_payroll_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $monthact, $yearact);
 													if($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY != 0 ){
-														$grandtotal_all_payroll_budget = (($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY));
+														$grandtotal_all_payroll_budget_value = (($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY));
 													}else{
-														$grandtotal_all_payroll_budget = 0;
+														$grandtotal_all_payroll_budget_value = 0;
 													}
 													?>
-													<strong><?php echo number_format($grandtotal_all_payroll_budget);?></strong>
+													<strong><?php echo number_format($grandtotal_all_payroll_budget_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -1511,15 +1511,16 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_all_payroll = $grandtotal_all_payroll_actual - $grandtotal_all_payroll_budget;
+														$variance_grandtotal_all_payroll = $grandtotal_all_payroll_actual_value - $grandtotal_all_payroll_budget_value;
 														($variance_grandtotal_all_payroll <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll); ?></div></strong>													
 												</td>
 												<!-- END MTD -->
 												
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'><?php 
+												<td class='rata-kanan'>
+													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
 															$grandtotal_total_sales_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $lastmonth, $lastyear);
 															$grandtotal_payroll_rel_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('4', $idhotel_custom, $lastmonth, $lastyear);
@@ -1531,12 +1532,12 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
-															$grandtotal_all_payroll_actual_lastmtd = (($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY) );
+															$grandtotal_all_payroll_actual_lastmtd_value = (($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY) );
 														}else{
-															$grandtotal_all_payroll_actual_lastmtd = 0;
+															$grandtotal_all_payroll_actual_lastmtd_value = 0;
 														}
 														?>
-														<strong><?php echo number_format($grandtotal_all_payroll_actual_lastmtd);?></strong></td>
+														<strong><?php echo number_format($grandtotal_all_payroll_actual_lastmtd_value);?></strong></td>
 												<td class='rata-kanan'>
 													<?php 
 														
@@ -1562,12 +1563,12 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 ){
-															$grandtotal_all_payroll_budget_lastmtd = (($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY) );
+															$grandtotal_all_payroll_budget_lastmtd_value = (($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY) );
 														}else{
-															$grandtotal_all_payroll_budget_lastmtd = 0;
+															$grandtotal_all_payroll_budget_lastmtd_value = 0;
 														}
 														?>
-														<strong><?php echo number_format($grandtotal_all_payroll_budget_lastmtd);?></strong>
+														<strong><?php echo number_format($grandtotal_all_payroll_budget_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 														
@@ -1582,10 +1583,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_all_payroll_lastmtd = $grandtotal_all_payroll_actual_lastmtd - $grandtotal_all_payroll_budget_lastmtd;
+														$variance_grandtotal_all_payroll_lastmtd = $grandtotal_all_payroll_actual_lastmtd_value - $grandtotal_all_payroll_budget_lastmtd_value;
 														($variance_grandtotal_all_payroll_lastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll_lastmtd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll_lastmtd); ?></div></strong>													
 												</td>
 												<!-- END LAST MTD -->
 												
@@ -1596,12 +1597,12 @@ function cal_days_in_year($yearact){
 													$grandtotal_payroll_rel_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_und_payroll_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													if($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
-														$grandtotal_all_payroll_actual_ytd = (($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY));
+														$grandtotal_all_payroll_actual_ytd_value = (($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY));
 													}else{
-														$grandtotal_all_payroll_actual_ytd = 0;
+														$grandtotal_all_payroll_actual_ytd_value = 0;
 													}
 													?>
-													<strong><?php echo number_format($grandtotal_all_payroll_actual_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_all_payroll_actual_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1619,13 +1620,13 @@ function cal_days_in_year($yearact){
 													$grandtotal_payroll_rel_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_und_payroll_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													if($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
-														$grandtotal_all_payroll_budget_ytd = (($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY));
+														$grandtotal_all_payroll_budget_ytd_value = (($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY));
 													}else{
-														$grandtotal_all_payroll_budget_ytd = 0;
+														$grandtotal_all_payroll_budget_ytd_value = 0;
 													}
 													
 													?>
-													<strong><?php echo number_format($grandtotal_all_payroll_budget_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_all_payroll_budget_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1639,10 +1640,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_all_payroll_ytd = $grandtotal_all_payroll_actual_ytd - $grandtotal_all_payroll_budget_ytd;
+														$variance_grandtotal_all_payroll_ytd = $grandtotal_all_payroll_actual_ytd_value - $grandtotal_all_payroll_budget_ytd_value;
 														($variance_grandtotal_all_payroll_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll_ytd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_all_payroll_ytd); ?></div></strong>													
 												</td>
 												<!-- END YTD -->
 											</tr>
@@ -1656,13 +1657,13 @@ function cal_days_in_year($yearact){
 													$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_energy_cost_actual = $this->Smartreport_actual_model->get_total_actual('22', $idhotel_custom, $monthact, $yearact);
 													if($grandtotal_energy_cost_actual->TOTAL_ACTUAL != 0){
-														$grandtotal_actual_energycost = ($grandtotal_energy_cost_actual->TOTAL_ACTUAL);	
+														$grandtotal_actual_energycost_value = ($grandtotal_energy_cost_actual->TOTAL_ACTUAL);	
 													}else{
-														$grandtotal_actual_energycost = 0;
+														$grandtotal_actual_energycost_value = 0;
 													}
 																									
 													?>
-													<strong><?php echo number_format($grandtotal_actual_energycost);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_energycost_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1680,13 +1681,13 @@ function cal_days_in_year($yearact){
 													$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_energy_cost_budget = $this->Smartreport_actual_model->get_total_budget('22', $idhotel_custom, $monthact, $yearact);
 													if($grandtotal_energy_cost_budget->TOTAL_BUDGET != 0 ){
-														$grandtotal_budget_energycost = ($grandtotal_energy_cost_budget->TOTAL_BUDGET);	
+														$grandtotal_budget_energycost_value = ($grandtotal_energy_cost_budget->TOTAL_BUDGET);	
 													}else{
-														$grandtotal_budget_energycost = 0;
+														$grandtotal_budget_energycost_value = 0;
 													}
 																									
 													?>
-													<strong><?php echo number_format($grandtotal_budget_energycost);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_energycost_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1701,10 +1702,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_energycost = $grandtotal_actual_energycost - $grandtotal_budget_energycost;
+														$variance_grandtotal_energycost = $grandtotal_actual_energycost_value - $grandtotal_budget_energycost_value;
 														($variance_grandtotal_energycost <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost,2).'%'; ?></div></strong>
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost); ?></div></strong>
 													
 												</td>
 												<!-- END MTD -->
@@ -1721,13 +1722,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL != 0 ){
-															$grandtotal_actual_energycost_lastmtd = ($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL);	
+															$grandtotal_actual_energycost_lastmtd_value = ($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL);	
 														}else{
-															$grandtotal_actual_energycost_lastmtd = 0;
+															$grandtotal_actual_energycost_lastmtd_value = 0;
 														}
 																										
 														?>
-														<strong><?php echo number_format($grandtotal_actual_energycost_lastmtd);?></strong>
+														<strong><?php echo number_format($grandtotal_actual_energycost_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 
@@ -1751,13 +1752,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET != 0 ){
-															$grandtotal_budget_energycost_lastmtd = ($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET);	
+															$grandtotal_budget_energycost_lastmtd_value = ($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET);	
 														}else{
-															$grandtotal_budget_energycost_lastmtd = 0;
+															$grandtotal_budget_energycost_lastmtd_value = 0;
 														}
 																										
 														?>
-														<strong><?php echo number_format($grandtotal_budget_energycost_lastmtd);?></strong>
+														<strong><?php echo number_format($grandtotal_budget_energycost_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 
@@ -1774,10 +1775,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_energycost_lastmtd = $grandtotal_actual_energycost_lastmtd - $grandtotal_budget_energycost_lastmtd;
+														$variance_grandtotal_energycost_lastmtd = $grandtotal_actual_energycost_lastmtd_value - $grandtotal_budget_energycost_lastmtd_value;
 														($variance_grandtotal_energycost_lastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost_lastmtd,2).'%'; ?></div></strong>
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost_lastmtd); ?></div></strong>
 													
 												</td>
 												<!-- END LAST MTD -->
@@ -1788,13 +1789,13 @@ function cal_days_in_year($yearact){
 													$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_energy_cost_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('22', $idhotel_custom,$startdate_ytd, $enddate_ytd);
 													if($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
-														$grandtotal_actual_energycost_ytd = ($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL);	
+														$grandtotal_actual_energycost_ytd_value = ($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL);	
 													}else{
-														$grandtotal_actual_energycost_ytd = 0;
+														$grandtotal_actual_energycost_ytd_value = 0;
 													}
 																									
 													?>
-													<strong><?php echo number_format($grandtotal_actual_energycost_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_energycost_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1812,13 +1813,13 @@ function cal_days_in_year($yearact){
 													$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_energy_cost_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('22', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													if($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET != 0 ){
-														$grandtotal_budget_energycost_ytd = ($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET);	
+														$grandtotal_budget_energycost_ytd_value = ($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET);	
 													}else{
-														$grandtotal_budget_energycost_ytd = 0;
+														$grandtotal_budget_energycost_ytd_value = 0;
 													}
 																									
 													?>
-													<strong><?php echo number_format($grandtotal_budget_energycost_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_energycost_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php													
@@ -1833,10 +1834,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_energycost_ytd = $grandtotal_actual_energycost_ytd - $grandtotal_budget_energycost_ytd;
+														$variance_grandtotal_energycost_ytd = $grandtotal_actual_energycost_ytd_value - $grandtotal_budget_energycost_ytd_value;
 														($variance_grandtotal_energycost_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost_ytd,2).'%'; ?></div></strong>
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_energycost_ytd); ?></div></strong>
 													
 												</td>
 												<!-- END YTD -->
@@ -1854,13 +1855,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_pomec_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('21', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_expense = (($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL + $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
+															$grandtotal_actual_expense_value = (($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL + $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
-															$grandtotal_actual_expense = 0;
+															$grandtotal_actual_expense_value = 0;
 														}
 																												
 													?>
-													<strong><?php echo number_format($grandtotal_actual_expense);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_expense_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -1875,20 +1876,20 @@ function cal_days_in_year($yearact){
 													<strong><?php echo number_format($grandtotal_actual_expense,2).'%';?></strong>
 												</td>
 												<td class='rata-kanan'>
-												<?php
+													<?php
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_other_expense_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('5', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_ang_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('20', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_pomec_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('21', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_ang_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_budget_expense = (($grandtotal_ang_und_exp_budget->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget->TOTAL_BUDGET + $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY));
+															$grandtotal_budget_expense_value = (($grandtotal_ang_und_exp_budget->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget->TOTAL_BUDGET + $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY));
 														}else{
-															$grandtotal_budget_expense = 0;
+															$grandtotal_budget_expense_value = 0;
 														}
 																												
 													?>
-													<strong><?php echo number_format($grandtotal_budget_expense);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_expense_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -1904,10 +1905,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_expense = $grandtotal_actual_expense - $grandtotal_budget_expense;
+														$variance_grandtotal_expense = $grandtotal_actual_expense_value - $grandtotal_budget_expense_value;
 														($variance_grandtotal_expense <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense); ?></div></strong>													
 												</td>
 												<!-- END MTD -->
 												
@@ -1929,13 +1930,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_expense_lastmtd = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY))*100;
+															$grandtotal_actual_expense_lastmtd_value = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY))*100;
 														}else{
-															$grandtotal_actual_expense_lastmtd = 0;
+															$grandtotal_actual_expense_lastmtd_value = 0;
 														}
 																												
 														?>
-													<strong><?php echo number_format($grandtotal_actual_expense_lastmtd);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_expense_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 													
@@ -1966,13 +1967,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_budget_expense_lastmtd = (($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY));
+															$grandtotal_budget_expense_lastmtd_value = (($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY));
 														}else{
-															$grandtotal_budget_expense_lastmtd = 0;
+															$grandtotal_budget_expense_lastmtd_value = 0;
 														}
 																												
 														?>
-													<strong><?php echo number_format($grandtotal_budget_expense_lastmtd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_expense_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 
@@ -1989,10 +1990,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_expense_lastmtd = $grandtotal_actual_expense_lastmtd - $grandtotal_budget_expense_lastmtd;
+														$variance_grandtotal_expense_lastmtd = $grandtotal_actual_expense_lastmtd_value - $grandtotal_budget_expense_lastmtd_value;
 														($variance_grandtotal_expense_lastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense_lastmtd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense_lastmtd); ?></div></strong>													
 												</td>
 												<!-- END LAST MTD -->
 												
@@ -2005,13 +2006,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_pomec_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('21', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														if($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_expense_ytd = (($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY));
+															$grandtotal_actual_expense_ytd_value = (($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY));
 														}else{
-															$grandtotal_actual_expense_ytd = 0;
+															$grandtotal_actual_expense_ytd_value = 0;
 														}
 																												
 													?>
-													<strong><?php echo number_format($grandtotal_actual_expense_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_expense_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2033,13 +2034,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_pomec_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('21', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														if($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_budget_expense_ytd = (($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY));
+															$grandtotal_budget_expense_ytd_value = (($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY));
 														}else{
-															$grandtotal_budget_expense_ytd = 0;
+															$grandtotal_budget_expense_ytd_value = 0;
 														}
 																												
 													?>
-													<strong><?php echo number_format($grandtotal_budget_expense_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_expense_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2055,10 +2056,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_expense_ytd = $grandtotal_actual_expense_ytd - $grandtotal_budget_expense_ytd;
+														$variance_grandtotal_expense_ytd = $grandtotal_actual_expense_ytd_value - $grandtotal_budget_expense_ytd_value;
 														($variance_grandtotal_expense_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense_ytd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_expense_ytd); ?></div></strong>													
 												</td>
 												<!-- END YTD -->
 											</tr>
@@ -2072,13 +2073,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_cost_of_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('3', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_cos = ($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY);
+															$grandtotal_actual_cos_value = ($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY);
 														}else{
-															$grandtotal_actual_cos = 0;
+															$grandtotal_actual_cos_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_cos);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_cos_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2097,13 +2098,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_cost_of_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('3', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_budget_cos = ($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY);
+															$grandtotal_budget_cos_value = ($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY);
 														}else{
-															$grandtotal_budget_cos = 0;
+															$grandtotal_budget_cos_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_budget_cos);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_cos_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2119,10 +2120,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_cos = $grandtotal_actual_cos - $grandtotal_budget_cos;
+														$variance_grandtotal_cos = $grandtotal_actual_cos_value - $grandtotal_budget_cos_value;
 														($variance_grandtotal_cos <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos); ?></div></strong>													
 												</td>
 												<!-- END MTD -->
 												
@@ -2138,13 +2139,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0) {
-															$grandtotal_actual_cos_lastmtd = ($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY);
+															$grandtotal_actual_cos_lastmtd_value = ($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY);
 														}else{
-															$grandtotal_actual_cos_lastmtd = 0;
+															$grandtotal_actual_cos_lastmtd_value = 0;
 														}
 														
 														?>
-														<strong><?php echo number_format($grandtotal_actual_cos_lastmtd);?></strong>
+														<strong><?php echo number_format($grandtotal_actual_cos_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 														
@@ -2169,13 +2170,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_budget_cos_lastmtd = ($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY);
+															$grandtotal_budget_cos_lastmtd_value = ($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY);
 														}else{
-															$grandtotal_budget_cos_lastmtd = 0;
+															$grandtotal_budget_cos_lastmtd_value = 0;
 														}
 														
 														?>
-														<strong><?php echo number_format($grandtotal_budget_cos_lastmtd);?></strong>
+														<strong><?php echo number_format($grandtotal_budget_cos_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 														
@@ -2191,10 +2192,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_cos_lastmtd = $grandtotal_actual_cos_lastmtd - $grandtotal_budget_cos_lastmtd;
+														$variance_grandtotal_cos_lastmtd = $grandtotal_actual_cos_lastmtd_value - $grandtotal_budget_cos_lastmtd_value;
 														($variance_grandtotal_cos_lastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos_lastmtd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos_lastmtd); ?></div></strong>													
 												</td>
 												<!-- END LAST MTD -->
 												
@@ -2204,13 +2205,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_cost_of_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('3', $idhotel_custom,$startdate_ytd, $enddate_ytd);
 														if($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_actual_cos_ytd = ($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY );
+															$grandtotal_actual_cos_ytd_value = ($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY );
 														}else{
-															$grandtotal_actual_cos_ytd = 0;
+															$grandtotal_actual_cos_ytd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_cos_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_cos_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2225,17 +2226,17 @@ function cal_days_in_year($yearact){
 													<strong><?php echo number_format($grandtotal_actual_cos_ytd,2).'%';?></strong>
 												</td>
 												<td class='rata-kanan'>
-												<?php
+													<?php
 														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_cost_of_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('3', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														if($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
-															$grandtotal_budget_cos_ytd = ($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY );
+															$grandtotal_budget_cos_ytd_value = ($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY );
 														}else{
-															$grandtotal_budget_cos_ytd = 0;
+															$grandtotal_budget_cos_ytd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_budget_cos_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_cos_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2251,10 +2252,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_cos_ytd = $grandtotal_actual_cos_ytd - $grandtotal_budget_cos_ytd;
+														$variance_grandtotal_cos_ytd = $grandtotal_actual_cos_ytd_value - $grandtotal_budget_cos_ytd_value;
 														($variance_grandtotal_cos_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos_ytd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_cos_ytd); ?></div></strong>													
 												</td>
 												<!-- END YTD -->
 											</tr>
@@ -2268,13 +2269,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL != 0 ){
-															$grandtotal_actual_salesmarketing = ($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL );
+															$grandtotal_actual_salesmarketing_value = ($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL );
 														}else{
-															$grandtotal_actual_salesmarketing = 0;
+															$grandtotal_actual_salesmarketing_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_salesmarketing);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2293,13 +2294,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom, $monthact, $yearact);
 														if($grandtotal_snm_und_exp_budget->TOTAL_BUDGET != 0){
-															$grandtotal_budget_salesmarketing = ($grandtotal_snm_und_exp_budget->TOTAL_BUDGET );
+															$grandtotal_budget_salesmarketing_value = ($grandtotal_snm_und_exp_budget->TOTAL_BUDGET );
 														}else{
-															$grandtotal_budget_salesmarketing = 0;
+															$grandtotal_budget_salesmarketing_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_budget_salesmarketing);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2316,10 +2317,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_salesmarketing = $grandtotal_actual_salesmarketing - $grandtotal_budget_salesmarketing;
+														$variance_grandtotal_salesmarketing = $grandtotal_actual_salesmarketing_value - $grandtotal_budget_salesmarketing_value;
 														($variance_grandtotal_salesmarketing <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing); ?></div></strong>													
 												</td>
 												<!-- END MTD -->
 												
@@ -2335,13 +2336,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL != 0){
-															$grandtotal_actual_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL);
+															$grandtotal_actual_salesmarketing_lastmtd_value = ($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL);
 														}else{
-															$grandtotal_actual_salesmarketing_lastmtd = 0;
+															$grandtotal_actual_salesmarketing_lastmtd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_salesmarketing);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 														
@@ -2366,13 +2367,13 @@ function cal_days_in_year($yearact){
 														}
 														
 														if($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET != 0 ){
-															$grandtotal_budget_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET);
+															$grandtotal_budget_salesmarketing_lastmtd_value = ($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET);
 														}else{
-															$grandtotal_budget_salesmarketing_lastmtd = 0;
+															$grandtotal_budget_salesmarketing_lastmtd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_budget_salesmarketing_lastmtd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing_lastmtd_value);?></strong>
 												</td>
 												<td class='rata-kanan'>
 													<?php 
@@ -2389,10 +2390,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_salesmarketing_lastmtd = $grandtotal_actual_salesmarketing_lastmtd - $grandtotal_budget_salesmarketing_lastmtd;
+														$variance_grandtotal_salesmarketing_lastmtd = $grandtotal_actual_salesmarketing_lastmtd_value - $grandtotal_budget_salesmarketing_lastmtd_value;
 														($variance_grandtotal_salesmarketing_lastmtd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing_lastmtd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing_lastmtd); ?></div></strong>													
 												</td>
 												<!-- END LAST MTD -->
 												
@@ -2402,13 +2403,13 @@ function cal_days_in_year($yearact){
 														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														if($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL != 0){
-															$grandtotal_actual_salesmarketing_ytd = ($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL);
+															$grandtotal_actual_salesmarketing_ytd_value = ($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL);
 														}else{
-															$grandtotal_actual_salesmarketing_ytd = 0;
+															$grandtotal_actual_salesmarketing_ytd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_actual_salesmarketing_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2423,17 +2424,17 @@ function cal_days_in_year($yearact){
 													<strong><?php echo number_format($grandtotal_actual_salesmarketing_ytd,2).'%';?></strong>
 												</td>
 												<td class='rata-kanan'>
-												<?php
+													<?php
 														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														if($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET != 0){
-															$grandtotal_budget_salesmarketing_ytd = ($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET);
+															$grandtotal_budget_salesmarketing_ytd_value = ($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET);
 														}else{
-															$grandtotal_budget_salesmarketing_ytd = 0;
+															$grandtotal_budget_salesmarketing_ytd_value = 0;
 														}
 														
 													?>
-													<strong><?php echo number_format($grandtotal_budget_salesmarketing_ytd);?></strong>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing_ytd_value);?></strong>
 												</td>	
 												<td class="rata-kanan">
 													<?php
@@ -2449,10 +2450,10 @@ function cal_days_in_year($yearact){
 												</td>
 												<td class='rata-kanan'>
 													<?php 	
-														$variance_grandtotal_salesmarketing_ytd = $grandtotal_actual_salesmarketing_ytd - $grandtotal_budget_salesmarketing_ytd;
+														$variance_grandtotal_salesmarketing_ytd = $grandtotal_actual_salesmarketing_ytd_value - $grandtotal_budget_salesmarketing_ytd_value;
 														($variance_grandtotal_salesmarketing_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
 													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing_ytd,2).'%'; ?></div></strong>													
+													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_salesmarketing_ytd); ?></div></strong>													
 												</td>
 												<!-- END YTD -->
 											</tr>

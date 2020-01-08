@@ -8,7 +8,7 @@
 
 				<div class="navbar-collapse collapse" id="navbar-footer">
 					<span class="navbar-text">
-						&copy; 2019 - <?php echo date('Y'); ?>. <a href="#">Kagum Hotels Smart Report</a> by <a href="https://id.linkedin.com/in/eryan-fauzan-1ba086190" target="_blank">Eryan Fauzan</a> Theme using <a href="#" target="_blank">Limitless Web App Kit</a>
+						&copy; 2019 - <?php echo date('Y'); ?>. <a href="#">Kagum Hotels Smartdata</a> by <a href="https://id.linkedin.com/in/eryan-fauzan-1ba086190" target="_blank">Eryan Fauzan</a> Theme using <a href="#" target="_blank">Limitless Web App Kit</a>
 					</span>
 
 					<ul class="navbar-nav ml-lg-auto">

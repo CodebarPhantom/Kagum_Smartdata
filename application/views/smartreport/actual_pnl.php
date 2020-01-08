@@ -1457,172 +1457,26 @@ function cal_days_in_year($yearact){
 												<!-- END YTD -->
 											</tr>
 											
-											<tr>
-												<td><strong>G.O.P. %</strong></td>	
-												
-												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>												
-												<td class='rata-kanan'>
-													<?php 
-														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_dept_profit_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('6', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_und_payroll_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_und_opr_exp_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('8', $idhotel_custom, $monthact, $yearact);
-														
-														$grandtotal_gross_opr_profit_actual = $grandtotal_dept_profit_actual->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_actual->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_actual != 0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_actual = ($grandtotal_gross_opr_profit_actual / $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_actual = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_actual,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class='rata-kanan'>
-													<?php 
-														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_dept_profit_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('6', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_und_payroll_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $monthact, $yearact);
-														$grandtotal_und_opr_exp_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('8', $idhotel_custom, $monthact, $yearact);
-														
-														$grandtotal_gross_opr_profit_budget = $grandtotal_dept_profit_budget->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_budget->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_budget != 0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_budget = ($grandtotal_gross_opr_profit_budget / $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_budget = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_budget,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>
-													<?php 	
-														$variance_grandtotal_gop = $grandtotal_gop_actual - $grandtotal_gop_budget;
-														($variance_grandtotal_gop <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
-													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_gop,2).'%'; ?></div></strong>													
-												</td>
-												<!-- END MTD -->
-												
-												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
-												<td class='rata-kanan'>
-													<?php 
-														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
-															$grandtotal_total_sales_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_dept_profit_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('6', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_payroll_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_opr_exp_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('8', $idhotel_custom, $lastmonth, $yearact);
-														}else{
-															$grandtotal_total_sales_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_dept_profit_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('6', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_payroll_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_opr_exp_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('8', $idhotel_custom, $lastmonth, $yearact);
-														}
-														
-														$grandtotal_gross_opr_profit_actual_lastmtd = $grandtotal_dept_profit_actual_lastmtd->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_actual_lastmtd->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_actual_lastmtd != 0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_actual_lastmtd = ($grandtotal_gross_opr_profit_actual_lastmtd / $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_actual_lastmtd = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_actual_lastmtd,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>-</td>
-												<td class='rata-kanan'>
-													<?php 
-														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
-															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $lastyear);
-															$grandtotal_dept_profit_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('6', $idhotel_custom, $lastmonth, $lastyear);
-															$grandtotal_und_payroll_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $lastmonth, $lastyear);
-															$grandtotal_und_opr_exp_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('8', $idhotel_custom, $lastmonth, $lastyear);
-														}else{
-															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_dept_profit_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('6', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_payroll_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $lastmonth, $yearact);
-															$grandtotal_und_opr_exp_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('8', $idhotel_custom, $lastmonth, $yearact);
-														}
-														
-														$grandtotal_gross_opr_profit_budget_lastmtd = $grandtotal_dept_profit_budget_lastmtd->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_budget_lastmtd->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_budget_lastmtd != 0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_budget_lastmtd = ($grandtotal_gross_opr_profit_budget_lastmtd / $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_budget_lastmtd = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_budget_lastmtd,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>
-													<?php 	
-														$variance_grandtotal_gop_lastmtd = $grandtotal_gop_actual_lastmtd  - $grandtotal_gop_budget_lastmtd ;
-														($variance_grandtotal_gop_lastmtd  <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
-													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_gop_lastmtd ,2).'%'; ?></div></strong>													
-												</td>
-												<!-- END LAST MTD -->
-												
-												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class='rata-kanan'>
-													<?php 
-														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_dept_profit_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('6', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_und_payroll_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_und_opr_exp_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('8', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														
-														$grandtotal_gross_opr_profit_actual_ytd = $grandtotal_dept_profit_actual_ytd->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_actual_ytd->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_actual_ytd != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_actual_ytd = ($grandtotal_gross_opr_profit_actual_ytd / $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_actual_ytd = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_actual_ytd,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class='rata-kanan'>
-													<?php 
-														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_dept_profit_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('6', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_und_payroll_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														$grandtotal_und_opr_exp_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('8', $idhotel_custom, $startdate_ytd, $enddate_ytd);
-														
-														$grandtotal_gross_opr_profit_budget_ytd = $grandtotal_dept_profit_budget_ytd->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp_budget_ytd->GRANDTOTAL_PNLCATEGORY);	
-														if($grandtotal_gross_opr_profit_budget_ytd != 0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0){
-															$grandtotal_gop_budget_ytd = ($grandtotal_gross_opr_profit_budget_ytd / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;	
-														}else{
-															$grandtotal_gop_budget_ytd = 0;
-														}
-																										
-													?>	
-													<strong><?php echo number_format($grandtotal_gop_budget_ytd,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>
-													<?php 	
-														$variance_grandtotal_gop_ytd = $grandtotal_gop_actual_ytd - $grandtotal_gop_budget_ytd;
-														($variance_grandtotal_gop_ytd <= 0) ? $textcolor='text-danger-600' : $textcolor='text-success-600'; 
-													?>
-													<strong><div class="<?php echo $textcolor?>"><?php echo number_format($variance_grandtotal_gop_ytd,2).'%'; ?></div></strong>													
-												</td>
-												<!-- END YTD -->
-											</tr>
 
 											<tr>
 												<td><strong>PAYROLL</strong></td>
 												
 												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
-													<?php
+												<td class='rata-kanan'>
+												<?php
 													$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_payroll_rel_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('4', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_und_payroll_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $monthact, $yearact);
+													if($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY != 0 ){
+														$grandtotal_all_payroll_actual = (($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY));
+													}else{
+														$grandtotal_all_payroll_actual = 0;
+													}
+													?>
+													<strong><?php echo number_format($grandtotal_all_payroll_actual);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0){
 														$grandtotal_all_payroll_actual = (($grandtotal_payroll_rel_actual->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
 													}else{
@@ -1631,12 +1485,22 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_all_payroll_actual,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_payroll_rel_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('4', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_und_payroll_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $monthact, $yearact);
+													if($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY != 0 ){
+														$grandtotal_all_payroll_budget = (($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY));
+													}else{
+														$grandtotal_all_payroll_budget = 0;
+													}
+													?>
+													<strong><?php echo number_format($grandtotal_all_payroll_budget);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+													
 													if($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0){
 														$grandtotal_all_payroll_budget = (($grandtotal_payroll_rel_budget->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY)*100;
 													}else{
@@ -1655,9 +1519,7 @@ function cal_days_in_year($yearact){
 												<!-- END MTD -->
 												
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
-												<td class='rata-kanan'>
-													<?php 
+												<td class='rata-kanan'><?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
 															$grandtotal_total_sales_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $lastmonth, $lastyear);
 															$grandtotal_payroll_rel_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('4', $idhotel_custom, $lastmonth, $lastyear);
@@ -1668,6 +1530,17 @@ function cal_days_in_year($yearact){
 															$grandtotal_und_payroll_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('7', $idhotel_custom, $lastmonth, $yearact);
 														}
 														
+														if($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
+															$grandtotal_all_payroll_actual_lastmtd = (($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY) );
+														}else{
+															$grandtotal_all_payroll_actual_lastmtd = 0;
+														}
+														?>
+														<strong><?php echo number_format($grandtotal_all_payroll_actual_lastmtd);?></strong></td>
+												<td class='rata-kanan'>
+													<?php 
+														
+														
 														if($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_all_payroll_actual_lastmtd = (($grandtotal_payroll_rel_actual_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -1676,7 +1549,6 @@ function cal_days_in_year($yearact){
 														?>
 														<strong><?php echo number_format($grandtotal_all_payroll_actual_lastmtd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -1688,6 +1560,17 @@ function cal_days_in_year($yearact){
 															$grandtotal_payroll_rel_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('4', $idhotel_custom, $lastmonth, $yearact);
 															$grandtotal_und_payroll_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('7', $idhotel_custom, $lastmonth, $yearact);
 														}
+														
+														if($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 ){
+															$grandtotal_all_payroll_budget_lastmtd = (($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY) );
+														}else{
+															$grandtotal_all_payroll_budget_lastmtd = 0;
+														}
+														?>
+														<strong><?php echo number_format($grandtotal_all_payroll_budget_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 														
 														
 														if($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_all_payroll_budget_lastmtd = (($grandtotal_payroll_rel_budget_lastmtd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
@@ -1707,12 +1590,21 @@ function cal_days_in_year($yearact){
 												<!-- END LAST MTD -->
 												
 												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_payroll_rel_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_und_payroll_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+													if($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
+														$grandtotal_all_payroll_actual_ytd = (($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY));
+													}else{
+														$grandtotal_all_payroll_actual_ytd = 0;
+													}
+													?>
+													<strong><?php echo number_format($grandtotal_all_payroll_actual_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0){
 														$grandtotal_all_payroll_actual_ytd = (($grandtotal_payroll_rel_actual_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_actual_ytd->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 													}else{
@@ -1721,12 +1613,22 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_all_payroll_actual_ytd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_payroll_rel_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('4', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_und_payroll_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('7', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+													if($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
+														$grandtotal_all_payroll_budget_ytd = (($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY));
+													}else{
+														$grandtotal_all_payroll_budget_ytd = 0;
+													}
+													
+													?>
+													<strong><?php echo number_format($grandtotal_all_payroll_budget_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0){
 														$grandtotal_all_payroll_budget_ytd = (($grandtotal_payroll_rel_budget_ytd->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll_budget_ytd->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 													}else{
@@ -1749,11 +1651,21 @@ function cal_days_in_year($yearact){
 												<td><strong>ENERGY COST</strong></td>	
 												
 												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_energy_cost_actual = $this->Smartreport_actual_model->get_total_actual('22', $idhotel_custom, $monthact, $yearact);
+													if($grandtotal_energy_cost_actual->TOTAL_ACTUAL != 0){
+														$grandtotal_actual_energycost = ($grandtotal_energy_cost_actual->TOTAL_ACTUAL);	
+													}else{
+														$grandtotal_actual_energycost = 0;
+													}
+																									
+													?>
+													<strong><?php echo number_format($grandtotal_actual_energycost);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_energy_cost_actual->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY != 0 ){
 														$grandtotal_actual_energycost = ($grandtotal_energy_cost_actual->TOTAL_ACTUAL / $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;	
 													}else{
@@ -1763,11 +1675,21 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_energycost,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 													$grandtotal_energy_cost_budget = $this->Smartreport_actual_model->get_total_budget('22', $idhotel_custom, $monthact, $yearact);
+													if($grandtotal_energy_cost_budget->TOTAL_BUDGET != 0 ){
+														$grandtotal_budget_energycost = ($grandtotal_energy_cost_budget->TOTAL_BUDGET);	
+													}else{
+														$grandtotal_budget_energycost = 0;
+													}
+																									
+													?>
+													<strong><?php echo number_format($grandtotal_budget_energycost);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_energy_cost_budget->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY != 0 ){
 														$grandtotal_budget_energycost = ($grandtotal_energy_cost_budget->TOTAL_BUDGET / $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY)*100;	
 													}else{
@@ -1788,7 +1710,6 @@ function cal_days_in_year($yearact){
 												<!-- END MTD -->
 
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -1799,6 +1720,17 @@ function cal_days_in_year($yearact){
 															$grandtotal_energy_cost_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('22', $idhotel_custom, $lastmonth, $yearact);
 														}
 														
+														if($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL != 0 ){
+															$grandtotal_actual_energycost_lastmtd = ($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL);	
+														}else{
+															$grandtotal_actual_energycost_lastmtd = 0;
+														}
+																										
+														?>
+														<strong><?php echo number_format($grandtotal_actual_energycost_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 
 														if($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 ){
 															$grandtotal_actual_energycost_lastmtd = ($grandtotal_energy_cost_actual_lastmtd->TOTAL_ACTUAL / $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;	
 														}else{
@@ -1808,9 +1740,8 @@ function cal_days_in_year($yearact){
 														?>
 														<strong><?php echo number_format($grandtotal_actual_energycost_lastmtd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
-													<?php 
+														<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
 															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $lastyear);
 															$grandtotal_energy_cost_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('22', $idhotel_custom, $lastmonth, $lastyear);
@@ -1818,6 +1749,19 @@ function cal_days_in_year($yearact){
 															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $yearact);
 															$grandtotal_energy_cost_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('22', $idhotel_custom, $lastmonth, $yearact);
 														}
+														
+														if($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET != 0 ){
+															$grandtotal_budget_energycost_lastmtd = ($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET);	
+														}else{
+															$grandtotal_budget_energycost_lastmtd = 0;
+														}
+																										
+														?>
+														<strong><?php echo number_format($grandtotal_budget_energycost_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 
+														
 														
 														if($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0 ){
 															$grandtotal_budget_energycost_lastmtd = ($grandtotal_energy_cost_budget_lastmtd->TOTAL_BUDGET / $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;	
@@ -1839,11 +1783,21 @@ function cal_days_in_year($yearact){
 												<!-- END LAST MTD -->
 
 												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_energy_cost_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('22', $idhotel_custom,$startdate_ytd, $enddate_ytd);
+													if($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
+														$grandtotal_actual_energycost_ytd = ($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL);	
+													}else{
+														$grandtotal_actual_energycost_ytd = 0;
+													}
+																									
+													?>
+													<strong><?php echo number_format($grandtotal_actual_energycost_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
 														$grandtotal_actual_energycost_ytd = ($grandtotal_energy_cost_actual_ytd->TOTAL_ACTUAL / $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;	
 													}else{
@@ -1853,11 +1807,21 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_energycost_ytd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 													$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 													$grandtotal_energy_cost_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('22', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+													if($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET != 0 ){
+														$grandtotal_budget_energycost_ytd = ($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET);	
+													}else{
+														$grandtotal_budget_energycost_ytd = 0;
+													}
+																									
+													?>
+													<strong><?php echo number_format($grandtotal_budget_energycost_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php													
 													if($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0 ){
 														$grandtotal_budget_energycost_ytd = ($grandtotal_energy_cost_budget_ytd->TOTAL_BUDGET / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;	
 													}else{
@@ -1882,8 +1846,7 @@ function cal_days_in_year($yearact){
 												<td><strong>EXPENSE</strong></td>
 												
 												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_other_expense_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('5', $idhotel_custom, $monthact, $yearact);
@@ -1897,16 +1860,39 @@ function cal_days_in_year($yearact){
 														}
 																												
 													?>
-													<strong><?php echo number_format($grandtotal_actual_expense,2).'%';?></strong>
-												</td>
-												<td class='rata-kanan'>-</td>	
+													<strong><?php echo number_format($grandtotal_actual_expense);?></strong>
+												</td>	
 												<td class="rata-kanan">
 													<?php
+														
+														if($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_actual_expense = (($grandtotal_ang_und_exp_actual->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual->TOTAL_ACTUAL + $grandtotal_other_expense_actual->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
+														}else{
+															$grandtotal_actual_expense = 0;
+														}
+																												
+													?>
+													<strong><?php echo number_format($grandtotal_actual_expense,2).'%';?></strong>
+												</td>
+												<td class='rata-kanan'>
+												<?php
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_other_expense_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('5', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_ang_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('20', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_pomec_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('21', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom, $monthact, $yearact);
+														if($grandtotal_ang_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_budget_expense = (($grandtotal_ang_und_exp_budget->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget->TOTAL_BUDGET + $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY));
+														}else{
+															$grandtotal_budget_expense = 0;
+														}
+																												
+													?>
+													<strong><?php echo number_format($grandtotal_budget_expense);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_ang_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0 ){
 															$grandtotal_budget_expense = (($grandtotal_ang_und_exp_budget->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget->TOTAL_BUDGET + $grandtotal_other_expense_budget->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -1926,7 +1912,6 @@ function cal_days_in_year($yearact){
 												<!-- END MTD -->
 												
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -1943,6 +1928,18 @@ function cal_days_in_year($yearact){
 															$grandtotal_snm_und_exp_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom,  $lastmonth, $yearact);
 														}
 														
+														if($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_actual_expense_lastmtd = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY))*100;
+														}else{
+															$grandtotal_actual_expense_lastmtd = 0;
+														}
+																												
+														?>
+													<strong><?php echo number_format($grandtotal_actual_expense_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 													
+														
 														if($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
 															$grandtotal_actual_expense_lastmtd = (($grandtotal_ang_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -1952,7 +1949,6 @@ function cal_days_in_year($yearact){
 														?>
 													<strong><?php echo number_format($grandtotal_actual_expense_lastmtd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -1968,6 +1964,19 @@ function cal_days_in_year($yearact){
 															$grandtotal_pomec_und_exp_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('21', $idhotel_custom,  $lastmonth, $yearact);
 															$grandtotal_snm_und_exp_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom,  $lastmonth, $yearact);
 														}
+														
+														if($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_budget_expense_lastmtd = (($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY));
+														}else{
+															$grandtotal_budget_expense_lastmtd = 0;
+														}
+																												
+														?>
+													<strong><?php echo number_format($grandtotal_budget_expense_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 
+														
 														
 														if($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 ){
 															$grandtotal_budget_expense_lastmtd = (($grandtotal_ang_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET + $grandtotal_other_expense_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
@@ -1988,14 +1997,25 @@ function cal_days_in_year($yearact){
 												<!-- END LAST MTD -->
 												
 												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_other_expense_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('5', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_ang_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('20', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_pomec_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('21', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														if($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_actual_expense_ytd = (($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY));
+														}else{
+															$grandtotal_actual_expense_ytd = 0;
+														}
+																												
+													?>
+													<strong><?php echo number_format($grandtotal_actual_expense_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL !=0 && $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL !=0 &&  $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
 															$grandtotal_actual_expense_ytd = (($grandtotal_ang_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_pomec_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL + $grandtotal_other_expense_actual_ytd->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2005,14 +2025,25 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_expense_ytd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_other_expense_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('5', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_ang_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('20', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_pomec_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('21', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														if($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_budget_expense_ytd = (($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY));
+														}else{
+															$grandtotal_budget_expense_ytd = 0;
+														}
+																												
+													?>
+													<strong><?php echo number_format($grandtotal_budget_expense_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
 															$grandtotal_budget_expense_ytd = (($grandtotal_ang_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_pomec_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET + $grandtotal_other_expense_budget_ytd->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2036,11 +2067,22 @@ function cal_days_in_year($yearact){
 												<td><strong>COST OF SALES</strong></td>	
 												
 												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_cost_of_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('3', $idhotel_custom, $monthact, $yearact);
+														if($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_actual_cos = ($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY);
+														}else{
+															$grandtotal_actual_cos = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_actual_cos);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_actual_cos = ($grandtotal_cost_of_sales_actual->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2050,11 +2092,22 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_cos,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_cost_of_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('3', $idhotel_custom, $monthact, $yearact);
+														if($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0){
+															$grandtotal_budget_cos = ($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY);
+														}else{
+															$grandtotal_budget_cos = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_budget_cos);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_budget_cos = ($grandtotal_cost_of_sales_budget->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_budget->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2074,7 +2127,6 @@ function cal_days_in_year($yearact){
 												<!-- END MTD -->
 												
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -2085,6 +2137,18 @@ function cal_days_in_year($yearact){
 															$grandtotal_cost_of_sales_actual_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('3', $idhotel_custom, $lastmonth, $yearact);
 														}
 														
+														if($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0) {
+															$grandtotal_actual_cos_lastmtd = ($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY);
+														}else{
+															$grandtotal_actual_cos_lastmtd = 0;
+														}
+														
+														?>
+														<strong><?php echo number_format($grandtotal_actual_cos_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 														
+														
 														if($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_actual_cos_lastmtd = ($grandtotal_cost_of_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2094,7 +2158,6 @@ function cal_days_in_year($yearact){
 														?>
 														<strong><?php echo number_format($grandtotal_actual_cos_lastmtd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -2104,6 +2167,18 @@ function cal_days_in_year($yearact){
 															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $yearact);
 															$grandtotal_cost_of_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('3', $idhotel_custom, $lastmonth, $yearact);
 														}
+														
+														if($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
+															$grandtotal_budget_cos_lastmtd = ($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY);
+														}else{
+															$grandtotal_budget_cos_lastmtd = 0;
+														}
+														
+														?>
+														<strong><?php echo number_format($grandtotal_budget_cos_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 														
 														
 														if($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_budget_cos_lastmtd = ($grandtotal_cost_of_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
@@ -2124,11 +2199,22 @@ function cal_days_in_year($yearact){
 												<!-- END LAST MTD -->
 												
 												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_cost_of_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('3', $idhotel_custom,$startdate_ytd, $enddate_ytd);
+														if($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_actual_cos_ytd = ($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY );
+														}else{
+															$grandtotal_actual_cos_ytd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_actual_cos_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_actual_cos_ytd = ($grandtotal_cost_of_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2138,11 +2224,22 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_cos_ytd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
-													<?php
+												<td class='rata-kanan'>
+												<?php
 														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_cost_of_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('3', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														if($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 ){
+															$grandtotal_budget_cos_ytd = ($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY );
+														}else{
+															$grandtotal_budget_cos_ytd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_budget_cos_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY !=0){
 															$grandtotal_budget_cos_ytd = ($grandtotal_cost_of_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2166,11 +2263,22 @@ function cal_days_in_year($yearact){
 												<td><strong>MARKETING EXPENSE</strong></td>	
 												
 												<!-- BEGIN MTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual('2', $idhotel_custom, $monthact, $yearact);
 														$grandtotal_snm_und_exp_actual = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom, $monthact, $yearact);
+														if($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL != 0 ){
+															$grandtotal_actual_salesmarketing = ($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL );
+														}else{
+															$grandtotal_actual_salesmarketing = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY != 0){
 															$grandtotal_actual_salesmarketing = ($grandtotal_snm_und_exp_actual->TOTAL_ACTUAL / $grandtotal_total_sales_actual->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2180,7 +2288,19 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_salesmarketing,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
+												<td class='rata-kanan'>
+													<?php
+														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
+														$grandtotal_snm_und_exp_budget = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom, $monthact, $yearact);
+														if($grandtotal_snm_und_exp_budget->TOTAL_BUDGET != 0){
+															$grandtotal_budget_salesmarketing = ($grandtotal_snm_und_exp_budget->TOTAL_BUDGET );
+														}else{
+															$grandtotal_budget_salesmarketing = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing);?></strong>
+												</td>	
 												<td class="rata-kanan">
 													<?php
 														$grandtotal_total_sales_budget = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $monthact, $yearact);
@@ -2204,7 +2324,6 @@ function cal_days_in_year($yearact){
 												<!-- END MTD -->
 												
 												<!-- BEGIN LAST MTD -->
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -2215,6 +2334,18 @@ function cal_days_in_year($yearact){
 															$grandtotal_snm_und_exp_actual_lastmtd = $this->Smartreport_actual_model->get_total_actual('23', $idhotel_custom, $lastmonth, $yearact);
 														}
 														
+														if($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL != 0){
+															$grandtotal_actual_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL);
+														}else{
+															$grandtotal_actual_salesmarketing_lastmtd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 														
+														
 														if($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
 															$grandtotal_actual_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_actual_lastmtd->TOTAL_ACTUAL / $grandtotal_total_sales_actual_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2224,7 +2355,6 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_salesmarketing,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>
 												<td class='rata-kanan'>
 													<?php 
 														if($monthact == '01'){ //jika difilter adalah bulan januari 2019 maka last monthnya adalah desember 2018 tahun sebelumnya
@@ -2234,6 +2364,19 @@ function cal_days_in_year($yearact){
 															$grandtotal_total_sales_budget_lastmtd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget('2', $idhotel_custom, $lastmonth, $yearact);
 															$grandtotal_snm_und_exp_budget_lastmtd = $this->Smartreport_actual_model->get_total_budget('23', $idhotel_custom, $lastmonth, $yearact);
 														}
+														
+														if($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET != 0 ){
+															$grandtotal_budget_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET);
+														}else{
+															$grandtotal_budget_salesmarketing_lastmtd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing_lastmtd);?></strong>
+												</td>
+												<td class='rata-kanan'>
+													<?php 
+														
 														
 														if($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY != 0){
 															$grandtotal_budget_salesmarketing_lastmtd = ($grandtotal_snm_und_exp_budget_lastmtd->TOTAL_BUDGET / $grandtotal_total_sales_budget_lastmtd->GRANDTOTAL_PNLCATEGORY)*100;
@@ -2254,11 +2397,22 @@ function cal_days_in_year($yearact){
 												<!-- END LAST MTD -->
 												
 												<!-- BEGIN YTD -->
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
+												<td class='rata-kanan'>
 													<?php
 														$grandtotal_total_sales_actual_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_actual_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_actual_ytd = $this->Smartreport_actual_model->get_total_actual_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														if($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL != 0){
+															$grandtotal_actual_salesmarketing_ytd = ($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL);
+														}else{
+															$grandtotal_actual_salesmarketing_ytd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_actual_salesmarketing_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL != 0 && $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY != 0){
 															$grandtotal_actual_salesmarketing_ytd = ($grandtotal_snm_und_exp_actual_ytd->TOTAL_ACTUAL / $grandtotal_total_sales_actual_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{
@@ -2268,11 +2422,22 @@ function cal_days_in_year($yearact){
 													?>
 													<strong><?php echo number_format($grandtotal_actual_salesmarketing_ytd,2).'%';?></strong>
 												</td>
-												<td class='rata-kanan'>-</td>	
-												<td class="rata-kanan">
-													<?php
+												<td class='rata-kanan'>
+												<?php
 														$grandtotal_total_sales_budget_ytd = $this->Smartreport_actual_model->get_grandtotal_pnlcategory_budget_ytd('2', $idhotel_custom, $startdate_ytd, $enddate_ytd);
 														$grandtotal_snm_und_exp_budget_ytd = $this->Smartreport_actual_model->get_total_budget_ytd('23', $idhotel_custom, $startdate_ytd, $enddate_ytd);
+														if($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET != 0){
+															$grandtotal_budget_salesmarketing_ytd = ($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET);
+														}else{
+															$grandtotal_budget_salesmarketing_ytd = 0;
+														}
+														
+													?>
+													<strong><?php echo number_format($grandtotal_budget_salesmarketing_ytd);?></strong>
+												</td>	
+												<td class="rata-kanan">
+													<?php
+														
 														if($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET != 0 && $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY != 0){
 															$grandtotal_budget_salesmarketing_ytd = ($grandtotal_snm_und_exp_budget_ytd->TOTAL_BUDGET / $grandtotal_total_sales_budget_ytd->GRANDTOTAL_PNLCATEGORY)*100;
 														}else{

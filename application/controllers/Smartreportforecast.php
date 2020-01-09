@@ -39,6 +39,9 @@ class Smartreportforecast extends CI_Controller{
   }
 
 
+  function foreinfo(){
+    phpinfo();
+  }
 
   function forecast7days(){
       //Allowing akses to smartreport only

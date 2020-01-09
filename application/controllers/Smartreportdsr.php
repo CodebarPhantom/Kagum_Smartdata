@@ -33,6 +33,59 @@ class Smartreportdsr extends CI_Controller{
       
   }
 
+  function daily_sales_report_pdf(){
+    $user_HotelForDSR = $this->session->userdata('user_hotel');
+    $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+        if($getidhotel_custom == NULL){
+          $getidhotel_custom = $user_HotelForDSR; 
+        }
+        
+        $getdate_dsr = strtotime($this->input->get('date_dsr', TRUE));
+        $date_dsr = date("Y-m-d", $getdate_dsr);
+        
+        $getHotelByUser = $this->Smartreport_hca_model->getHotelByUserHotel($getidhotel_custom);
+        $hotelsName = $getHotelByUser->row();
+        $page_data['getHotelByUser_data'] = $getHotelByUser;
+
+        $page_data['lang_dsr'] = $this->lang->line('dsr');
+        $page_data['lang_date'] = $this->lang->line('date');
+        $page_data['lang_add_dsr'] = $this->lang->line('add_dsr');
+        $page_data['lang_category'] = $this->lang->line('category');
+        $page_data['lang_today'] = $this->lang->line('today');
+        $page_data['lang_actual'] = $this->lang->line('actual');
+        $page_data['lang_budget'] = $this->lang->line('budget');
+        $page_data['lang_number_days'] = $this->lang->line('number_days');
+        $page_data['lang_room_available'] = $this->lang->line('room_available');
+        $page_data['lang_room_sold'] = $this->lang->line('room_sold');
+        $page_data['lang_occupancy'] = $this->lang->line('occupancy');
+        $page_data['lang_number_guest'] = $this->lang->line('number_guest');
+        $page_data['lang_arr'] = $this->lang->line('arr');
+        $page_data['lang_statistic'] = $this->lang->line('statistic');
+        $page_data['lang_sales'] = $this->lang->line('sales');
+        $page_data['lang_rooms'] = $this->lang->line('rooms');
+        $page_data['lang_fnb'] = $this->lang->line('fnb');
+        $page_data['lang_other'] = $this->lang->line('other');
+        $page_data['lang_laundry'] = $this->lang->line('laundry');
+        $page_data['lang_spa'] = $this->lang->line('spa');
+        $page_data['lang_total_sales'] = $this->lang->line('total_sales');
+        $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
+        $page_data['lang_outoforder'] = $this->lang->line('outoforder');
+
+        $page_data['hotelsName'] = $hotelsName;
+        $page_data['date_dsr'] = $this->input->get('date_dsr', TRUE);
+        $page_data['dateToView'] = $date_dsr;
+        $page_data['idhotel_custom'] = $getidhotel_custom;
+
+        
+        
+
+
+      $this->pdfgenerator->setPaper('A4', 'potrait');
+      $this->pdfgenerator->filename = $hotelsName->hotels_name." Daily Sales Report  ".$date_dsr.".pdf";
+      $this->pdfgenerator->load_view('smartreport/pdf_dsr', $page_data);
+      //$this->load->view('smartreport/pdf_dsr', $page_data);
+  }
+
   function daily_sales_report(){
     $user_level = $this->session->userdata('user_level');
     $user_HotelForDSR = $this->session->userdata('user_hotel');
@@ -126,7 +179,7 @@ class Smartreportdsr extends CI_Controller{
     }else{
         redirect('errorpage/error403');
     }
-  }
+  }  
 
   function insert_dsr(){
     $user_level = $this->session->userdata('user_level');

@@ -154,6 +154,10 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                                     <button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <a href="<?php echo base_url('smartreportdsr/daily-sales-report-pdf?date_dsr='.$dateToView.'&idhotelcustom='.$idhotel_custom);?>"><button type="button" class="btn bg-teal-400 ">Export to PDF <i class="icon-file-pdf ml-2"></i></button></a>
+                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -639,8 +643,9 @@ $outoforder_today = 0; $outoforder_mtd=0; $outoforder_ytd=0;
                     </td>
                 </tr>
 
-            </tbody>
+            
             <?php } ?>
+            </tbody>
         </table>
     </div>
 

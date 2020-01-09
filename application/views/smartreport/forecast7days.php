@@ -24,7 +24,11 @@
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
 
-        
+        <div class="header-elements d-none">
+            <div class="form-group">										
+                <a href="<?php echo base_url('smartreportforecast/forecast7days_export');?>"><button type="button" class="btn bg-teal-400 ">Export to XLSX <i class="icon-file-excel ml-2"></i></button></a>
+            </div>
+        </div>
     </div>
 </div>
 <!-- /page header -->

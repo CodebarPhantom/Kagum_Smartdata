@@ -517,7 +517,7 @@
             <tr>
             <td><?php echo $lang_other.' + '.$lang_laundry.' + '.$lang_spa; ?></td>
 
-            <td style="text-align: right;"<?php echo number_format($oth_today);?></td>
+            <td style="text-align: right;"><?php echo number_format($oth_today);?></td>
             <td style="text-align: right;"><?php if($oth_today != 0 && $tot_sales_today != 0){ echo number_format(($oth_today/$tot_sales_today)*100,2).'%';}?>
             </td>
 

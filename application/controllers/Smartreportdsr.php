@@ -34,7 +34,10 @@ class Smartreportdsr extends CI_Controller{
   }
 
   function daily_sales_report_pdf(){
+    $user_level = $this->session->userdata('user_level');
     $user_HotelForDSR = $this->session->userdata('user_hotel');
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
     $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
         if($getidhotel_custom == NULL){
           $getidhotel_custom = $user_HotelForDSR; 
@@ -84,6 +87,9 @@ class Smartreportdsr extends CI_Controller{
       $this->pdfgenerator->filename = $hotelsName->hotels_name." Daily Sales Report  ".$date_dsr.".pdf";
       $this->pdfgenerator->load_view('smartreport/pdf_dsr', $page_data);
       //$this->load->view('smartreport/pdf_dsr', $page_data);
+      }else{
+        redirect('errorpage/error403');
+    }
   }
 
   function daily_sales_report(){

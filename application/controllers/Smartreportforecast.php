@@ -39,9 +39,9 @@ class Smartreportforecast extends CI_Controller{
   }
 
 
-  function foreinfo(){
-    phpinfo();
-  }
+  //function foreinfo(){
+  //  phpinfo();
+  //}
 
   function forecast7days(){
       //Allowing akses to smartreport only
@@ -49,9 +49,7 @@ class Smartreportforecast extends CI_Controller{
     $user_HotelForForecast = $this->session->userdata('user_hotel');
     // buat ngecek misal si user nakal main masukin URL
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
-      if($check_permission->num_rows() == 1){
-
-        
+      if($check_permission->num_rows() == 1){        
         
         $page_data['page_name'] = 'forecast7days';
 
@@ -141,295 +139,303 @@ class Smartreportforecast extends CI_Controller{
   }
 
   function forecast7days_export(){
-    $excelForecast = new Spreadsheet();
-    // Settingan awal file excel
-    $excelForecast->getProperties()->setCreator('Eryan Fauzan')
-    ->setLastModifiedBy('Eryan Fauzan')
-    ->setTitle("Forecast Kagum Hotels")
-    ->setSubject("Forecast Kagum Hotels")
-    ->setDescription("Created By Eryan Fauzan")
-    ->setKeywords("Forecast Kagum Hotels");
+    //Allowing akses to smartreport only
+    $user_level = $this->session->userdata('user_level');   
+    // buat ngecek misal si user nakal main masukin URL
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+      if($check_permission->num_rows() == 1){
+        $excelForecast = new Spreadsheet();
+        // Settingan awal file excel
+        $excelForecast->getProperties()->setCreator('Eryan Fauzan')
+        ->setLastModifiedBy('Eryan Fauzan')
+        ->setTitle("Forecast Kagum Hotels")
+        ->setSubject("Forecast Kagum Hotels")
+        ->setDescription("Created By Eryan Fauzan")
+        ->setKeywords("Forecast Kagum Hotels");
 
-    $border_thin = array(
-        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-        'color' => ['argb' => '0000000'],
-    );
-    $styleDefaultBorder = array(
-      'borders'=>array(
-        'allBorders'=>$border_thin
-      ),
-      );
+        $border_thin = array(
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['argb' => '0000000'],
+        );
+        $styleDefaultBorder = array(
+          'borders'=>array(
+            'allBorders'=>$border_thin
+          ),
+        );
 
-    $style_alignCenter_header = array(
-      'font' => array(
-        'bold'=> true,
-        'size'=>(16)
-      ),
-      'alignment' => array(
-        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-      ),
-      'borders' => array(
-        'allBorders'=>$border_thin
-      )
-      
-    );  
+        $style_alignCenter_header = array(
+          'font' => array(
+            'bold'=> true,
+            'size'=>(16)
+          ),
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );  
 
-    $style_alignCenter_subHeader = array(
-      'font' => array(
-        'bold'=> true,
-      ),
-      'alignment' => array(
-        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-      ),
-      'borders' => array(
-        'allBorders'=>$border_thin
-      )
-      
-    );
+        $style_alignCenter_subHeader = array(
+          'font' => array(
+            'bold'=> true,
+          ),
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );
 
-    $style_alignRight_text = array(      
-      'alignment' => array(
-        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT       
-      ),
-      'borders' => array(
-        'allBorders'=>$border_thin
-      )
-      
-    );
+        $style_alignRight_text = array(      
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT       
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );
 
-    $jj=2;
-    $kk=9;
+        $jj=2;
+        $kk=9;
 
-    $ll=3;
-    $mm=4;
-    $nn=5;
-    $oo=6;
-    $pp=7;
-    $qq=8;
-    $rr=9;
-    $ss=10;
+        $ll=3;
+        $mm=4;
+        $nn=5;
+        $oo=6;
+        $pp=7;
+        $qq=8;
+        $rr=9;
+        $ss=10;
 
-    $sheet = $excelForecast->getActiveSheet();
-    $sheet->mergeCells('A1:I1');
-    $sheet->setCellValue('A1', "Forecast Kagum Hotels ".date("d F Y"));
-    $sheet->getStyle('A1:I1')->applyFromArray($style_alignCenter_header);
-    $hotelsResult = $this->db
-                        ->select("h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created")       
-                        ->from("smartreport_hotels as h")
-                        ->join("smartreport_city as c", "h.idcity=c.idcity","left")
-                        ->join("smartreport_hotelscategory as hct", "hct.idhotelscategory=h.idhotelscategory","left")     
-                        ->where("h.parent='parent' and h.status='active'")
-                        ->order_by("h.hotels_name", "ASC")->get();
-    $hotelsRows = $hotelsResult->num_rows();  
-    if($hotelsRows > 0){
-      $hotelsData = $hotelsResult->result();
-      
-        
-      for($hd=0; $hd<count($hotelsData); $hd++){
-        $hotels_name = $hotelsData[$hd]->hotels_name;
-        
-        $sheet->mergeCells('A'.$jj.':A'.$kk);
-        $sheet->setCellValue("A$jj", "$hotels_name");
-        $sheet->setCellValue("B$ll", "Room Available");
-        $sheet->setCellValue("B$mm", "Confirmed");
-        $sheet->setCellValue("B$nn", "Tentative");
-        $sheet->setCellValue("B$oo", "On Hand Confirmed + Tentative");
-        $sheet->setCellValue("B$pp", "% Occ Confirmed");
-        $sheet->setCellValue("B$qq", "% Occ Confirmed + Tentative");
-        $sheet->setCellValue("B$rr", "Average Room Rate");
+        $sheet = $excelForecast->getActiveSheet();
+        $sheet->mergeCells('A1:I1');
+        $sheet->setCellValue('A1', "Forecast Kagum Hotels ".date("d F Y"));
+        $sheet->getStyle('A1:I1')->applyFromArray($style_alignCenter_header);
+        $hotelsResult = $this->db
+                            ->select("h.idhotels, h.idcity, c.city_name, hct.idhotelscategory, hct.hotels_category, h.parent, h.hotels_name, h.total_rooms, h.hotel_star, h.status, h.date_created")       
+                            ->from("smartreport_hotels as h")
+                            ->join("smartreport_city as c", "h.idcity=c.idcity","left")
+                            ->join("smartreport_hotelscategory as hct", "hct.idhotelscategory=h.idhotelscategory","left")     
+                            ->where("h.parent='parent' and h.status='active'")
+                            ->order_by("h.hotels_name", "ASC")->get();
+        $hotelsRows = $hotelsResult->num_rows();  
+        if($hotelsRows > 0){
+          $hotelsData = $hotelsResult->result();
+          
+            
+          for($hd=0; $hd<count($hotelsData); $hd++){
+            $hotels_name = $hotelsData[$hd]->hotels_name;
+            
+            $sheet->mergeCells('A'.$jj.':A'.$kk);
+            $sheet->setCellValue("A$jj", "$hotels_name");
+            $sheet->setCellValue("B$ll", "Room Available");
+            $sheet->setCellValue("B$mm", "Confirmed");
+            $sheet->setCellValue("B$nn", "Tentative");
+            $sheet->setCellValue("B$oo", "On Hand Confirmed + Tentative");
+            $sheet->setCellValue("B$pp", "% Occ Confirmed");
+            $sheet->setCellValue("B$qq", "% Occ Confirmed + Tentative");
+            $sheet->setCellValue("B$rr", "Average Room Rate");
 
-        $sheet->getStyle("A$jj:A$kk")->applyFromArray($style_alignCenter_subHeader);
-        $sheet->getStyle("B$ll")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$mm")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$nn")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$oo")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$pp")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$qq")->applyFromArray($styleDefaultBorder);
-        $sheet->getStyle("B$rr")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("A$jj:A$kk")->applyFromArray($style_alignCenter_subHeader);
+            $sheet->getStyle("B$ll")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$mm")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$nn")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$oo")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$pp")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$qq")->applyFromArray($styleDefaultBorder);
+            $sheet->getStyle("B$rr")->applyFromArray($styleDefaultBorder);
 
-        $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('B')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getColumnDimension('D')->setAutoSize(true);
-        $sheet->getColumnDimension('E')->setAutoSize(true);
-        $sheet->getColumnDimension('F')->setAutoSize(true);
-        $sheet->getColumnDimension('G')->setAutoSize(true);
-        $sheet->getColumnDimension('H')->setAutoSize(true);
-        $sheet->getColumnDimension('I')->setAutoSize(true);
+            $sheet->getColumnDimension('A')->setAutoSize(true);
+            $sheet->getColumnDimension('B')->setAutoSize(true);
+            $sheet->getColumnDimension('C')->setAutoSize(true);
+            $sheet->getColumnDimension('D')->setAutoSize(true);
+            $sheet->getColumnDimension('E')->setAutoSize(true);
+            $sheet->getColumnDimension('F')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('H')->setAutoSize(true);
+            $sheet->getColumnDimension('I')->setAutoSize(true);
 
-        /* BEGIN Description & Date */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){
-          $sheet->setCellValue('B'.$jj,'Description');
-          $sheet->setCellValue("$letter$jj",date('D',strtotime("+$days days")).', '.date('d-M',strtotime("+$days days")));
-          $sheet->getStyle("B$jj")->applyFromArray($style_alignCenter_subHeader);
-          $sheet->getStyle("$letter$jj")->applyFromArray($style_alignCenter_subHeader);
-          $letter ++;
-        }
-        /* END Description & Date */ 
+            /* BEGIN Description & Date */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){
+              $sheet->setCellValue('B'.$jj,'Description');
+              $sheet->setCellValue("$letter$jj",date('D',strtotime("+$days days")).', '.date('d-M',strtotime("+$days days")));
+              $sheet->getStyle("B$jj")->applyFromArray($style_alignCenter_subHeader);
+              $sheet->getStyle("$letter$jj")->applyFromArray($style_alignCenter_subHeader);
+              $letter ++;
+            }
+            /* END Description & Date */ 
 
-        /* BEGIN Room Avaliable */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){              
-          $date_check = date('Y-m-d',strtotime("+$days days"));  
-          $roomout_forecast = $this->Smartreport_forecast_model->room_out_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($roomout_forecast != NULL){
-              $outoforder = $roomout_forecast->ROOM_OUT;
-          }else{
-              $outoforder = 0;
-          }
-          $sheet->setCellValue("$letter$ll",$hotelsData[$hd]->total_rooms - $outoforder); 
-          $sheet->getStyle("$letter$ll")->applyFromArray($style_alignRight_text); 
-          $letter ++;
-        }
-        /* END Room Avaliable */
+            /* BEGIN Room Avaliable */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){              
+              $date_check = date('Y-m-d',strtotime("+$days days"));  
+              $roomout_forecast = $this->Smartreport_forecast_model->room_out_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($roomout_forecast != NULL){
+                  $outoforder = $roomout_forecast->ROOM_OUT;
+              }else{
+                  $outoforder = 0;
+              }
+              $sheet->setCellValue("$letter$ll",$hotelsData[$hd]->total_rooms - $outoforder); 
+              $sheet->getStyle("$letter$ll")->applyFromArray($style_alignRight_text); 
+              $letter ++;
+            }
+            /* END Room Avaliable */
 
-        /* BEGIN Confirmed */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){          
-          $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
-          $confirmed_forecast = $this->Smartreport_forecast_model->confirmed_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($confirmed_forecast != NULL){
-              $sheet->setCellValue("$letter$mm",$confirmed_forecast->CONFIRMED_FORECAST);
-          }else{
-              $sheet->setCellValue("$letter$mm", 0);
-          }
-          $sheet->getStyle("$letter$mm")->applyFromArray($style_alignRight_text);          
-          $letter ++;   
-        }
-        /* END Confirmed */
-        
-        /* BEGIN Tentative */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){          
-          $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
-          $tentative_forecast = $this->Smartreport_forecast_model->tentative_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($tentative_forecast != NULL){
-            $sheet->setCellValue("$letter$nn",$tentative_forecast->TENTATIVE_FORECAST);
-          }else{
-            $sheet->setCellValue("$letter$nn", 0);
-          }     
-          $sheet->getStyle("$letter$nn")->applyFromArray($style_alignRight_text);
-          $letter ++;   
-        }
-        /* END Tentative */
-        
-        /* BEGIN On Hand Confirmed + Tentative */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){         
-          $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
-          $confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($confirmed_tentative_forecast != NULL){
-            $sheet->setCellValue("$letter$oo",$confirmed_tentative_forecast->TENTATIVE_FORECAST + $confirmed_tentative_forecast->CONFIRMED_FORECAST);
-          }else{
-            $sheet->setCellValue("$letter$oo",0);
-          }   
-          $sheet->getStyle("$letter$oo")->applyFromArray($style_alignRight_text);
-          $letter ++;   
-        }
-        /* END On Hand Confirmed + Tentative */ 
+            /* BEGIN Confirmed */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){          
+              $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+              $confirmed_forecast = $this->Smartreport_forecast_model->confirmed_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($confirmed_forecast != NULL){
+                  $sheet->setCellValue("$letter$mm",$confirmed_forecast->CONFIRMED_FORECAST);
+              }else{
+                  $sheet->setCellValue("$letter$mm", 0);
+              }
+              $sheet->getStyle("$letter$mm")->applyFromArray($style_alignRight_text);          
+              $letter ++;   
+            }
+            /* END Confirmed */
+            
+            /* BEGIN Tentative */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){          
+              $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+              $tentative_forecast = $this->Smartreport_forecast_model->tentative_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($tentative_forecast != NULL){
+                $sheet->setCellValue("$letter$nn",$tentative_forecast->TENTATIVE_FORECAST);
+              }else{
+                $sheet->setCellValue("$letter$nn", 0);
+              }     
+              $sheet->getStyle("$letter$nn")->applyFromArray($style_alignRight_text);
+              $letter ++;   
+            }
+            /* END Tentative */
+            
+            /* BEGIN On Hand Confirmed + Tentative */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){         
+              $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+              $confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($confirmed_tentative_forecast != NULL){
+                $sheet->setCellValue("$letter$oo",$confirmed_tentative_forecast->TENTATIVE_FORECAST + $confirmed_tentative_forecast->CONFIRMED_FORECAST);
+              }else{
+                $sheet->setCellValue("$letter$oo",0);
+              }   
+              $sheet->getStyle("$letter$oo")->applyFromArray($style_alignRight_text);
+              $letter ++;   
+            }
+            /* END On Hand Confirmed + Tentative */ 
 
-        /* BEGIN % Occ Confirmed */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){          
-          $date_check = date('Y-m-d',strtotime("+$days days"));  
-          $occ_confirmed_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($occ_confirmed_forecast != NULL){
-              $outoforder = $occ_confirmed_forecast->ROOM_OUT;
-              $confirmed = $occ_confirmed_forecast->CONFIRMED_FORECAST;
-          }else{
-              $outoforder = 0;
-              $confirmed = 0;
-          }
+            /* BEGIN % Occ Confirmed */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){          
+              $date_check = date('Y-m-d',strtotime("+$days days"));  
+              $occ_confirmed_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($occ_confirmed_forecast != NULL){
+                  $outoforder = $occ_confirmed_forecast->ROOM_OUT;
+                  $confirmed = $occ_confirmed_forecast->CONFIRMED_FORECAST;
+              }else{
+                  $outoforder = 0;
+                  $confirmed = 0;
+              }
 
-          $sheet->setCellValue("$letter$pp",number_format((($confirmed/($hotelsData[$hd]->total_rooms - $outoforder))*100),2).'%'); 
-          $sheet->getStyle("$letter$pp")->applyFromArray($style_alignRight_text); 
-          $letter ++;   
-        }
-        /* END % Occ Confirmed */
-        
-        /* BEGIN % Occ Confirmed + Tentative */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){          
-          $date_check = date('Y-m-d',strtotime("+$days days"));
-          $outoforder = 0;
-          $confirmed = 0;
-          $tentative = 0;  
-          $occ_confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($occ_confirmed_tentative_forecast != NULL){
-              $outoforder = $occ_confirmed_tentative_forecast->ROOM_OUT;
-              $confirmed = $occ_confirmed_tentative_forecast->CONFIRMED_FORECAST;
-              $tentative = $occ_confirmed_tentative_forecast->TENTATIVE_FORECAST;
-          }else{
+              $sheet->setCellValue("$letter$pp",number_format((($confirmed/($hotelsData[$hd]->total_rooms - $outoforder))*100),2).'%'); 
+              $sheet->getStyle("$letter$pp")->applyFromArray($style_alignRight_text); 
+              $letter ++;   
+            }
+            /* END % Occ Confirmed */
+            
+            /* BEGIN % Occ Confirmed + Tentative */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){          
+              $date_check = date('Y-m-d',strtotime("+$days days"));
               $outoforder = 0;
               $confirmed = 0;
-              $tentative = 0;
+              $tentative = 0;  
+              $occ_confirmed_tentative_forecast = $this->Smartreport_forecast_model->data_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($occ_confirmed_tentative_forecast != NULL){
+                  $outoforder = $occ_confirmed_tentative_forecast->ROOM_OUT;
+                  $confirmed = $occ_confirmed_tentative_forecast->CONFIRMED_FORECAST;
+                  $tentative = $occ_confirmed_tentative_forecast->TENTATIVE_FORECAST;
+              }else{
+                  $outoforder = 0;
+                  $confirmed = 0;
+                  $tentative = 0;
+              }
+              $sheet->setCellValue("$letter$qq",number_format(((($confirmed+$tentative)/($hotelsData[$hd]->total_rooms - $outoforder))*100),2).'%');
+              $sheet->getStyle("$letter$qq")->applyFromArray($style_alignRight_text);   
+              $letter ++;   
+            }
+            /* END % Occ Confirmed + Tentative */
+
+            /* BEGIN Average Room Rate */
+            $letter = "C";
+            for($days= 1; $days<=7; $days++ ){          
+              $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
+              $arr_forecast = $this->Smartreport_forecast_model->avg_roomrate_forecast($hotelsData[$hd]->idhotels, $date_check);
+              if($arr_forecast != NULL){
+                $sheet->setCellValue("$letter$rr",number_format($arr_forecast->ARR_FORECAST));
+              }else{
+                $sheet->setCellValue("$letter$rr", 0);
+              }
+              $sheet->getStyle("$letter$rr")->applyFromArray($style_alignRight_text);
+              $letter ++;   
+            }
+            /* END Average Room Rate */
+
+            $check_update_forecast = $this->Smartreport_forecast_model->check_lastupdate_forecast($hotelsData[$hd]->idhotels);
+            if($check_update_forecast != NULL){
+                $username = $check_update_forecast->user_name;
+                $datetime_update = $check_update_forecast->date_created;
+            }else{
+                $username = "No Body";
+                $datetime_update = "1970-01-01 00:00:00"; 
+            }                                          
+
+            $sheet->setCellValue('A'.$ss, "Last Update ". date('d F Y H:i', strtotime($datetime_update)).' by '.$username);
+            $sheet->mergeCells('A'.$ss.':'.'I'.$ss);
+            $sheet->getStyle('A'.$ss.':'.'I'.$ss)->applyFromArray($styleDefaultBorder);
+            
+            $jj+=10;
+            $kk+=10;
+            $ll+=10;
+            $mm+=10;
+            $nn+=10;
+            $oo+=10;
+            $pp+=10;
+            $qq+=10;
+            $rr+=10;
+            $ss+=10;
+            
           }
-          $sheet->setCellValue("$letter$qq",number_format(((($confirmed+$tentative)/($hotelsData[$hd]->total_rooms - $outoforder))*100),2).'%');
-          $sheet->getStyle("$letter$qq")->applyFromArray($style_alignRight_text);   
-          $letter ++;   
+
+          
+          unset($hotelsData);
         }
-        /* END % Occ Confirmed + Tentative */
+        unset($hotelsResult);
+        unset($hotelsRows);                        
 
-        /* BEGIN Average Room Rate */
-        $letter = "C";
-        for($days= 1; $days<=7; $days++ ){          
-          $date_check = date('Y-m-d',strtotime("+$days days"));                                                                
-          $arr_forecast = $this->Smartreport_forecast_model->avg_roomrate_forecast($hotelsData[$hd]->idhotels, $date_check);
-          if($arr_forecast != NULL){
-            $sheet->setCellValue("$letter$rr",number_format($arr_forecast->ARR_FORECAST));
-          }else{
-            $sheet->setCellValue("$letter$rr", 0);
-          }
-          $sheet->getStyle("$letter$rr")->applyFromArray($style_alignRight_text);
-          $letter ++;   
-        }
-        /* END Average Room Rate */
-
-        $check_update_forecast = $this->Smartreport_forecast_model->check_lastupdate_forecast($hotelsData[$hd]->idhotels);
-        if($check_update_forecast != NULL){
-            $username = $check_update_forecast->user_name;
-            $datetime_update = $check_update_forecast->date_created;
-        }else{
-            $username = "No Body";
-            $datetime_update = "1970-01-01 00:00:00"; 
-        }                                          
-
-        $sheet->setCellValue('A'.$ss, "Last Update ". date('d F Y H:i', strtotime($datetime_update)).' by '.$username);
-        $sheet->mergeCells('A'.$ss.':'.'I'.$ss);
-        $sheet->getStyle('A'.$ss.':'.'I'.$ss)->applyFromArray($styleDefaultBorder);
         
-        $jj+=10;
-        $kk+=10;
-        $ll+=10;
-        $mm+=10;
-        $nn+=10;
-        $oo+=10;
-        $pp+=10;
-        $qq+=10;
-        $rr+=10;
-        $ss+=10;
+            
+        $writer = new Xlsx($excelForecast);
         
-      }
-
-      
-      unset($hotelsData);
+        $filename = 'Forecast Kagum Hotels '.date("d F Y");
+        
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+      }else{
+      redirect('errorpage/error403');
     }
-    unset($hotelsResult);
-    unset($hotelsRows);                        
-
-		
-        
-		$writer = new Xlsx($excelForecast);
-		
-		$filename = 'Forecast Kagum Hotels';
-		
-		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
-		header('Cache-Control: max-age=0');
-		$writer->save('php://output');
-	}
+  }
 
 }

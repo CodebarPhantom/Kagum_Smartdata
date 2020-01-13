@@ -6,6 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['delete'] = 'Delete Data';
     $lang['view_data'] = 'View Data';
     $lang['view_data_all'] = 'View Data All';
+    $lang['view_corporate'] = 'View Corporate';
     $lang['submit'] = 'Submit';
     $lang['close'] = 'Close';
     $lang['all'] = 'All';

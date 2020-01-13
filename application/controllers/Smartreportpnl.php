@@ -1,5 +1,8 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Smartreportpnl extends CI_Controller{
 
     private $contoller_name;
@@ -372,6 +375,313 @@ class Smartreportpnl extends CI_Controller{
         }else{
             redirect('errorpage/error403');
         }
+    }
+
+    function budget_pnl_export(){
+        $user_level = $this->session->userdata('user_level');
+        $userHotelForBudget = $this->session->userdata('user_hotel');
+        $dateToView = $this->input->get('year_budget', TRUE);
+        $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+
+        if($getidhotel_custom == NULL){
+            $getidhotel_custom = $userHotelForBudget; 
+        }
+
+        if ($dateToView == NULL){
+            $dateToView = date("Y");
+        }
+        $url_year = $dateToView;
+       /*$url_date = '';
+       $url_date = $date_analysis;
+                                           
+       $date =  $dateToView;	
+       $peryear = substr($dateToView,0,4);
+       $permonth= substr($dateToView,5,2);
+       $perdate = substr($dateToView,8,2);	
+    
+        $startdate_ytd = $peryear.'-01-'.'01';
+        $enddate_ytd = $dateToView;
+        $startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
+        $enddate_mtd = $dateToView;  */
+
+        $pnlCategoryResult = $this->db                                        
+                                    ->from("smartreport_pnlcategory")
+                                    ->where("pnlcategory_status = 'active'")
+                                    ->order_by("pnlcategory_order", "ASC")	
+                                    ->get();
+        $pnlCategoryRows = $pnlCategoryResult->num_rows();
+
+        $total_rooms = $this->Dashboard_model->getDataHotel($getidhotel_custom);
+        $total_room_revenue = $this->Smartreport_pnl_model->get_total_budget( "4", $getidhotel_custom, $dateToView); //4 adalah idpnl Room
+        $occupied_room = $this->Smartreport_pnl_model->get_total_budget( "7", $getidhotel_custom, $dateToView); //7 adalah idpnl occupied room / room sold
+        
+        function cal_days_in_year($dateToView){
+            $days=0; 
+            for($month=1;$month<=12;$month++){ 
+                    $days = $days + cal_days_in_month(CAL_GREGORIAN,$month,$dateToView);
+                }
+            return $days;
+            }
+
+
+        
+        //$smartreport_pnlcategory = $this->Smartreport_pnl_model->get_data_pnlcategory();
+        //$page_data['smartreport_pnlcategory_data'] = $smartreport_pnlcategory;
+        //$page_data['dateToView'] = $this->input->get('year_budget', TRUE);
+        //$page_data['idhotel_custom'] = $getidhotel_custom;
+
+        
+        $excelBudget = new Spreadsheet();
+        // Settingan awal file excel
+        $excelBudget->getProperties()->setCreator('Eryan Fauzan')
+        ->setLastModifiedBy('Eryan Fauzan')
+        ->setTitle("Budget PNL Kagum Hotels")
+        ->setSubject("Budget PNL Kagum Hotels")
+        ->setDescription("Created By Eryan Fauzan")
+        ->setKeywords("Budget PNL Kagum Hotels");
+
+        $border_thin = array(
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['argb' => '0000000'],
+        );
+        $styleDefaultBorder = array(
+          'borders'=>array(
+            'allBorders'=>$border_thin
+          ),
+        );
+
+        $style_alignCenter_header = array(
+          'font' => array(
+            'bold'=> true,
+            'size'=>(16)
+          ),
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );  
+
+        $style_alignCenter_subHeader = array(
+          'font' => array(
+            'bold'=> true,
+          ),
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );
+
+        $style_alignRight_text = array(      
+          'alignment' => array(
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT       
+          ),
+          'borders' => array(
+            'allBorders'=>$border_thin
+          )
+          
+        );
+
+        $ee = 5;
+        $ff = 6;
+        $gg = 7;
+        $hh = 8;
+        //$ii = 8;
+
+
+
+        $sheet = $excelBudget->getActiveSheet();
+        $sheet->mergeCells('A1:O1');
+        $sheet->setCellValue('A1', "Budget PNL Kagum Hotels ".date("d F Y"));
+        $sheet->getStyle('A1:O1')->applyFromArray($style_alignCenter_header);
+        $sheet->getStyle('A2:O3')->applyFromArray($style_alignCenter_subHeader);
+
+        $sheet->getColumnDimension('A')->setAutoSize(true);
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+        $sheet->getColumnDimension('H')->setAutoSize(true);
+        $sheet->getColumnDimension('I')->setAutoSize(true);
+        $sheet->getColumnDimension('J')->setAutoSize(true);
+        $sheet->getColumnDimension('K')->setAutoSize(true);
+        $sheet->getColumnDimension('L')->setAutoSize(true);
+        $sheet->getColumnDimension('M')->setAutoSize(true);
+        $sheet->getColumnDimension('N')->setAutoSize(true);
+        $sheet->getColumnDimension('O')->setAutoSize(true);
+
+        $sheet->mergeCells('A2:A3');
+        $sheet->setCellValue('A2', 'Description');        
+
+        $sheet->mergeCells('B2:C2');
+        $sheet->setCellValue('B2', 'Summary');   
+
+        $sheet->setCellValue('B3', 'Year to Date');
+        $sheet->setCellValue('C3', '(%)');
+
+        $sheet->mergeCells('D2:D3');
+        $sheet->setCellValue('D2', 'January'); 
+        $sheet->mergeCells('E2:E3');
+        $sheet->setCellValue('E2', 'February');
+        $sheet->mergeCells('F2:F3');
+        $sheet->setCellValue('F2', 'March');
+        $sheet->mergeCells('G2:G3');
+        $sheet->setCellValue('G2', 'April');
+        $sheet->mergeCells('H2:H3');
+        $sheet->setCellValue('H2', 'May');
+        $sheet->mergeCells('I2:I3');
+        $sheet->setCellValue('I2', 'June');
+        $sheet->mergeCells('J2:J3');
+        $sheet->setCellValue('J2', 'July');
+        $sheet->mergeCells('K2:K3');
+        $sheet->setCellValue('K2', 'August');
+        $sheet->mergeCells('L2:L3');
+        $sheet->setCellValue('L2', 'September');
+        $sheet->mergeCells('M2:M3');
+        $sheet->setCellValue('M2', 'October');
+        $sheet->mergeCells('N2:N3');
+        $sheet->setCellValue('N2', 'November');
+        $sheet->mergeCells('O2:O3');
+        $sheet->setCellValue('O2', 'Desember'); 
+        
+        $sheet->mergeCells('A4:O4');
+        $sheet->setCellValue('A4', 'STATISTIC');
+        $sheet->getStyle('A4:O4')->applyFromArray($style_alignCenter_subHeader); 
+
+        /*-------------------------Number of Days---------------------*/
+        $sheet->setCellValue('A5', 'Number of Days');
+        $sheet->setCellValue('B5', cal_days_in_year($dateToView));        
+        $letterD = "D";
+        for($month= 1; $month<=12; $month++ ){ 
+            $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
+            $sheet->setCellValue("$letterD$ee",$dayInMonth);            
+            $letterD ++; 
+         }         
+        $sheet->getStyle('A5')->applyFromArray($styleDefaultBorder);
+        $sheet->getStyle('B5:O5')->applyFromArray($style_alignRight_text);
+
+        /*-------------------------Number of Rooms Available---------------------*/
+        $sheet->setCellValue('A6', 'Number of Rooms Available');
+        $sheet->setCellValue('B6', number_format(cal_days_in_year($dateToView)* $total_rooms->total_rooms,0));        
+        $letterD = "D";
+        for($month= 1; $month<=12; $month++ ){ 
+            $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);														   
+            $room_available = $dayInMonth * $total_rooms->total_rooms;
+            if ($dayInMonth !=0 && $total_rooms->total_rooms !=0){
+                $sheet->setCellValue("$letterD$ff",number_format($room_available,0));                
+            }else{
+                $sheet->setCellValue("$letterD$ff",0); 
+            }                        
+            $letterD ++; 
+         }         
+        $sheet->getStyle('A6')->applyFromArray($styleDefaultBorder);
+        $sheet->getStyle('B6:O6')->applyFromArray($style_alignRight_text);
+
+        /*-------------------------% of Occupancy---------------------*/
+        $sheet->setCellValue('A7', '% of Occupancy');
+        if($total_rooms->total_rooms != 0){ 
+            $sheet->setCellValue('B7', number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%');             
+        }else{
+            $sheet->setCellValue('B7', 0);
+        }                
+        $letterD = "D";
+        for($month= 1; $month<=12; $month++ ){ 
+            if($total_rooms->total_rooms != 0){
+                $budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($getidhotel_custom, $month, $dateToView);
+                $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
+                $occupancy = ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
+                $sheet->setCellValue("$letterD$gg", number_format($occupancy,2).'%');
+                
+            }else{
+                $sheet->setCellValue("$letterD$gg", 0);
+            }                       
+            $letterD ++; 
+         }         
+        $sheet->getStyle('A7')->applyFromArray($styleDefaultBorder);
+        $sheet->getStyle('B7:O7')->applyFromArray($style_alignRight_text);
+
+        if($pnlCategoryRows > 0){
+            $pnlCategoryData = $pnlCategoryResult->result();
+
+            for($pnlCategory=0; $pnlCategory<count($pnlCategoryData); $pnlCategory++){
+
+                $smartreport_pnllist = $this->Smartreport_pnl_model->select_pnllist_percategory($pnlCategoryData[$pnlCategory]->idpnlcategory);
+                $grandtotal_pnlcategory = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory($pnlCategoryData[$pnlCategory]->idpnlcategory, $getidhotel_custom, $dateToView);
+                $grandtotal_totalsales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $pnlCategoryData[$pnlCategory]->idpnlcategory, $dateToView);                
+                
+                if($pnlCategoryData[$pnlCategory]->idpnlcategory == 1){
+                    for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
+                        $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
+                        $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name);
+                        $hh++;
+                    }  
+                }else{
+                    $sheet->setCellValue("A$hh", $pnlCategoryData[$pnlCategory]->pnl_category);
+                    $sheet->mergeCells("A$hh:O$hh");
+                    $sheet->getStyle("A$hh:O$hh")->applyFromArray($style_alignCenter_subHeader); 
+                    $ii = $hh+1;
+                    for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
+                        $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
+                        $sheet->setCellValue("A$ii", $smartreport_pnllist[$pnlList]->pnl_name);
+                        $ii++;
+                    }                    
+                    $sheet->setCellValue("A$ii", "TOTAL ".$pnlCategoryData[$pnlCategory]->pnl_category);
+                    $hh=$ii+1;
+                     
+
+                
+                }
+                
+                
+                /*if($pnlCategoryData[$pnlCategory]->idpnlcategory != 1){
+                    $sheet->setCellValue("A$hh", $pnlCategoryData[$pnlCategory]->pnl_category);
+                    $sheet->mergeCells("A$hh:O$hh");
+
+                    
+                } $hh++;
+
+                for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
+                    $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
+                    $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name);
+                }
+                $hh++;*/
+
+
+               /* 
+
+                $hh++;*/
+
+                //$hh=$hh+$hh;
+                
+            
+            }
+
+        }
+
+
+        
+
+
+
+        
+
+        $writer = new Xlsx($excelBudget);
+        
+        $filename = 'Budget PNL Kagum Hotels '.date("d F Y");
+        
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
     }
 
     function insert_budget_pnl(){

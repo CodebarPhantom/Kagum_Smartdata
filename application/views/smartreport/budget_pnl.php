@@ -192,12 +192,12 @@ function cal_days_in_year($dateToView){
 													<button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button>
 												</div>
 											</div>
-											<!--<div class="col-sm-4">
+											<div class="col-sm-4">
 												<div class="form-group">
 													<label>&emsp;</label><br/>
-													<a href="<?php // echo base_url('smartreportpnl/budget_pnlpdf?year_budget='.$dateToView.'&idhotelcustom='.$idhotel_custom);?>"><button type="button" class="btn bg-teal-400 ">Export to PDF <i class="icon-file-pdf ml-2"></i></button></a>
+													<a href="<?php  echo base_url('smartreportpnl/budget_pnl_export');?>"><button type="button" class="btn bg-teal-400 ">Export to XLSX <i class="icon-file-excel ml-2"></i></button></a>
 												</div>
-											</div>-->
+											</div>
                                         </div>
                                     </div> 
 								</div>

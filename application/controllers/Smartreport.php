@@ -1139,6 +1139,7 @@ class Smartreport extends CI_Controller{
         $getdate_analysis = strtotime($this->input->get('date_analysis', TRUE));
         $date_analysis = date("Y-m-d", $getdate_analysis);
         $idcity = $this->input->get('city');
+        $corporate = $this->input->get('corporate');
         //$date_analysisMTD = date("Y-m", $getdate_analysis);
         //$user_hotel = $this->session->userdata('user_hotel');
         $page_data['page_name'] = 'hotel_competitor_analysis';
@@ -1196,6 +1197,7 @@ class Smartreport extends CI_Controller{
         $page_data['lang_choose_hotels'] = $this->lang->line('choose_hotels');
         $page_data['lang_choose_city'] = $this->lang->line('choose_city');
         $page_data['lang_search'] = $this->lang->line('search');
+        $page_data['lang_view_corporate'] = $this->lang->line('view_corporate');
 
         
 
@@ -1219,8 +1221,10 @@ class Smartreport extends CI_Controller{
 
         $getHotelByUserDirect = $this->Smartreport_hca_model->getHotelByUserHotelTypeComp($getidhotel_custom,'direct');
         $getHotelByUserIndirect = $this->Smartreport_hca_model->getHotelByUserHotelTypeComp($getidhotel_custom,'indirect');
+        $getHotelCorporate = $this->Smartreport_hca_model->getHotelCorporate($idcity, $corporate);
         $page_data['getHotelByUserDirect_data'] = $getHotelByUserDirect; 
         $page_data['getHotelByUserIndirect_data'] = $getHotelByUserIndirect;
+        $page_data['getHotelCorporate_data'] = $getHotelCorporate;
 
         $page_data['date_analysis'] = $this->input->get('date_analysis', TRUE);
         $page_data['dateToView'] = $date_analysis;

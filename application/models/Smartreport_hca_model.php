@@ -153,6 +153,17 @@ class Smartreport_hca_model extends CI_Model
         return $this->db->get();
     }
 
+    //Filter UTAMA Kota dan Corporate
+    function getHotelCorporate($idcity = NULL, $corporate = NULL){
+        $this->db->select("ht.idhotels,ht.hotels_name, ht.status, ht.parent, ht.hotel_star, ht.total_rooms");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_city as ct", "ht.idcity=ct.idcity", "left");
+        $whereHotel="ht.status = 'active' AND ht.parent = '$corporate' AND ht.idcity ='$idcity'  ";
+        $this->db->group_by("ht.idhotels");
+        $this->db->where($whereHotel);
+        return $this->db->get();
+    }
+
     function select_competitoranalysisondate_perhotel($hotel=NULL, $date=NULL){
         $this->db->select("hc.idhotels, hc.room_sold, hc.date_analysis, hc.avg_roomrate, hc.remark");
         $this->db->from("smartreport_hca as hc");
@@ -283,6 +294,89 @@ class Smartreport_hca_model extends CI_Model
         $this->db->from("smartreport_hotels as ht");
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
         $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.hotel_star = '$star'");
+        return $this->db->get()->row();   
+    }
+
+
+    function getRIYTDCorporate($startdate, $enddate, $city){
+        $this->db->select(" sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_YTDCorporate ");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc","ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate'");       
+        $this->db->where("ht.idcity", $city);
+		$this->db->where("ht.parent", "PARENT");
+        return $this->db->get()->row();   
+    }
+
+    function getOccTodayCorporate($date = NULL, $city = NULL){
+        $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_TODAYCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis ='$date' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getOccMTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_MTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getOccYTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("(sum(hc.room_sold)) / (sum(ht.total_rooms) * (DATEDIFF('$enddate', '$startdate') +1)) as OCC_YTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getTrrTodayCorporate($date = NULL, $city = NULL ){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_TodayCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis ='$date' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getTrrMTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_MTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getTrrYTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_YTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getArrTodayCorporate($date = NULL, $city = NULL){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_TodayCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis ='$date' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getArrMTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_MTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();   
+    }
+
+    function getArrYTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold) / sum(hc.room_sold),0) as ARR_YTDCorporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
         return $this->db->get()->row();   
     }
 

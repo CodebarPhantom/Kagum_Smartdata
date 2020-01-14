@@ -5,7 +5,7 @@
 	}
 
 	.customEryan {
-		font-size: 9px;
+		font-size: 10px;
 		width: 100%;
 	}
 

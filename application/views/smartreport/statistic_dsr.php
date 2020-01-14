@@ -94,33 +94,32 @@ if ($dateToView == '1970-01-01') {
 ?>
 
 
-		<!-- Page header -->
+        <!-- Page header -->
+
         <div class="page-header page-header-light">				
-            <div class="page-header-content header-elements-inline">
-                <div class="page-title">
+            <div class="page-header-content header-elements-md-inline">
+                <div class="page-title d-flex">
                     <h4>
                         <i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"> <?php echo $lang_dashboard; ?></span> - <?php echo $lang_statistic_dsr.' '.$perdate.' '.$monthObj->format('F').' '.$peryear; ?>
-                    </h4>
-                
+                    </h4>  
+                    <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>              
                 </div>
-                <div class="header-elements d-none">                   
+
+                <div class="header-elements d-none">
                     <form action="<?php echo base_url()?>smartreportdsr/statistic-dsr" method="get" accept-charset="utf-8">
-                        <div class="d-flex justify-content-center">						
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" data-mask="99-99-9999" name="date_dsr" class="form-control daterange-single" value="<?php echo ($date_dsr === NULL) ? date('d-m-Y',$d) : $date_dsr; ?>" required  />
-                                </div>
-                            </div>
-                            <div class="form-group">											
-                                <button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                </span>
+                                <input type="text" data-mask="99-99-9999" name="date_dsr" class="form-control daterange-single" value="<?php echo ($date_dsr === NULL) ? date('d-m-Y',$d) : $date_dsr; ?>" required  />
+                                <button type="submit" class="btn bg-teal-400 "><?php echo $lang_search; ?></button> &nbsp;
                                 <a href="<?php echo base_url('smartreportdsr/statistic_dsrpdf?date_dsr='.$dateToView);?>"><button type="button" class="btn bg-teal-400 ">Export to PDF <i class="icon-file-pdf ml-2"></i></button></a>
                             </div>
                         </div>
                     </form>
                 </div>
+                
             </div>                 
 		</div>
 		<!-- /page header -->                

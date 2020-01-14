@@ -624,6 +624,17 @@ class Smartreportpnl extends CI_Controller{
                         $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name);
                         $hh++;
                     }  
+
+                   /* $letterD = 'D';
+                                         
+                    if($total_room_revenue->TOTAL_BUDGET!=0 && $occupied_room->TOTAL_BUDGET !=0){
+                        $sheet->setCellValue("$letterD$hh", number_format($total_room_revenue->TOTAL_BUDGET/$occupied_room->TOTAL_BUDGET));
+                    }else{
+                        $sheet->setCellValue("$letterD$hh", '0');
+                    }
+                    $letterD ++;*/
+                   
+
                 }else{
                     $sheet->setCellValue("A$hh", $pnlCategoryData[$pnlCategory]->pnl_category);
                     $sheet->mergeCells("A$hh:O$hh");

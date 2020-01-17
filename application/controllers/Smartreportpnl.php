@@ -509,7 +509,7 @@ class Smartreportpnl extends CI_Controller{
 
         $sheet = $excelBudget->getActiveSheet();
         $sheet->mergeCells('A1:O1');
-        $sheet->setCellValue('A1', "$data_hotels->hotels_name". " Budget PNL Kagum Hotels ".date("Y"));
+        $sheet->setCellValue('A1', "$data_hotels->hotels_name". " Budget PNL Kagum Hotels ".$dateToView);
         $sheet->getStyle('A1:O1')->applyFromArray($style_alignCenter_header);
         $sheet->getStyle('A2:O3')->applyFromArray($style_alignCenter_subHeader);
         $sheet->getProtection()->setSheet(true);
@@ -1019,7 +1019,7 @@ class Smartreportpnl extends CI_Controller{
 
         $writer = new Xlsx($excelBudget);
         
-        $filename = $data_hotels->hotels_name." Budget PNL Kagum Hotels ".date("Y");
+        $filename = $data_hotels->hotels_name." Budget PNL Kagum Hotels ".$dateToView;
         
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

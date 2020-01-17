@@ -382,6 +382,7 @@ class Smartreportpnl extends CI_Controller{
         $userHotelForBudget = $this->session->userdata('user_hotel');
         $dateToView = $this->input->get('year_budget', TRUE);
         $getidhotel_custom = $this->input->get('idhotelcustom', TRUE);
+        $username = $this->session->userdata('user_name');
 
         if($getidhotel_custom == NULL){
             $getidhotel_custom = $userHotelForBudget; 
@@ -390,7 +391,7 @@ class Smartreportpnl extends CI_Controller{
         if ($dateToView == NULL){
             $dateToView = date("Y");
         }
-        $url_year = $dateToView;
+        //$url_year = $dateToView;
        /*$url_date = '';
        $url_date = $date_analysis;
                                            
@@ -411,7 +412,8 @@ class Smartreportpnl extends CI_Controller{
                                     ->get();
         $pnlCategoryRows = $pnlCategoryResult->num_rows();
 
-        $total_rooms = $this->Dashboard_model->getDataHotel($getidhotel_custom);
+    
+        $data_hotels = $this->Dashboard_model->getDataHotel($getidhotel_custom);
         $total_room_revenue = $this->Smartreport_pnl_model->get_total_budget( "4", $getidhotel_custom, $dateToView); //4 adalah idpnl Room
         $occupied_room = $this->Smartreport_pnl_model->get_total_budget( "7", $getidhotel_custom, $dateToView); //7 adalah idpnl occupied room / room sold
         
@@ -468,6 +470,7 @@ class Smartreportpnl extends CI_Controller{
         $style_alignCenter_subHeader = array(
           'font' => array(
             'bold'=> true,
+            'color'=>['argb'=>'ffffffff']
           ),
           'alignment' => array(
             'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
@@ -475,7 +478,11 @@ class Smartreportpnl extends CI_Controller{
           ),
           'borders' => array(
             'allBorders'=>$border_thin
-          )
+          ),
+          'fill'=>array(
+              'fillType'=>\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+              'color'=>['rgb'=>'3498db']
+          )     
           
         );
 
@@ -485,6 +492,9 @@ class Smartreportpnl extends CI_Controller{
           ),
           'borders' => array(
             'allBorders'=>$border_thin
+          ),
+          'numberFormat'=>array(
+              'formatCode'=>'#,##0'
           )
           
         );
@@ -499,9 +509,13 @@ class Smartreportpnl extends CI_Controller{
 
         $sheet = $excelBudget->getActiveSheet();
         $sheet->mergeCells('A1:O1');
-        $sheet->setCellValue('A1', "Budget PNL Kagum Hotels ".date("d F Y"));
+        $sheet->setCellValue('A1', "$data_hotels->hotels_name". " Budget PNL Kagum Hotels ".date("Y"));
         $sheet->getStyle('A1:O1')->applyFromArray($style_alignCenter_header);
         $sheet->getStyle('A2:O3')->applyFromArray($style_alignCenter_subHeader);
+        $sheet->getProtection()->setSheet(true);
+        $sheet->getProtection()->setPassword('EryanFauzan');
+        $sheet->getProtection()->setFormatCells(true);
+
 
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('B')->setAutoSize(true);
@@ -571,13 +585,13 @@ class Smartreportpnl extends CI_Controller{
 
         /*-------------------------Number of Rooms Available---------------------*/
         $sheet->setCellValue('A6', 'Number of Rooms Available');
-        $sheet->setCellValue('B6', number_format(cal_days_in_year($dateToView)* $total_rooms->total_rooms,0));        
+        $sheet->setCellValue('B6', cal_days_in_year($dateToView)* $data_hotels->total_rooms);        
         $letterD = "D";
         for($month= 1; $month<=12; $month++ ){ 
             $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);														   
-            $room_available = $dayInMonth * $total_rooms->total_rooms;
-            if ($dayInMonth !=0 && $total_rooms->total_rooms !=0){
-                $sheet->setCellValue("$letterD$ff",number_format($room_available,0));                
+            $room_available = $dayInMonth * $data_hotels->total_rooms;
+            if ($dayInMonth !=0 && $data_hotels->total_rooms !=0){
+                $sheet->setCellValue("$letterD$ff",$room_available);                
             }else{
                 $sheet->setCellValue("$letterD$ff",0); 
             }                        
@@ -588,17 +602,17 @@ class Smartreportpnl extends CI_Controller{
 
         /*-------------------------% of Occupancy---------------------*/
         $sheet->setCellValue('A7', '% of Occupancy');
-        if($total_rooms->total_rooms != 0){ 
-            $sheet->setCellValue('B7', number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $total_rooms->total_rooms)*100,2).'%');             
+        if($data_hotels->total_rooms != 0){ 
+            $sheet->setCellValue('B7', number_format($occupied_room->TOTAL_BUDGET/(cal_days_in_year($dateToView)* $data_hotels->total_rooms)*100,2).'%');             
         }else{
             $sheet->setCellValue('B7', 0);
         }                
         $letterD = "D";
         for($month= 1; $month<=12; $month++ ){ 
-            if($total_rooms->total_rooms != 0){
+            if($data_hotels->total_rooms != 0){
                 $budget_roomsold = $this->Smartreport_pnl_model->get_data_budgetroomsold($getidhotel_custom, $month, $dateToView);
                 $dayInMonth = cal_days_in_month(CAL_GREGORIAN,$month, $dateToView);
-                $occupancy = ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $total_rooms->total_rooms))*100;
+                $occupancy = ($budget_roomsold->BUDGETROOMSOLD / ($dayInMonth * $data_hotels->total_rooms))*100;
                 $sheet->setCellValue("$letterD$gg", number_format($occupancy,2).'%');
                 
             }else{
@@ -616,25 +630,39 @@ class Smartreportpnl extends CI_Controller{
 
                 $smartreport_pnllist = $this->Smartreport_pnl_model->select_pnllist_percategory($pnlCategoryData[$pnlCategory]->idpnlcategory);
                 $grandtotal_pnlcategory = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory($pnlCategoryData[$pnlCategory]->idpnlcategory, $getidhotel_custom, $dateToView);
-                $grandtotal_totalsales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $pnlCategoryData[$pnlCategory]->idpnlcategory, $dateToView);                
+                $grandtotal_totalsales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);                
                 
+               /*PNL STATISTIC ID 1*/
+
                 if($pnlCategoryData[$pnlCategory]->idpnlcategory == 1){
                     for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
                         $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
-                        $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name);
+                        $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name); 
+                        if($smartreport_pnllist[$pnlList]->idpnl == 1){ //idpnl 1 ada average room rate cara menghitungnya beda sendiri
+                            if($total_room_revenue->TOTAL_BUDGET!=0 && $occupied_room->TOTAL_BUDGET !=0){
+                                $sheet->setCellValue("B$hh", ($total_room_revenue->TOTAL_BUDGET/$occupied_room->TOTAL_BUDGET)); 
+                                $letterD='D';
+                                for($month=1; $month<='12'; $month++ ){ 															
+                                    $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $month, $dateToView);
+                                    $sheet->setCellValue("$letterD$hh", ($budget_data->BUDGET));
+                                    $letterD++;
+                                }                               
+                            }else{
+                                $sheet->setCellValue("B$hh", '0');                                
+                            }
+                        }else{																			 
+                            $sheet->setCellValue("B$hh",($total_budget->TOTAL_BUDGET));
+                            $letterD='D';
+                            for($month=1; $month<='12'; $month++ ){ 															
+                                $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $month, $dateToView);
+                                $sheet->setCellValue("$letterD$hh", ($budget_data->BUDGET));
+                                $letterD++;
+                            }                           
+                        }  
+                        $sheet->getStyle("A$hh")->applyFromArray($styleDefaultBorder);
+                        $sheet->getStyle("B$hh:O$hh")->applyFromArray($style_alignRight_text);
                         $hh++;
-                    }  
-
-                   /* $letterD = 'D';
-                                         
-                    if($total_room_revenue->TOTAL_BUDGET!=0 && $occupied_room->TOTAL_BUDGET !=0){
-                        $sheet->setCellValue("$letterD$hh", number_format($total_room_revenue->TOTAL_BUDGET/$occupied_room->TOTAL_BUDGET));
-                    }else{
-                        $sheet->setCellValue("$letterD$hh", '0');
                     }
-                    $letterD ++;*/
-                   
-
                 }else{
                     $sheet->setCellValue("A$hh", $pnlCategoryData[$pnlCategory]->pnl_category);
                     $sheet->mergeCells("A$hh:O$hh");
@@ -642,52 +670,356 @@ class Smartreportpnl extends CI_Controller{
                     $ii = $hh+1;
                     for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
                         $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
-                        $sheet->setCellValue("A$ii", $smartreport_pnllist[$pnlList]->pnl_name);
+                        $sheet->setCellValue("A$ii", $smartreport_pnllist[$pnlList]->pnl_name); 
+                        if( $total_budget->TOTAL_BUDGET != 0){
+                            $sheet->setCellValue("B$ii",$total_budget->TOTAL_BUDGET);
+                        }else{
+                            $sheet->setCellValue("B$ii",0);
+                        }
+                        
+
+                        if($smartreport_pnllist[$pnlList]->idpnlcategory !=1 && $smartreport_pnllist[$pnlList]->idpnlcategory !=2 && $smartreport_pnllist[$pnlList]->idpnlcategory !=6 ){
+                            if($total_budget->TOTAL_BUDGET !=0 && $grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY !=0 ){
+                                $sheet->setCellValue("C$ii",number_format(($total_budget->TOTAL_BUDGET/$grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY)*100,2).'%');
+                            }else{
+                                $sheet->setCellValue("C$ii",'0%');
+                            }
+                        }else if($smartreport_pnllist[$pnlList]->idpnlcategory == 2){
+                            if($total_budget->TOTAL_BUDGET !=0 && $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 ){
+                                $sheet->setCellValue("C$ii", number_format(($total_budget->TOTAL_BUDGET/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%');                               
+                            }else{
+                                $sheet->setCellValue("C$ii", '0%');
+                            }
+                        }else if ($smartreport_pnllist[$pnlList]->idpnlcategory == 6) {
+                            
+                            $total_room_sales = $this->Smartreport_pnl_model->get_total_budget('4', $getidhotel_custom, $dateToView);
+                            $total_fnb_sales = $this->Smartreport_pnl_model->get_total_budget('3', $getidhotel_custom, $dateToView);
+                            $total_laundry_sales = $this->Smartreport_pnl_model->get_total_budget('5', $getidhotel_custom, $dateToView);
+                            $total_business_sales = $this->Smartreport_pnl_model->get_total_budget('6', $getidhotel_custom, $dateToView);
+                            $total_sport_sales = $this->Smartreport_pnl_model->get_total_budget('24', $getidhotel_custom, $dateToView);
+                            $total_spa_sales = $this->Smartreport_pnl_model->get_total_budget('25', $getidhotel_custom, $dateToView);
+
+                            $total_room_profit = $this->Smartreport_pnl_model->get_total_budget('14', $getidhotel_custom, $dateToView);
+                            $total_fnb_profit = $this->Smartreport_pnl_model->get_total_budget('15', $getidhotel_custom, $dateToView);
+                            $total_laundry_profit = $this->Smartreport_pnl_model->get_total_budget('26', $getidhotel_custom, $dateToView);
+                            $total_business_profit = $this->Smartreport_pnl_model->get_total_budget('16', $getidhotel_custom, $dateToView);
+                            $total_sport_profit = $this->Smartreport_pnl_model->get_total_budget('27', $getidhotel_custom, $dateToView);
+                            $total_spa_profit = $this->Smartreport_pnl_model->get_total_budget('28', $getidhotel_custom, $dateToView);
+
+                            if ($smartreport_pnllist[$pnlList]->idpnl == 14){
+                                if ($total_room_profit->TOTAL_BUDGET !=0 && $total_room_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii", number_format(($total_room_profit->TOTAL_BUDGET / $total_room_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii", '0%');
+                                }
+                            }else if ($smartreport_pnllist[$pnlList]->idpnl == 15){
+                                if ($total_fnb_profit->TOTAL_BUDGET !=0 && $total_fnb_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii", number_format(($total_fnb_profit->TOTAL_BUDGET / $total_fnb_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii", '0%');
+                                }
+                            }else if ($smartreport_pnllist[$pnlList]->idpnl == 26){
+                                if ($total_laundry_profit->TOTAL_BUDGET !=0 && $total_laundry_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii",number_format(($total_laundry_profit->TOTAL_BUDGET / $total_laundry_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii",'0%');
+                                }
+                            }else if ($smartreport_pnllist[$pnlList]->idpnl == 16){
+                                if ($total_business_profit->TOTAL_BUDGET !=0 && $total_business_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii", number_format(($total_business_profit->TOTAL_BUDGET / $total_business_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii", '0%');
+                                }
+                            }else if ($smartreport_pnllist[$pnlList]->idpnl == 27){
+                                if ($total_sport_profit->TOTAL_BUDGET !=0 && $total_sport_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii", number_format(($total_sport_profit->TOTAL_BUDGET / $total_sport_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii",'0%');
+                                }
+                            }else if ($smartreport_pnllist[$pnlList]->idpnl == 28){
+                                if ($total_spa_profit->TOTAL_BUDGET !=0 && $total_spa_sales->TOTAL_BUDGET !=0){
+                                    $sheet->setCellValue("C$ii", number_format(($total_spa_profit->TOTAL_BUDGET / $total_spa_sales->TOTAL_BUDGET)*100,2).'%');
+                                }else{
+                                    $sheet->setCellValue("C$ii",'0%');
+                                }
+                            }                            
+                        }                        
+                        $jj = $ii+1;
+                        if($smartreport_pnllist[$pnlList]->idpnlcategory == 2){
+                            if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 ){
+                                $sheet->setCellValue("C$jj", number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY)*100,2).'%');
+                            }else{
+                                $sheet->setCellValue("C$jj", '0%');
+                            }
+                        }else if($smartreport_pnllist[$pnlList]->idpnlcategory !=2 && $smartreport_pnllist[$pnlList]->idpnlcategory !=1){
+                            if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY !=0 ){
+                                $sheet->setCellValue("C$jj", number_format(($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY/$grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY)*100,2).'%');
+                            }else{
+                                $sheet->setCellValue("C$jj", '0%');
+                            }
+                        }
+
+                        $letterD='D';
+                        for($month=1; $month<='12'; $month++ ){ 															
+                            $budget_data = $this->Smartreport_pnl_model->get_data_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $month, $dateToView);
+                            $sheet->setCellValue("$letterD$ii", $budget_data->BUDGET);
+                            $letterD++;
+                        } 
+                        $sheet->getStyle("A$ii")->applyFromArray($styleDefaultBorder);
+                        $sheet->getStyle("B$ii:O$ii")->applyFromArray($style_alignRight_text);
                         $ii++;
                     }                    
                     $sheet->setCellValue("A$ii", "TOTAL ".$pnlCategoryData[$pnlCategory]->pnl_category);
+                    if($grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY != 0){
+                        $sheet->setCellValue("B$ii", $grandtotal_pnlcategory->GRANDTOTAL_PNLCATEGORY);
+                    }else{
+                        $sheet->setCellValue("B$ii", 0);
+                    }
+                   
+
+                    $letterD='D';
+                    for($month= 1; $month<=12; $month++ ){ 				
+                        if ($pnlCategoryData[$pnlCategory]->idpnlcategory != 1){                            
+                            $total_pnlcategorybymonth = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth($pnlCategoryData[$pnlCategory]->idpnlcategory, $getidhotel_custom, $month, $dateToView); 
+                            if($total_pnlcategorybymonth->TOTAL_PNLCATEGORYBYMONTH != 0){
+                                $sheet->setCellValue("$letterD$ii", $total_pnlcategorybymonth->TOTAL_PNLCATEGORYBYMONTH);
+                            }else{
+                                $sheet->setCellValue("$letterD$ii", 0);
+                            }
+                            
+                        } 
+                        $letterD++; 
+                    }                  
+                   
+                    $sheet->getStyle("A$ii")->applyFromArray($styleDefaultBorder);
+                    $sheet->getStyle("B$ii:O$ii")->applyFromArray($style_alignRight_text);
                     $hh=$ii+1;
-                     
-
-                
                 }
-                
-                
-                /*if($pnlCategoryData[$pnlCategory]->idpnlcategory != 1){
-                    $sheet->setCellValue("A$hh", $pnlCategoryData[$pnlCategory]->pnl_category);
-                    $sheet->mergeCells("A$hh:O$hh");
+            }
 
-                    
-                } $hh++;
+            $sheet->getStyle("A$hh")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$hh", "TOTAL UNDISTRIBUTED EXPENSE");
+            $sheet->getStyle("B$hh:O$hh")->applyFromArray($style_alignRight_text);
+            $grandtotal_und_payroll = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('7', $getidhotel_custom, $dateToView);
+            $grandtotal_und_opr_exp = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('8', $getidhotel_custom, $dateToView);
+            $grandtotal_und_exp = $grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp->GRANDTOTAL_PNLCATEGORY;
+            $sheet->setCellValue("B$hh", $grandtotal_und_exp);
+            if($grandtotal_und_exp !=0 && $grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY != 0){
+                $sheet->setCellValue("C$hh", number_format(($grandtotal_und_exp/$grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY)*100,2).'%');
+            }else{
+                $sheet->setCellValue("C$hh", '0%');
+            }
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_und_payroll = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('7', $getidhotel_custom, $month, $dateToView); 
+                $total_und_opr_exp = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('8', $getidhotel_custom, $month, $dateToView); 
+                $total_und_exp =  $total_und_payroll->TOTAL_PNLCATEGORYBYMONTH + $total_und_opr_exp->TOTAL_PNLCATEGORYBYMONTH;
+                ($total_und_exp != 0 ? $sheet->setCellValue("$letterD$hh",$total_und_exp) : $sheet->setCellValue("$letterD$hh",0));
+                $letterD++;
+            
+            } 
 
-                for($pnlList=0; $pnlList<count($smartreport_pnllist); $pnlList++){
-                    $total_budget = $this->Smartreport_pnl_model->get_total_budget( $smartreport_pnllist[$pnlList]->idpnl, $getidhotel_custom, $dateToView);
-                    $sheet->setCellValue("A$hh", $smartreport_pnllist[$pnlList]->pnl_name);
+            $kk = $hh+1;
+            $sheet->getStyle("A$kk")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$kk", "GROSS OPERATING PROFIT");
+            $sheet->getStyle("B$kk:O$kk")->applyFromArray($style_alignRight_text);
+            $grandtotal_dept_profit = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('6', $getidhotel_custom, $dateToView);
+            $grandtotal_und_payroll = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('7', $getidhotel_custom, $dateToView);
+            $grandtotal_und_opr_exp = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('8', $getidhotel_custom, $dateToView);
+            $grandtotal_gross_opr_profit = $grandtotal_dept_profit->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp->GRANDTOTAL_PNLCATEGORY);	
+            $sheet->setCellValue("B$kk", $grandtotal_gross_opr_profit);	
+            ($grandtotal_gross_opr_profit != 0 && $grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY != 0 
+                ? $sheet->setCellValue("C$kk", number_format(($grandtotal_gross_opr_profit/$grandtotal_totalsales->GRANDTOTAL_PNLCATEGORY)*100,2).'%') 
+                : $sheet->setCellValue("C$kk", '0%'));
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_dept_profit = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('6', $getidhotel_custom, $month, $dateToView); 
+				$total_und_payroll = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('7', $getidhotel_custom, $month, $dateToView); 
+				$total_und_opr_exp = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('8', $getidhotel_custom, $month, $dateToView);
+                $gross_opr_profit = $total_dept_profit->TOTAL_PNLCATEGORYBYMONTH - ($total_und_payroll->TOTAL_PNLCATEGORYBYMONTH + $total_und_opr_exp->TOTAL_PNLCATEGORYBYMONTH);
+               
+                ($gross_opr_profit != 0 ? $sheet->setCellValue("$letterD$kk",$gross_opr_profit) : $sheet->setCellValue("$letterD$kk",0));
+                $letterD++;
+            
+            } 
+            
+            $ll = $hh+2;
+            $sheet->getStyle("A$ll")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$ll", "G.O.P. %");
+            $sheet->getStyle("B$ll:O$ll")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+            $grandtotal_dept_profit = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('6', $getidhotel_custom, $dateToView);
+            $grandtotal_und_payroll = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('7', $getidhotel_custom, $dateToView);
+            $grandtotal_und_opr_exp = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('8', $getidhotel_custom, $dateToView);
+            $grandtotal_gross_opr_profit = $grandtotal_dept_profit->GRANDTOTAL_PNLCATEGORY - ($grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_opr_exp->GRANDTOTAL_PNLCATEGORY);	
+            if($grandtotal_gross_opr_profit != 0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY !=0){
+                $grandtotal_gop = ($grandtotal_gross_opr_profit / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;	
+            }else{
+                $grandtotal_gop = 0;
+            }	
+            $sheet->setCellValue("C$ll", number_format($grandtotal_gop,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 
+                $total_dept_profit = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('6', $getidhotel_custom, $month, $dateToView); 
+                $total_und_payroll = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('7', $getidhotel_custom, $month, $dateToView); 
+                $total_und_opr_exp = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('8', $getidhotel_custom, $month, $dateToView);                
+                if($total_dept_profit->TOTAL_PNLCATEGORYBYMONTH != 0 && $total_und_payroll->TOTAL_PNLCATEGORYBYMONTH !=0 && $total_und_opr_exp->TOTAL_PNLCATEGORYBYMONTH != 0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH != 0 ){
+                    $gross_opr_profit = $total_dept_profit->TOTAL_PNLCATEGORYBYMONTH - ($total_und_payroll->TOTAL_PNLCATEGORYBYMONTH + $total_und_opr_exp->TOTAL_PNLCATEGORYBYMONTH);
+                    $gop = ($gross_opr_profit / $total_sales->TOTAL_PNLCATEGORYBYMONTH )*100;
+                    $sheet->setCellValue("$letterD$ll", number_format($gop ,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$ll",'0%');
                 }
-                $hh++;*/
+                $letterD++;
+            
+            } 
 
+            $mm = $hh+3;
+            $sheet->getStyle("A$mm")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$mm", "PAYROLL");
+            $sheet->getStyle("B$mm:O$mm")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+            $grandtotal_payroll_rel = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('4', $getidhotel_custom, $dateToView);
+            $grandtotal_und_payroll = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('7', $getidhotel_custom, $dateToView);
+            if($grandtotal_payroll_rel->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY != 0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY !=0){
+                $grandtotal_all_payroll = (($grandtotal_payroll_rel->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;
+            }else{
+                $grandtotal_all_payroll = 0;
+            }	
+            $sheet->setCellValue("C$mm", number_format($grandtotal_all_payroll,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 
+                $total_payroll_rel = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('4', $getidhotel_custom, $month, $dateToView);  
+                $total_und_payroll = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('7', $getidhotel_custom, $month, $dateToView); 
+                if($total_payroll_rel->TOTAL_PNLCATEGORYBYMONTH !=0 && $total_und_payroll->TOTAL_PNLCATEGORYBYMONTH !=0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH !=0){
+                    $total_all_payroll = (($total_payroll_rel->TOTAL_PNLCATEGORYBYMONTH + $total_und_payroll->TOTAL_PNLCATEGORYBYMONTH)  / $total_sales->TOTAL_PNLCATEGORYBYMONTH)*100;															
+                    $sheet->setCellValue("$letterD$mm", number_format($total_all_payroll,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$mm", '0%');
+                }
+                $letterD++;
+            
+            } 
 
-               /* 
+            $nn = $hh+4;
+            $sheet->getStyle("A$nn")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$nn", "ENERGY COST");
+            $sheet->getStyle("B$nn:O$nn")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+			$grandtotal_energy_cost = $this->Smartreport_pnl_model->get_total_budget('22', $getidhotel_custom, $dateToView);
+            if($grandtotal_energy_cost->TOTAL_BUDGET != 0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY != 0 ){
+                $grandtotal_budget_energycost = ($grandtotal_energy_cost->TOTAL_BUDGET / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;	
+            }else{
+                $grandtotal_budget_energycost = 0;
+            }	
+            $sheet->setCellValue("C$nn", number_format($grandtotal_budget_energycost,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 
+                $energy_cost = $this->Smartreport_pnl_model->get_data_budget('22', $getidhotel_custom, $month, $dateToView);
+                if($energy_cost->BUDGET !=0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH !=0 ){
+                    $budget_energycost = ($energy_cost->BUDGET / $total_sales->TOTAL_PNLCATEGORYBYMONTH)*100;
+                    $sheet->setCellValue("$letterD$nn",  number_format($budget_energycost,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$nn",  '0%');
+                }
+                $letterD++;
+            
+            } 
 
-                $hh++;*/
-
-                //$hh=$hh+$hh;
-                
+            $oo = $hh+5;
+            $sheet->getStyle("A$oo")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$oo", "EXPENSE");
+            $sheet->getStyle("B$oo:O$oo")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+            $grandtotal_other_expense = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('5', $getidhotel_custom, $dateToView);
+            $grandtotal_ang_und_exp = $this->Smartreport_pnl_model->get_total_budget('20', $getidhotel_custom, $dateToView);
+            $grandtotal_pomec_und_exp = $this->Smartreport_pnl_model->get_total_budget('21', $getidhotel_custom, $dateToView);
+            $grandtotal_snm_und_exp = $this->Smartreport_pnl_model->get_total_budget('23', $getidhotel_custom, $dateToView);
+            if($grandtotal_ang_und_exp->TOTAL_BUDGET !=0 && $grandtotal_pomec_und_exp->TOTAL_BUDGET !=0 && $grandtotal_snm_und_exp->TOTAL_BUDGET !=0 &&  $grandtotal_other_expense->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY !=0 ){
+                $grandtotal_budget_expense = (($grandtotal_ang_und_exp->TOTAL_BUDGET + $grandtotal_pomec_und_exp->TOTAL_BUDGET + $grandtotal_snm_und_exp->TOTAL_BUDGET + $grandtotal_other_expense->GRANDTOTAL_PNLCATEGORY)/$grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;
+            }else{
+                $grandtotal_budget_expense = 0;
+            }	
+            $sheet->setCellValue("C$oo", number_format($grandtotal_budget_expense,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 
+                $other_expense = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('5', $getidhotel_custom, $month, $dateToView); 
+                $ang_und_exp = $this->Smartreport_pnl_model->get_data_budget('20', $getidhotel_custom, $month, $dateToView);
+                $pomec_und_exp = $this->Smartreport_pnl_model->get_data_budget('21', $getidhotel_custom, $month, $dateToView);
+                $snm_und_exp = $this->Smartreport_pnl_model->get_data_budget('23', $getidhotel_custom, $month, $dateToView);
+                if($ang_und_exp->BUDGET !=0 && $pomec_und_exp->BUDGET !=0 && $snm_und_exp->BUDGET !=0 && $other_expense->TOTAL_PNLCATEGORYBYMONTH !=0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH !=0){
+                    $budget_expense = (($ang_und_exp->BUDGET + $pomec_und_exp->BUDGET + $snm_und_exp->BUDGET + $other_expense->TOTAL_PNLCATEGORYBYMONTH)/$total_sales->TOTAL_PNLCATEGORYBYMONTH)*100;
+                    $sheet->setCellValue("$letterD$oo",number_format($budget_expense,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$oo",'0%');
+                }
+                $letterD++;
             
             }
+            
+            $pp = $hh+6;
+            $sheet->getStyle("A$pp")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$pp", "COST OF SALES");
+            $sheet->getStyle("B$pp:O$pp")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+            $grandtotal_cost_of_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('3', $getidhotel_custom, $dateToView);
+            if($grandtotal_cost_of_sales->GRANDTOTAL_PNLCATEGORY !=0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY !=0){
+                $grandtotal_budget_cos = ($grandtotal_cost_of_sales->GRANDTOTAL_PNLCATEGORY / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;
+            }else{
+                $grandtotal_budget_cos = 0;
+            }	
+            $sheet->setCellValue("C$pp", number_format($grandtotal_budget_cos,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 
+                $cost_of_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('3', $getidhotel_custom, $month, $dateToView); 
+                if($cost_of_sales->TOTAL_PNLCATEGORYBYMONTH !=0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH !=0){
+                    $budget_cos = ($cost_of_sales->TOTAL_PNLCATEGORYBYMONTH / $total_sales->TOTAL_PNLCATEGORYBYMONTH)*100;
+                    $sheet->setCellValue("$letterD$pp", number_format($budget_cos,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$pp", '0%');
+                }
+                $letterD++;            
+            }
+            
+            $qq = $hh+7;
+            $sheet->getStyle("A$qq")->applyFromArray($styleDefaultBorder);
+            $sheet->setCellValue("A$qq", "MARKETING EXPENSE");
+            $sheet->getStyle("B$qq:O$qq")->applyFromArray($style_alignRight_text);
+            $grandtotal_total_sales = $this->Smartreport_pnl_model->get_grandtotal_pnlcategory('2', $getidhotel_custom, $dateToView);
+            $grandtotal_snm_und_exp = $this->Smartreport_pnl_model->get_total_budget('23', $getidhotel_custom, $dateToView);
+            if($grandtotal_snm_und_exp->TOTAL_BUDGET != 0 && $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY != 0){
+                $grandtotal_budget_salesmarketing = ($grandtotal_snm_und_exp->TOTAL_BUDGET / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;
+            }else{
+                $grandtotal_budget_salesmarketing = 0;
+            }	
+            $sheet->setCellValue("C$qq", number_format($grandtotal_budget_salesmarketing,2).'%');	            
+            $letterD = 'D';
+            for($month= 1; $month<=12; $month++ ){ 
+                $total_sales = $this->Smartreport_pnl_model->get_total_pnlcategorybymonth('2', $getidhotel_custom, $month, $dateToView); 														
+                $snm_und_exp = $this->Smartreport_pnl_model->get_data_budget('23', $getidhotel_custom, $month, $dateToView);
+                if($snm_und_exp->BUDGET != 0 && $total_sales->TOTAL_PNLCATEGORYBYMONTH !=0){
+                    $budget_salesmarketing = ($snm_und_exp->BUDGET / $total_sales->TOTAL_PNLCATEGORYBYMONTH)*100;
+                    $sheet->setCellValue("$letterD$qq", number_format($budget_salesmarketing,2).'%');
+                }else{
+                    $sheet->setCellValue("$letterD$qq", '0%');
+                }
+                $letterD++;            
+            } 
+
+            $rr=$hh+8;
+            $sheet->mergeCells("A$rr:O$rr");
+            $sheet->setCellValue("A$rr", "Downloaded by ".$username." ". date("d F Y H:i"));
 
         }
 
-
-        
-
-
-
-        
-
         $writer = new Xlsx($excelBudget);
         
-        $filename = 'Budget PNL Kagum Hotels '.date("d F Y");
+        $filename = $data_hotels->hotels_name." Budget PNL Kagum Hotels ".date("Y");
         
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

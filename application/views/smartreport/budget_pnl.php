@@ -195,7 +195,7 @@ function cal_days_in_year($dateToView){
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label>&emsp;</label><br/>
-													<a href="<?php  echo base_url('smartreportpnl/budget_pnl_export');?>"><button type="button" class="btn bg-teal-400 ">Export to XLSX <i class="icon-file-excel ml-2"></i></button></a>
+													<a href="<?php  echo base_url('smartreportpnl/budget_pnl_export?year_budget='.$dateToView.'&idhotelcustom='.$idhotel_custom);?>"><button type="button" class="btn bg-teal-400 ">Export to XLSX <i class="icon-file-excel ml-2"></i></button></a>
 												</div>
 											</div>
                                         </div>
@@ -577,9 +577,7 @@ function cal_days_in_year($dateToView){
 														$grandtotal_all_payroll = (($grandtotal_payroll_rel->GRANDTOTAL_PNLCATEGORY + $grandtotal_und_payroll->GRANDTOTAL_PNLCATEGORY)  / $grandtotal_total_sales->GRANDTOTAL_PNLCATEGORY)*100;
 													}else{
 														$grandtotal_all_payroll = 0;
-													}
-													
-													
+													}	
 													?>
 													<strong><?php echo number_format($grandtotal_all_payroll,2).'%';?></strong>
 												</td>

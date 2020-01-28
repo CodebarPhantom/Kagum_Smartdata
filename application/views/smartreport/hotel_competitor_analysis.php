@@ -83,6 +83,7 @@
 	$enddate_ytd = $dateToView;
 	$startdate_mtd = $peryear.'-'.$permonth.'-'.'01';
 	$enddate_mtd = $dateToView;   
+	$diffdatemtd = date_diff(new DateTime($startdate_mtd), new DateTime($enddate_mtd)); 
 	$diffdateytd = date_diff(new DateTime($startdate_ytd), new DateTime($enddate_ytd)); 
 
 	//Total avg room rate diambil dari setiap model perbintang
@@ -166,8 +167,14 @@
 	
 	/* Untuk Occupany pembagi  MPI ARI RGI perhotel ga bisa dari looping @_@ Hadeeh*/
 	$data_occToday4StarTotal = $this->Smartreport_hca_model->getOccTodayAllStar($date, $city, "4");
-	$data_occMTD4StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "4");
-	$data_occYTD4StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "4");
+
+	//$data_occMTD4StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "4");
+	//$data_occYTD4StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "4");
+	$data_roomSold4StarTotalMTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_mtd, $enddate_mtd, $city, "4");
+	$data_roomInv4StarTotalMTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_mtd, $enddate_mtd, $city, "4");
+	$data_roomSold4StarTotalYTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_ytd, $enddate_ytd, $city, "4");
+	$data_roomInv4StarTotalYTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_ytd, $enddate_ytd, $city, "4");
+
 	$data_trrToday4StarTotal = $this->Smartreport_hca_model->getTrrTodayAllStar($date, $city, "4");
 	$data_trrMTD4StarTotal = $this->Smartreport_hca_model->getTrrMTDAllStar($startdate_mtd, $enddate_mtd, $city, "4");
 	$data_trrYTD4StarTotal = $this->Smartreport_hca_model->getTrrYTDAllStar($startdate_ytd, $enddate_ytd, $city, "4");	
@@ -177,8 +184,13 @@
 	$data_riYTD4StarTotal = $this->Smartreport_hca_model->getRIYTDAllStar($startdate_ytd, $enddate_ytd, $city, "4");
 
 	$data_occToday3StarTotal = $this->Smartreport_hca_model->getOccTodayAllStar($date, $city, "3");
-	$data_occMTD3StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "3");
-	$data_occYTD3StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "3");
+	//$data_occMTD3StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "3");
+	//$data_occYTD3StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "3");
+	$data_roomSold3StarTotalMTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_mtd, $enddate_mtd, $city, "3");
+	$data_roomInv3StarTotalMTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_mtd, $enddate_mtd, $city, "3");
+	$data_roomSold3StarTotalYTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_ytd, $enddate_ytd, $city, "3");
+	$data_roomInv3StarTotalYTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_ytd, $enddate_ytd, $city, "3");
+
 	$data_trrToday3StarTotal = $this->Smartreport_hca_model->getTrrTodayAllStar($date, $city, "3");
 	$data_trrMTD3StarTotal = $this->Smartreport_hca_model->getTrrMTDAllStar($startdate_mtd, $enddate_mtd, $city, "3");
 	$data_trrYTD3StarTotal = $this->Smartreport_hca_model->getTrrYTDAllStar($startdate_ytd, $enddate_ytd, $city, "3");	
@@ -188,8 +200,13 @@
 	$data_riYTD3StarTotal = $this->Smartreport_hca_model->getRIYTDAllStar($startdate_ytd, $enddate_ytd, $city, "3");
 
 	$data_occToday2StarTotal = $this->Smartreport_hca_model->getOccTodayAllStar($date, $city, "2");
-	$data_occMTD2StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "2");
-	$data_occYTD2StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "2");
+	//$data_occMTD2StarTotal = $this->Smartreport_hca_model->getOccMTDAllStar($startdate_mtd, $enddate_mtd, $city, "2");
+	//$data_occYTD2StarTotal = $this->Smartreport_hca_model->getOccYTDAllStar($startdate_ytd, $enddate_ytd, $city, "2");
+	$data_roomSold2StarTotalMTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_mtd, $enddate_mtd, $city, "2");
+	$data_roomInv2StarTotalMTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_mtd, $enddate_mtd, $city, "2");
+	$data_roomSold2StarTotalYTD = $this->Smartreport_hca_model->getRoomSoldAllStarByDate($startdate_ytd, $enddate_ytd, $city, "2");
+	$data_roomInv2StarTotalYTD = $this->Smartreport_hca_model->getRoomInvAllStarByDate($startdate_ytd, $enddate_ytd, $city, "2");
+
 	$data_trrToday2StarTotal = $this->Smartreport_hca_model->getTrrTodayAllStar($date, $city, "2");
 	$data_trrMTD2StarTotal = $this->Smartreport_hca_model->getTrrMTDAllStar($startdate_mtd, $enddate_mtd, $city, "2");
 	$data_trrYTD2StarTotal = $this->Smartreport_hca_model->getTrrYTDAllStar($startdate_ytd, $enddate_ytd, $city, "2");	
@@ -201,8 +218,17 @@
 	
 	
 	$data_occTodayByUserDirect = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom,'direct'); //ok1
-	$data_occMTDByUserDirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
-	$data_occYTDByUserDirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); //ok1
+	//$data_occMTDByUserDirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
+	//$data_occYTDByUserDirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); //ok1
+	$data_roomSoldByUserDirectMTD = $this->Smartreport_hca_model->getRoomSoldAllStarByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct');
+	$data_roomInvByUserDirectMTD = $this->Smartreport_hca_model->getRoomInvAllStarByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct');
+	$data_roomSoldByUserDirectYTD = $this->Smartreport_hca_model->getRoomSoldAllStarByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');
+	$data_roomInvByUserDirectYTD = $this->Smartreport_hca_model->getRoomInvAllStarByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');
+	$data_roomSoldByUserDirectParentMTD = $this->Smartreport_hca_model->getRoomSoldParentByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct');
+	$data_roomInvByUserDirectParentMTD = $this->Smartreport_hca_model->getRoomInvParentByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct');
+	$data_roomSoldByUserDirectParentYTD = $this->Smartreport_hca_model->getRoomSoldParentByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');
+	$data_roomInvByUserDirectParentYTD = $this->Smartreport_hca_model->getRoomInvParentByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');
+
 	$data_trrTodayByUserDirect = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom,'direct'); //ok1
 	$data_trrMTDByUserDirect = $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'direct'); //ok1
 	$data_trrYTDByUserDirect = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct');	//ok1
@@ -212,8 +238,13 @@
 	$data_riYTDByUserDirect = $this->Smartreport_hca_model->getRIYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'direct'); // ok 1
 
 	$data_occTodayByUserIndirect = $this->Smartreport_hca_model->getOccTodayByUser($date, $idhotel_custom,'indirect'); //ok1
-	$data_occMTDByUserIndirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
-	$data_occYTDByUserIndirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect'); //ok1
+	//$data_occMTDByUserIndirect = $this->Smartreport_hca_model->getOccMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
+	//$data_occYTDByUserIndirect = $this->Smartreport_hca_model->getOccYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect'); //ok1
+	$data_roomSoldByUserIndirectMTD = $this->Smartreport_hca_model->getRoomSoldAllStarByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect');
+	$data_roomInvByUserIndirectMTD = $this->Smartreport_hca_model->getRoomInvAllStarByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect');
+	$data_roomSoldByUserIndirectYTD = $this->Smartreport_hca_model->getRoomSoldAllStarByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect');
+	$data_roomInvByUserIndirectYTD = $this->Smartreport_hca_model->getRoomInvAllStarByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect');
+
 	$data_trrTodayByUserIndirect = $this->Smartreport_hca_model->getTrrTodayByUser($date, $idhotel_custom,'indirect'); //ok1
 	$data_trrMTDByUserIndirect= $this->Smartreport_hca_model->getTrrMTDByUser($startdate_mtd, $enddate_mtd, $idhotel_custom,'indirect'); //ok1
 	$data_trrYTDByUserIndirect = $this->Smartreport_hca_model->getTrrYTDByUser($startdate_ytd, $enddate_ytd, $idhotel_custom,'indirect');	//ok1
@@ -224,8 +255,13 @@
 	
 
 	$data_occTodayCorporate = $this->Smartreport_hca_model->getOccTodayCorporate($date, $city); //ok1
-	$data_occMTDCorporate = $this->Smartreport_hca_model->getOccMTDCorporate($startdate_mtd, $enddate_mtd, $city); //ok1
-	$data_occYTDCorporate = $this->Smartreport_hca_model->getOccYTDCorporate($startdate_ytd, $enddate_ytd, $city); //ok1
+	//$data_occMTDCorporate = $this->Smartreport_hca_model->getOccMTDCorporate($startdate_mtd, $enddate_mtd, $city); //ok1
+	//$data_occYTDCorporate = $this->Smartreport_hca_model->getOccYTDCorporate($startdate_ytd, $enddate_ytd, $city); //ok1
+	$data_roomSoldCorporateMTD = $this->Smartreport_hca_model->getRoomSoldCorporateByDate($startdate_mtd, $enddate_mtd, $city);
+	$data_roomInvCorporateMTD = $this->Smartreport_hca_model->getRoomInvCorporateByDate($startdate_mtd, $enddate_mtd, $city);
+	$data_roomSoldCorporateYTD = $this->Smartreport_hca_model->getRoomSoldCorporateByDate($startdate_ytd, $enddate_ytd, $city);
+	$data_roomInvCorporateYTD = $this->Smartreport_hca_model->getRoomInvCorporateByDate($startdate_ytd, $enddate_ytd, $city);
+
 	$data_trrTodayCorporate = $this->Smartreport_hca_model->getTrrTodayCorporate($date, $city); //ok1
 	$data_trrMTDCorporate = $this->Smartreport_hca_model->getTrrMTDCorporate($startdate_mtd, $enddate_mtd, $city); //ok1
 	$data_trrYTDCorporate = $this->Smartreport_hca_model->getTrrYTDCorporate($startdate_ytd, $enddate_ytd, $city);	//ok1
@@ -521,10 +557,10 @@
 											$mpi_today = ($rs_today / $ri_today) / $data_occToday4StarTotal->OCC_TODAYAllStar ;
 										}
 										if($occ_mtd != 0 && $total_rs_mtd4star !=0 ){
-											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTD4StarTotal->OCC_MTDAllStar;
+											$mpi_mtd = ($rs_mtd / $ri_mtd) / ($data_roomSold4StarTotalMTD->RS_AllStar/$data_roomInv4StarTotalMTD->RI_AllStar);
 										}
 										if($occ_ytd != 0 ){
-											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTD4StarTotal->OCC_YTDAllStar;
+											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / ($data_roomSold4StarTotalYTD->RS_AllStar/$data_roomInv4StarTotalYTD->RI_AllStar);
 										}
 
 										if($arr_today !=0  ){
@@ -646,8 +682,10 @@
 
 								<td><?php echo number_format($data_occToday4StarTotal->OCC_TODAYAllStar*100,1).'%'; ?>
 								</td>
-								<td><?php echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; ?></td>
-								<td><?php echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%'; ?></td>
+								<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+											echo number_format(($total_rs_mtd4star / ($total_ri_today4star*($diffdatemtd->days + 1))*100),2).'%';?></td>
+								<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+											echo number_format(($total_rs_ytd4star / ($total_ri_today4star*($diffdateytd->days + 1))*100),2).'%'; ?></td>
 
 								<!-- Average Room Rate -->
 								<td><?php echo number_format($data_arrToday4StarTotal->ARR_TodayAllStar,0); ?></td>
@@ -828,10 +866,10 @@
 											$mpi_today = ($rs_today / $ri_today) / $data_occToday3StarTotal->OCC_TODAYAllStar ;
 										}
 										if($occ_mtd != 0 && $total_rs_mtd3star !=0 ){
-											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTD3StarTotal->OCC_MTDAllStar;
+											$mpi_mtd = ($rs_mtd / $ri_mtd) / ($data_roomSold3StarTotalMTD->RS_AllStar/$data_roomInv3StarTotalMTD->RI_AllStar);
 										}
 										if($occ_ytd != 0 ){
-											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTD3StarTotal->OCC_YTDAllStar;
+											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / ($data_roomSold3StarTotalYTD->RS_AllStar/$data_roomInv3StarTotalYTD->RI_AllStar);
 										}
 
 										if($arr_today !=0  ){
@@ -950,8 +988,10 @@
 
 								<td><?php echo number_format($data_occToday3StarTotal->OCC_TODAYAllStar*100,1).'%'; ?>
 								</td>
-								<td><?php echo number_format($data_occMTD3StarTotal->OCC_MTDAllStar*100,2).'%'; ?></td>
-								<td><?php echo number_format($data_occYTD3StarTotal->OCC_YTDAllStar*100,2).'%'; ?></td>
+								<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+											echo number_format(($total_rs_mtd3star / ($total_ri_today3star*($diffdatemtd->days + 1))*100),2).'%';?></td>
+								<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+											echo number_format(($total_rs_ytd3star / ($total_ri_today3star*($diffdateytd->days + 1))*100),2).'%'; ?></td>
 
 								<!-- Average Room Rate -->
 								<td><?php echo number_format($data_arrToday3StarTotal->ARR_TodayAllStar,0); ?></td>
@@ -1133,10 +1173,10 @@
 											$mpi_today = ($rs_today / $ri_today) / $data_occToday2StarTotal->OCC_TODAYAllStar ;
 										}
 										if($occ_mtd != 0 && $total_rs_mtd2star !=0 ){
-											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTD2StarTotal->OCC_MTDAllStar;
+											$mpi_mtd = ($rs_mtd / $ri_mtd) / ($data_roomSold2StarTotalMTD->RS_AllStar/$data_roomInv2StarTotalMTD->RI_AllStar);
 										}
 										if($occ_ytd != 0 ){
-											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTD2StarTotal->OCC_YTDAllStar;
+											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / ($data_roomSold2StarTotalYTD->RS_AllStar/$data_roomInv2StarTotalYTD->RI_AllStar);
 										}
 
 										if($arr_today !=0  ){
@@ -1252,10 +1292,11 @@
 
 								<!-- Occupancy -->
 
-								<td><?php echo number_format($data_occToday2StarTotal->OCC_TODAYAllStar*100,1).'%'; ?>
-								</td>
-								<td><?php echo number_format($data_occMTD2StarTotal->OCC_MTDAllStar*100,2).'%'; ?></td>
-								<td><?php echo number_format($data_occYTD2StarTotal->OCC_YTDAllStar*100,2).'%'; ?></td>
+								<td><?php echo number_format($data_occToday2StarTotal->OCC_TODAYAllStar*100,1).'%'; ?></td>
+								<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+											echo number_format(($total_rs_mtd2star / ($total_ri_today2star*($diffdatemtd->days + 1))*100),2).'%';?></td>
+								<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+											echo number_format(($total_rs_ytd2star / ($total_ri_today2star*($diffdateytd->days + 1))*100),2).'%'; ?></td>
 
 								<!-- Average Room Rate -->
 								<td><?php echo number_format($data_arrToday2StarTotal->ARR_TodayAllStar,0); ?></td>
@@ -1566,10 +1607,10 @@
 											$mpi_today = ($rs_today / $ri_today) / $data_occTodayByUserDirect->OCC_TODAYByUser ;
 										}
 										if($occ_mtd != 0 && $total_rs_mtdbyuser !=0 ){
-											$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDByUserDirect->OCC_MTDByUser;
+											$mpi_mtd = ($rs_mtd / $ri_mtd) / (($data_roomSoldByUserDirectMTD->RS_AllStar + $data_roomSoldByUserDirectParentMTD->RS_Parent)/($data_roomInvByUserDirectMTD->RI_AllStar+$data_roomInvByUserDirectParentMTD->RI_Parent));
 										}
 										if($occ_ytd != 0 ){
-											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDByUserDirect->OCC_YTDByUser;
+											$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / (($data_roomSoldByUserDirectYTD->RS_AllStar + $data_roomSoldByUserDirectParentYTD->RS_Parent )/($data_roomInvByUserDirectYTD->RI_AllStar+$data_roomInvByUserDirectParentYTD->RI_Parent));
 										}
 
 										if($arr_today !=0  ){
@@ -1713,8 +1754,10 @@
 
 								<td><?php echo number_format($data_occTodayByUserDirect->OCC_TODAYByUser*100,1).'%'; ?>
 								</td>
-								<td><?php echo number_format($data_occMTDByUserDirect->OCC_MTDByUser*100,2).'%'; ?></td>
-								<td><?php echo number_format($data_occYTDByUserDirect->OCC_YTDByUser*100,2).'%'; ?></td>
+								<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+											echo number_format(($total_rs_mtdbyuser / ($total_ri_todaybyuser*($diffdatemtd->days + 1))*100),2).'%';?></td>
+								<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+											echo number_format(($total_rs_ytdbyuser / ($total_ri_todaybyuser*($diffdateytd->days + 1))*100),2).'%'; ?></td>
 
 								<!-- Average Room Rate -->
 								<td><?php echo number_format($data_arrTodayByUserDirect->ARR_TodayByUser,0); ?></td>
@@ -1733,7 +1776,7 @@
 										
 
 
-								<td colspan="10"><?php echo $data_occMTDByUserDirect->room_sold.' '.$data_occMTDByUserDirect->tot_room; ?></td>
+								<td colspan="10"><?php echo $data_roomSoldByUserDirectMTD->RS_AllStar.' '.$data_roomInvByUserDirectMTD->RI_AllStar?></td>
 								<td style="display: none;"></td>
 								<td style="display: none;"></td>
 								<td style="display: none;"></td>
@@ -1900,10 +1943,10 @@
 									$mpi_today = ($rs_today / $ri_today) / $data_occTodayByUserIndirect->OCC_TODAYByUser ;
 								}
 								if($occ_mtd != 0 && $total_rs_mtdbyindirect !=0 ){
-									$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDByUserIndirect->OCC_MTDByUser;
+									$mpi_mtd = ($rs_mtd / $ri_mtd) / ($data_roomSoldByUserIndirectMTD->RS_AllStar/$data_roomInvByUserIndirectMTD->RI_AllStar);
 								}
 								if($occ_ytd != 0 ){
-									$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDByUserIndirect->OCC_YTDByUser;
+									$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / ($data_roomSoldByUserIndirectYTD->RS_AllStar/$data_roomInvByUserIndirectYTD->RI_AllStar);
 								}
 
 								if($arr_today !=0  ){
@@ -2047,10 +2090,18 @@
 
 								<td><?php echo number_format($data_occTodayByUserIndirect->OCC_TODAYByUser*100,1).'%'; ?>
 								</td>
-								<td><?php echo number_format($data_occMTDByUserIndirect->OCC_MTDByUser*100,2).'%'; ?>
-								</td>
-								<td><?php echo number_format($data_occYTDByUserIndirect->OCC_YTDByUser*100,2).'%'; ?>
-								</td>
+								<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+										if($total_rs_mtdbyindirect !=0){
+											echo number_format(($total_rs_mtdbyindirect / ($total_ri_todaybyindirect*($diffdatemtd->days + 1))*100),2).'%';
+										}else{
+											echo '0%';
+										}	?></td>
+								<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+											if ($total_rs_ytdbyindirect != 0){
+												echo number_format(($total_rs_ytdbyindirect / ($total_ri_todaybyindirect*($diffdateytd->days + 1))*100),2).'%';
+											}else{
+												echo '0%';
+											}  ?></td>
 
 								<!-- Average Room Rate -->
 								<td><?php echo number_format($data_arrTodayByUserIndirect->ARR_TodayByUser,0); ?></td>
@@ -2322,10 +2373,10 @@
 														$mpi_today = ($rs_today / $ri_today) / $data_occTodayCorporate->OCC_TODAYCorporate ;
 													}
 													if($occ_mtd != 0 && $total_rs_mtdcorporate !=0 ){
-														$mpi_mtd = ($rs_mtd / $ri_mtd) / $data_occMTDCorporate->OCC_MTDCorporate;
+														$mpi_mtd = ($rs_mtd / $ri_mtd) / ($data_roomSoldCorporateMTD->RS_Corporate/$data_roomInvCorporateMTD->RI_Corporate);
 													}
 													if($occ_ytd != 0 ){
-														$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / $data_occYTDCorporate->OCC_YTDCorporate;
+														$mpi_ytd = ($rs_ytd / $ri_ytd->RI_YTD) / ($data_roomSoldCorporateYTD->RS_Corporate/$data_roomInvCorporateYTD->RI_Corporate);
 													}
 
 													if($arr_today !=0  ){
@@ -2456,7 +2507,7 @@
 											</tr>
 											<?php } ?>
 											<tr style="font-weight:bold">
-												<!-- Baris Total untuk bintang 4 -->
+											
 												<!-- Hotel and Room Inventory -->
 												<td>Total Hotel Corporate</td>
 												<td><?php echo number_format($total_ri_todaycorporate); ?></td>
@@ -2470,8 +2521,10 @@
 
 												<td><?php echo number_format($data_occTodayCorporate->OCC_TODAYCorporate*100,1).'%'; ?>
 												</td>
-												<td><?php echo number_format($data_occMTDCorporate->OCC_MTDCorporate*100,2).'%'; ?></td>
-												<td><?php echo number_format($data_occYTDCorporate->OCC_YTDCorporate*100,2).'%'; ?></td>
+												<td><?php // salah ga bisa disatuin echo number_format($data_occMTD4StarTotal->OCC_MTDAllStar*100,2).'%'; 
+															echo number_format(($total_rs_mtdcorporate / ($total_ri_todaycorporate*($diffdatemtd->days + 1))*100),2).'%';?></td>
+												<td><?php //salah ga bisa disatuin  echo number_format($data_occYTD4StarTotal->OCC_YTDAllStar*100,2).'%';
+															echo number_format(($total_rs_ytdcorporate / ($total_ri_todaycorporate*($diffdateytd->days + 1))*100),2).'%'; ?></td>
 
 												<!-- Average Room Rate -->
 												<td><?php echo number_format($data_arrTodayCorporate->ARR_TodayCorporate,0); ?></td>

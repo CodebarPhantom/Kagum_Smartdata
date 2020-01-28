@@ -249,6 +249,21 @@ class Smartreport_hca_model extends CI_Model
         return $this->db->get()->row();   
     }
 
+    function getRoomSoldAllStarByDate($startdate = NULL, $enddate = NULL, $city = NULL, $star = NULL){
+        $this->db->select("sum(hc.room_sold) as RS_AllStar");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.hotel_star = '$star'");
+        return $this->db->get()->row();       
+    }
+
+    function getRoomInvAllStarByDate($startdate = NULL, $enddate = NULL, $city = NULL, $star = NULL){
+        $this->db->select("sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_AllStar");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->where("ht.idcity = '$city' AND ht.status = 'active' AND ht.hotel_star = '$star'");
+        return $this->db->get()->row();       
+    }
+
     function getTrrTodayAllStar($date = NULL, $city = NULL, $star = NULL ){
         $this->db->select("truncate(sum(hc.avg_roomrate*hc.room_sold),0) as TRR_TodayAllStar");
         $this->db->from("smartreport_hotels as ht");
@@ -314,6 +329,21 @@ class Smartreport_hca_model extends CI_Model
         $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
         $this->db->where("hc.date_analysis ='$date' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
         return $this->db->get()->row();   
+    }
+
+    function getRoomSoldCorporateByDate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("sum(hc.room_sold) as RS_Corporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT'");
+        return $this->db->get()->row();       
+    }
+
+    function getRoomInvCorporateByDate($startdate = NULL, $enddate = NULL, $city = NULL){
+        $this->db->select("sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_Corporate");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->where("ht.idcity = '$city' AND ht.status = 'active' AND ht.parent = 'PARENT' ");
+        return $this->db->get()->row();       
     }
 
     function getOccMTDCorporate($startdate = NULL, $enddate = NULL, $city = NULL){
@@ -408,6 +438,35 @@ class Smartreport_hca_model extends CI_Model
         return $this->db->get()->result();
     }*/
 
+    function getRoomSoldAllStarByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp){
+        $this->db->select("sum(hc.room_sold) as RS_AllStar");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.parent = '$idhotels' AND ht.status = 'active' AND ht.type_competitor ='$typecomp'");       
+        return $this->db->get()->row();       
+    }
+
+    function getRoomSoldParentByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp){
+        $this->db->select("sum(hc.room_sold) as RS_Parent");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->join("smartreport_hca as hc ", "ht.idhotels = hc.idhotels", "LEFT");
+        $this->db->where("hc.date_analysis BETWEEN '$startdate' AND '$enddate' AND ht.idhotels = '$idhotels' AND ht.status = 'active' AND ht.type_competitor ='$typecomp'");       
+        return $this->db->get()->row();       
+    }
+
+    function getRoomInvAllStarByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp){
+        $this->db->select("sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_AllStar");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->where("ht.parent = '$idhotels' AND ht.status = 'active' AND ht.type_competitor ='$typecomp'");      
+        return $this->db->get()->row();       
+    }
+
+    function getRoomInvParentByUser($startdate = NULL, $enddate = NULL, $idhotels = NULL, $typecomp){
+        $this->db->select("sum(ht.total_rooms * (DATEDIFF('$enddate', '$startdate') +1)) as RI_Parent");
+        $this->db->from("smartreport_hotels as ht");
+        $this->db->where("ht.idhotels = '$idhotels' AND ht.status = 'active' AND ht.type_competitor ='$typecomp'");      
+        return $this->db->get()->row();       
+    }
 
     function getOccTodayByUser($date = NULL, $idhotels = NULL, $typecomp){
         $this->db->select("(sum(hc.room_sold)/sum(ht.total_rooms)) as OCC_TODAYByUser");

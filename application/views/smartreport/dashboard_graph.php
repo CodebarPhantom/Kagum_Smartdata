@@ -26,10 +26,10 @@ var EchartsColumnsWaterfalls = function() {
             occ_daily.setOption({
 
                 // Define colors
-                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#dff9fb', '#7ed6df', 
-                        '#e056fd', '#686de0', '#30336b', '#95afc0', '#f9ca24', '#f0932b', 
-                        '#eb4d4b', '#6ab04c', '#c7ecee', '#22a6b3', '#be2edd', '#4834d4', 
-                        '#130f40','#535c68'],
+                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#c23616', '#7ed6df', 
+                        '#e056fd', '#686de0', '#30336b', '#5758BB', '#f9ca24', '#f0932b', 
+                        '#eb4d4b', '#6ab04c', '#44bd32', '#22a6b3', '#be2edd', '#4834d4', 
+                        '#130f40','#006266'],
 
                 // Global text styles
                 textStyle: {
@@ -192,10 +192,10 @@ var EchartsColumnsWaterfalls = function() {
             arr_daily.setOption({
 
                 // Define colors
-                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#dff9fb', '#7ed6df', 
-                        '#e056fd', '#686de0', '#30336b', '#95afc0', '#f9ca24', '#f0932b', 
-                        '#eb4d4b', '#6ab04c', '#c7ecee', '#22a6b3', '#be2edd', '#4834d4', 
-                        '#130f40','#535c68'],
+                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#c23616', '#7ed6df', 
+                        '#e056fd', '#686de0', '#30336b', '#5758BB', '#f9ca24', '#f0932b', 
+                        '#eb4d4b', '#6ab04c', '#44bd32', '#22a6b3', '#be2edd', '#4834d4', 
+                        '#130f40','#006266'],
 
                 // Global text styles
                 textStyle: {
@@ -352,10 +352,10 @@ var EchartsColumnsWaterfalls = function() {
             revpar_daily.setOption({
 
                 // Define colors
-                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#dff9fb', '#7ed6df', 
-                        '#e056fd', '#686de0', '#30336b', '#95afc0', '#f9ca24', '#f0932b', 
-                        '#eb4d4b', '#6ab04c', '#c7ecee', '#22a6b3', '#be2edd', '#4834d4', 
-                        '#130f40','#535c68'],
+                color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#c23616', '#7ed6df', 
+                        '#e056fd', '#686de0', '#30336b', '#5758BB', '#f9ca24', '#f0932b', 
+                        '#eb4d4b', '#6ab04c', '#44bd32', '#22a6b3', '#be2edd', '#4834d4', 
+                        '#130f40','#006266'],
 
                 // Global text styles
                 textStyle: {
@@ -517,11 +517,10 @@ var EchartsColumnsWaterfalls = function() {
         mpi_mtd.setOption({
 
             // Colors
-            color: [    '#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#7ed6df', 
-                        '#e056fd', '#686de0', '#30336b', '#95afc0', '#f9ca24', '#f0932b', 
-                        '#eb4d4b', '#6ab04c', '#c7ecee', '#22a6b3', '#be2edd', '#4834d4', 
-                        '#130f40','#535c68'
-            ],
+            color: ['#f6e58d', '#ffbe76', '#2196f3', '#badc58', '#c23616', '#7ed6df', 
+                        '#e056fd', '#686de0', '#30336b', '#5758BB', '#f9ca24', '#f0932b', 
+                        '#eb4d4b', '#6ab04c', '#44bd32', '#22a6b3', '#be2edd', '#4834d4', 
+                        '#130f40','#006266'],
 
             // Global text styles
             textStyle: {

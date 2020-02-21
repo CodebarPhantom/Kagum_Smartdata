@@ -102,7 +102,9 @@ var EchartsColumnsWaterfalls = function() {
                     boundaryGap: false,
                     data: [<?php $dayInMonth = cal_days_in_month(CAL_GREGORIAN, $graphMonth, $graphYear);
                             for ($mn = 1; $mn <= $dayInMonth; ++$mn) {
-                                echo "'".$mn."',";
+                                $timestamp = strtotime($graphYear.'-'.$graphMonth.'-'.$mn);
+                                $day = date('D',$timestamp);
+                                echo "'".$mn.'-'.$day."',";
                             }
                         ?>],
                     axisLabel: {
@@ -265,8 +267,11 @@ var EchartsColumnsWaterfalls = function() {
                     type: 'category',
                     boundaryGap: false,
                     data: [<?php $dayInMonth = cal_days_in_month(CAL_GREGORIAN, $graphMonth, $graphYear);
+                                    
                             for ($mn = 1; $mn <= $dayInMonth; ++$mn) {
-                                echo "'".$mn."',";
+                                $timestamp = strtotime($graphYear.'-'.$graphMonth.'-'.$mn);
+                                $day = date('D',$timestamp);
+                                echo "'".$mn.'-'.$day."',";
                             }
                         ?>],
                     axisLabel: {
@@ -428,7 +433,9 @@ var EchartsColumnsWaterfalls = function() {
                     boundaryGap: false,
                     data: [<?php $dayInMonth = cal_days_in_month(CAL_GREGORIAN, $graphMonth, $graphYear);
                             for ($mn = 1; $mn <= $dayInMonth; ++$mn) {
-                                echo "'".$mn."',";
+                                $timestamp = strtotime($graphYear.'-'.$graphMonth.'-'.$mn);
+                                $day = date('D',$timestamp);
+                                echo "'".$mn.'-'.$day."',";
                             }
                         ?>],
                     axisLabel: {

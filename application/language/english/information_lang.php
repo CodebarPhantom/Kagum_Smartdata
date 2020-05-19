@@ -327,6 +327,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['sevendays_forecast'] = "7 Days Forecast";   
     $lang['last_update'] = "Last Update";
 
+    $lang['add_voucher'] = "Add Voucher";
+    $lang['search_voucher'] = "Search Voucher";
+    $lang['voucher_hotels'] = "Voucher Hotels";
+    $lang['data_vouchers'] = "Data Vouchers";
+    $lang['guest_name'] = "Guest Name";
+    $lang['guest_info'] = "Guest Info";
+    $lang['voucher_info'] = "Voucher Info";
+    $lang['lock_at'] = "Lock At";
+    $lang['last_lock_at'] = "Last Lock At";
+    $lang['created_at'] = "Created At";
+    $lang['redeem_at'] = "Redeem At";
+    $lang['lock'] = "Lock";
+    $lang['Redeem'] = "Redeem";
+    $lang['Open'] = "Open";
+    $lang['idvoucher'] = "Voucher ID";
+    $lang['action'] = "Action";
+    $lang['voucher_amount'] = "Voucher Amount";
+    $lang['stay_date'] = "Stay Date";
+    $lang['stay_info'] = "Stay Info";
+    $lang['lock_voucher'] = "Lock Voucher";
+
+
+    
+ 
+
 
 
     

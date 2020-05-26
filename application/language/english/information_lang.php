@@ -347,6 +347,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['stay_date'] = "Stay Date";
     $lang['stay_info'] = "Stay Info";
     $lang['lock_voucher'] = "Lock Voucher";
+    $lang['unlock_voucher'] = "Unlock Voucher";
+    $lang['unlock_voucher_confirm'] = 'Yes, Unlock Voucher';
 
 
     

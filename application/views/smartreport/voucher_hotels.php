@@ -129,7 +129,7 @@
 								<th data-toogle="true"><?php echo $lang_guest_info; ?></th>								
 								<th data-hide="phone"><?php echo $lang_voucher_info; ?></th>
 								<th data-hide="phone"><?php echo $lang_stay_info; ?></th>							
-								<th class="text-center" data-hide="phone,tablet"><?php echo $lang_action; ?></th>								
+								<th class="text-center" data-hide="phone"><?php echo $lang_action; ?></th>								
 								<th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
 							</tr>
 						</thead>
@@ -181,7 +181,39 @@
 										</div>
 									<?php }else if($smartreport_vouchers->status_voucher === '2') { ?>
 										<div class="text-center">	
-											<button type="button" data-popup="tooltip" title="Unlock" class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2"><i class="icon-unlocked2"></i></button>
+
+										<script>		
+											jQuery(document).ready(function($){
+												$('.unlock_voucher').on('click',function(){
+												
+													var url = $(this).attr('href');
+													swal({
+														title: '<?php echo $lang_unlock_voucher." ".$smartreport_vouchers->idvoucher; ?>',					
+														type: 'question',
+														showCancelButton: true,
+														confirmButtonColor: '#ffa801',
+														cancelButtonColor: ' #3085d6',
+														confirmButtonText: '<?php echo $lang_unlock_voucher_confirm; ?>',
+														confirmButtonClass: 'btn btn-success',
+														cancelButtonClass: 'btn btn-danger',
+														closeOnConfirm: false
+														}).then(function(result) {
+															if(result.value) {
+																window.location.href = url
+															}
+															else if(result.dismiss === swal.DismissReason.cancel) {
+																
+															}
+														});
+													
+													return false;
+												});
+											});
+										</script>
+
+											<a href="<?php echo base_url('smartreportvoucher/unlock_voucher/'.$smartreport_vouchers->idvoucher);?>"
+											type="button" data-popup="tooltip" title="Unlock" class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2 unlock_voucher"><i class="icon-unlocked2"></i></a>
+
 											<button type="button" data-popup="tooltip" title="Redeem" class="btn btn-outline bg-success border-success text-success-800 btn-icon border-2 ml-2"><i class="icon-checkmark3"></i></button>
 										</div>
 									<?php } ?>

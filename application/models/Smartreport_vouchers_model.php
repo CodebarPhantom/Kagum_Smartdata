@@ -79,12 +79,14 @@ class Smartreport_vouchers_model extends CI_Model{
         $this->db->insert('smartreport_voucherhotels',$data);        
     } 
 
-    public function lock_data_voucher($table, $data, $idvoucher)
+    public function update_data_voucher($table, $data, $idvoucher)
     {
         $this->db->where('idvoucher', $idvoucher);
         $this->db->update("$table", $data);
 
         return true;
     }
+
+    
 
 }

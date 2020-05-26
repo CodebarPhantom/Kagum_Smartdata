@@ -126,7 +126,8 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_type_competitor'] = $this->lang->line('type_competitor');
         $page_data['lang_type'] = $this->lang->line('type');
         $page_data['lang_choose_type'] = $this->lang->line('choose_type');
-
+        $page_data['lang_unlock_voucher_confirm'] = $this->lang->line('unlock_voucher_confirm');
+        $page_data['lang_unlock_voucher'] = $this->lang->line('unlock_voucher');
 
 
         $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
@@ -195,7 +196,30 @@ class Smartreportvoucher extends CI_Controller{
         'status_voucher' => 2
         );  
      
-        $this->Smartreport_vouchers_model->lock_data_voucher('smartreport_voucherhotels', $data, $this->input->post('idvoucher', TRUE));
+        $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $this->input->post('idvoucher', TRUE));
+        $this->session->set_flashdata('update_success','message');
+        //redirect(site_url('smartreport/competitor-hotel'));
+        redirect($_SERVER['HTTP_REFERER']);
+      }else{
+        redirect('errorpage/error403');
+    }
+      
+  }
+
+  function unlock_voucher($idvoucher){
+    $user_level = $this->session->userdata('user_level');
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
+      $stay_date = date_php_to_mysql($this->input->post('stay_date'));
+      $data = array(
+        
+        'fk_idhotels' => '',
+        'stay_date' => '0000-00-00 00:00:00',
+        'fk_iduser_lock'=>'',
+        'status_voucher' => 1
+        );  
+     
+        $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $idvoucher);
         $this->session->set_flashdata('update_success','message');
         //redirect(site_url('smartreport/competitor-hotel'));
         redirect($_SERVER['HTTP_REFERER']);

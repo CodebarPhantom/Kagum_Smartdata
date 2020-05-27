@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 class Smartreportvoucher extends CI_Controller{
-
+  // Eryan Fauzan
   private $contoller_name;
   private $function_name;
 

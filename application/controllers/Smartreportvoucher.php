@@ -40,14 +40,14 @@ class Smartreportvoucher extends CI_Controller{
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
 
     if($check_permission->num_rows() == 1){
+        $idvoucher = urldecode($this->input->get('idvoucher', TRUE));
         $guestname = urldecode($this->input->get('guestname', TRUE));
-        $city = urldecode($this->input->get('city', TRUE));
         $listhotel = urldecode($this->input->get('listhotel', TRUE));
         $start = intval($this->input->get('start'));
         
         if ($guestname <> '' || $listhotel <> '' ) {
-            $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel);
-            $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel);
+            $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) .'&idvoucher='.urlencode($idvoucher);
+            $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) .'&idvoucher='.urlencode($idvoucher);
         } else {
             $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels';
             $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels';
@@ -55,8 +55,8 @@ class Smartreportvoucher extends CI_Controller{
 
         $config['per_page'] = 10;
         $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel);
-        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers($config['per_page'], $start, $guestname, $listhotel);
+        $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel, $idvoucher);
+        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers($config['per_page'], $start, $guestname, $listhotel, $idvoucher);
 
         $this->load->library('pagination');
         $this->pagination->initialize($config);
@@ -99,40 +99,25 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_cancel_data'] = $this->lang->line('cancel_data');
         $page_data['lang_cancel_confirm'] = $this->lang->line('cancel_confirm'); 
         $page_data['lang_submit'] = $this->lang->line('submit');
-        $page_data['lang_close'] = $this->lang->line('close');
-
-        $page_data['lang_edit_hotel'] = $this->lang->line('edit_hotel');
-        $page_data['lang_add_competitor'] = $this->lang->line('add_competitor');
-        $page_data['lang_edit_competitor'] = $this->lang->line('edit_competitor');
-        $page_data['lang_search_competitor'] = $this->lang->line('search_competitor');
-        $page_data['lang_idhotel'] = $this->lang->line('idhotel');
-        $page_data['lang_status'] = $this->lang->line('status');
-        $page_data['lang_hotel_name'] = $this->lang->line('hotel_name');
-        $page_data['lang_idcompetitor'] = $this->lang->line('idcompetitor');
-        $page_data['lang_competitor'] = $this->lang->line('competitor');
-        $page_data['lang_hotel_star'] = $this->lang->line('hotel_star');
-        $page_data['lang_delete_hotel'] = $this->lang->line('delete_hotel');
-        $page_data['lang_choose_city'] = $this->lang->line('choose_city');
-        $page_data['lang_choose_status'] = $this->lang->line('choose_status');
-        $page_data['lang_choose_competitor'] = $this->lang->line('choose_competitor');
-        
-        $page_data['lang_choose_star'] = $this->lang->line('choose_star');
-        $page_data['lang_search_hotel'] = $this->lang->line('search_hotel');
-        $page_data['lang_total_rooms'] = $this->lang->line('total_rooms');
-        $page_data['lang_rooms'] = $this->lang->line('rooms');
-        $page_data['lang_hotel_star'] = $this->lang->line('hotel_star');
+        $page_data['lang_close'] = $this->lang->line('close');     
         $page_data['lang_all_hotels'] = $this->lang->line('all_hotels');
-        $page_data['lang_all_city'] = $this->lang->line('all_city');
-        $page_data['lang_type_competitor'] = $this->lang->line('type_competitor');
-        $page_data['lang_type'] = $this->lang->line('type');
-        $page_data['lang_choose_type'] = $this->lang->line('choose_type');
+        
         $page_data['lang_unlock_voucher_confirm'] = $this->lang->line('unlock_voucher_confirm');
         $page_data['lang_unlock_voucher'] = $this->lang->line('unlock_voucher');
+        $page_data['lang_last_update'] = $this->lang->line('last_update');
+        $page_data['lang_redeem_voucher_confirm'] = $this->lang->line('redeem_voucher_confirm');
+        $page_data['lang_redeem_voucher'] = $this->lang->line('redeem_voucher');
+        $page_data['lang_details_voucher'] = $this->lang->line('details_voucher');
+        $page_data['lang_username'] = $this->lang->line('username');
+
 
 
         $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
-        $page_data['guest_name'] = $this->input->get('guestname', TRUE);
+        
+        $page_data['guestname'] = $this->input->get('guestname', TRUE);
         $page_data['listhotel'] = $this->input->get('listhotel', TRUE);
+        $page_data['idvoucher'] = $this->input->get('idvoucher', TRUE);
+
 
 
         $page_data['pagination'] = $this->pagination->create_links();
@@ -210,12 +195,10 @@ class Smartreportvoucher extends CI_Controller{
     $user_level = $this->session->userdata('user_level');
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
     if($check_permission->num_rows() == 1){
-      $stay_date = date_php_to_mysql($this->input->post('stay_date'));
-      $data = array(
-        
+      $data = array(        
         'fk_idhotels' => '',
         'stay_date' => '0000-00-00 00:00:00',
-        'fk_iduser_lock'=>'',
+        'fk_iduser_lock'=>$this->session->userdata('iduser'),
         'status_voucher' => 1
         );  
      
@@ -227,5 +210,24 @@ class Smartreportvoucher extends CI_Controller{
         redirect('errorpage/error403');
     }
       
+  }
+
+  function redeem_voucher($idvoucher){
+    $user_level = $this->session->userdata('user_level');
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){
+      $data = array(
+        'redeem_at' => date("Y-m-d H:i:s"),
+        'fk_iduser_redeem'=>$this->session->userdata('iduser'),
+        'status_voucher' => 0
+        );  
+     
+        $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $idvoucher);
+        $this->session->set_flashdata('update_success','message');
+        //redirect(site_url('smartreport/competitor-hotel'));
+        redirect($_SERVER['HTTP_REFERER']);
+      }else{
+        redirect('errorpage/error403');
+    }
   }
 }

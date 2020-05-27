@@ -7,35 +7,55 @@ class Smartreport_vouchers_model extends CI_Model{
     }
 
     // get total rows
-    function total_rows_vouchers($guestname = NULL, $listhotel = NULL) {
-        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
+    function total_rows_vouchers($guestname = NULL, $listhotel = NULL, $idvoucher = NULL) {
+        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
         $this->db->from('smartreport_voucherhotels as vh');        
         $this->db->join('smartreport_hotels as ht', 'ht.idhotels=vh.fk_idhotels','left');
+        $this->db->join('smartreport_users as ug', 'ug.iduser=vh.fk_iduser_generate ','left');
+        $this->db->join('smartreport_users as ul', 'ul.iduser=vh.fk_iduser_lock ','left');
+        $this->db->join('smartreport_users as ur', 'ur.iduser=vh.fk_iduser_redeem ','left');     
+        if ($idvoucher !== NULL){
+            $this->db->like('vh.idvoucher', $idvoucher);
+        }  
         
-       /* if($listhotel !== 'all'){
-            $this->db->like('h.idhotels', $listhotel);
-        }
+        
         if ($guestname !== NULL){
-            $this->db->like('h1.hotels_name', $guestname);
-        } */
-        //$this->db->where('h1.parent !=', 'PARENT');
+            $this->db->like('vh.guest_name', $guestname);
+        }
+
+        
+        if($listhotel !== 'all'){
+            $this->db->like('vh.fk_idhotels', $listhotel);
+        }
+
         $this->db->order_by('vh.idvoucher', 'ASC');
         return $this->db->count_all_results();
     }
 
     // get data with limit and search
-    function get_limit_data_vouchers($limit, $start = 0, $guestname = NULL,  $listhotel = NULL) {
-        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
+    function get_limit_data_vouchers($limit, $start = 0, $guestname = NULL,  $listhotel = NULL, $idvoucher = NULL) {
+        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
         $this->db->from('smartreport_voucherhotels as vh');        
         $this->db->join('smartreport_hotels as ht', 'ht.idhotels=vh.fk_idhotels','left');
         
-        /*if($listhotel !== 'all'){
-            $this->db->like('h.idhotels', $listhotel);
+        $this->db->join('smartreport_users as ug', 'ug.iduser=vh.fk_iduser_generate ','left');
+        $this->db->join('smartreport_users as ul', 'ul.iduser=vh.fk_iduser_lock ','left');
+        $this->db->join('smartreport_users as ur', 'ur.iduser=vh.fk_iduser_redeem ','left');
+        
+        if ($idvoucher !== NULL){
+            $this->db->like('vh.idvoucher', $idvoucher);
         }
+
+        
         if ($guestname !== NULL){
-            $this->db->like('h1.hotels_name', $guestname);
-        } */
-        //$this->db->where('h1.parent !=', 'PARENT');
+            $this->db->like('vh.guest_name', $guestname);
+        }
+
+        
+        if($listhotel !== 'all'){
+            $this->db->like('vh.fk_idhotels', $listhotel);
+        }
+
         $this->db->order_by('vh.idvoucher', 'ASC');
         $this->db->limit($limit, $start);
         return $this->db->get()->result();

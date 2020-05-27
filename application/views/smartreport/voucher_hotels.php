@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	    
-		$(document).ready(function() {
+	$(document).ready(function() {
 
 			$('.daterange-single').daterangepicker({
 			singleDatePicker: true,
@@ -11,6 +11,7 @@
 				format: 'DD-MM-YYYY'
 			}
 			});
+
 			$('.table-togglable').footable();
 			$('.custom_category').select2();
 
@@ -28,16 +29,82 @@
 					return false;
 				});
 			});
+
+			$('.unlock_voucher').on('click',function(){
+			
+				var url = $(this).attr('href');
+
+				var idvoucher = $(this).attr('idvoucher');
+				
+				swal({
+					title: '<?php echo $lang_unlock_voucher; ?>' + ' ' + idvoucher + '?',					
+					type: 'question',
+					showCancelButton: true,
+					confirmButtonColor: '#ffa801',
+					cancelButtonColor: ' #3085d6',
+					confirmButtonText: '<?php echo $lang_unlock_voucher_confirm; ?>',
+					confirmButtonClass: 'btn btn-success',
+					cancelButtonClass: 'btn btn-danger',
+					
+					}).then(function(result) {
+						if(result.value) {
+							window.location.href = url
+						}
+						else if(result.dismiss === swal.DismissReason.cancel) {
+							
+						}
+					});
+				
+				return false;
+			});
+
+			$('.redeem_voucher').on('click',function(){
+			
+			var url = $(this).attr('href');
+
+			var idvoucher = $(this).attr('idvoucher');
+			
+			swal({
+				title: '<?php echo $lang_redeem_voucher; ?>' + ' ' + idvoucher + '?',					
+				type: 'success',
+				showCancelButton: true,
+				confirmButtonColor: '#44bd32',
+				cancelButtonColor: ' #3085d6',
+				confirmButtonText: '<?php echo $lang_redeem_voucher_confirm; ?>',
+				confirmButtonClass: 'btn btn-success',
+				cancelButtonClass: 'btn btn-danger',
+				
+				}).then(function(result) {
+					if(result.value) {
+						window.location.href = url
+					}
+					else if(result.dismiss === swal.DismissReason.cancel) {
+						
+					}
+				});
+			
+			return false;
+		});
 	});
+
+
+	</script>
+
+	<script>		
+		jQuery(document).ready(function($){
+			
+		});
 	</script>
 	<?php
     //initialization
      
-     //$url_city = '';
-     $url_hotel = '';
+     $url_idvoucher = '';
+	 $url_hotel = '';
+	 $url_guestname = '';
 
      //get from function
-     //$url_city = $city;
+	 //$url_city = $city;
+	 
      $url_hotel = $listhotel;
     ?>  
 		<!-- Page header -->
@@ -66,13 +133,13 @@
 								<div class="col-md-2">
 									<div class="form-group">
 										<label><?php echo $lang_search_voucher; ?></label>
-										<input type="text" name="idvoucher" class="form-control" placeholder="<?php echo $lang_idvoucher; ?>..." value="<?php echo $guest_name ?>" />
+										<input type="text" name="idvoucher" class="form-control" placeholder="<?php echo $lang_idvoucher; ?>..." value="<?php echo $idvoucher ?>" />
 									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
 										<label><?php echo $lang_guest_name; ?></label>
-										<input type="text" name="guestname" class="form-control" placeholder="<?php echo $lang_guest_name; ?>..." value="<?php echo $guest_name ?>" />
+										<input type="text" name="guestname" class="form-control" placeholder="<?php echo $lang_guest_name; ?>..." value="<?php echo $guestname ?>" />
 									</div>
 								</div>
 								
@@ -108,9 +175,9 @@
 
 								<div class="col-md-1">
 									<div class="form-group">
-										<?php if ($guest_name != '' || $listhotel != ''){?>
+										<?php if ($guestname != '' || $listhotel != '' || $idvoucher != ''){?>
 											<label>&nbsp;</label><br/>
-											<a href="<?php echo site_url('smartreport/competitor-hotel'); ?>" class="btn btn-orange">Reset</a>
+											<a href="<?php echo site_url('smartreportvoucher/voucher-hotels'); ?>" class="btn btn-warning">Reset</a>
 										<?php } ?>
 									</div>
 								</div>
@@ -124,12 +191,12 @@
 					<table class="table table-bordered table-togglable table-hover table-xs  ">
 						<thead>
 							<tr>
-								<th data-hide="phone">#</th>
+								<th>#</th>
 								<th data-hide="phone"><?php echo $lang_idvoucher; ?></th>                                
 								<th data-toogle="true"><?php echo $lang_guest_info; ?></th>								
 								<th data-hide="phone"><?php echo $lang_voucher_info; ?></th>
 								<th data-hide="phone"><?php echo $lang_stay_info; ?></th>							
-								<th class="text-center" data-hide="phone"><?php echo $lang_action; ?></th>								
+								<th class="text-center" data-hide="phone"><?php echo $lang_action; ?></th>							
 								<th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
 							</tr>
 						</thead>
@@ -152,7 +219,7 @@
 										$redeem_date = strtotime($smartreport_vouchers->redeem_at);
 
 										echo $lang_created_at.": ".date('d M Y',$created_date)."<br/>";
-										echo $smartreport_vouchers->lock_at !== '0000-00-00 00:00:00' ? $lang_last_lock_at.": ".date('d M Y',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
+										echo $smartreport_vouchers->lock_at !== '0000-00-00 00:00:00' ? $lang_last_update.": ".date('d M Y',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
 										echo $smartreport_vouchers->redeem_at !== '0000-00-00 00:00:00' ? $lang_redeem_at.": ".date('d M Y',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
 										?>
 								</td>
@@ -179,42 +246,15 @@
 										<div class="text-center">	
 											<button type="button" data-popup="tooltip" title="Lock" class="btn btn-outline bg-orange border-orange text-orange-800 btn-icon border-2 ml-2" data-toggle="modal" data-target="#modal_lock_voucher<?=$smartreport_vouchers->idvoucher;?>"><i class="icon-lock5"></i></button>
 										</div>
-									<?php }else if($smartreport_vouchers->status_voucher === '2') { ?>
-										<div class="text-center">	
-
-										<script>		
-											jQuery(document).ready(function($){
-												$('.unlock_voucher').on('click',function(){
-												
-													var url = $(this).attr('href');
-													swal({
-														title: '<?php echo $lang_unlock_voucher." ".$smartreport_vouchers->idvoucher; ?>',					
-														type: 'question',
-														showCancelButton: true,
-														confirmButtonColor: '#ffa801',
-														cancelButtonColor: ' #3085d6',
-														confirmButtonText: '<?php echo $lang_unlock_voucher_confirm; ?>',
-														confirmButtonClass: 'btn btn-success',
-														cancelButtonClass: 'btn btn-danger',
-														closeOnConfirm: false
-														}).then(function(result) {
-															if(result.value) {
-																window.location.href = url
-															}
-															else if(result.dismiss === swal.DismissReason.cancel) {
-																
-															}
-														});
-													
-													return false;
-												});
-											});
-										</script>
-
+									<?php } else if($smartreport_vouchers->status_voucher === '2') { ?>
+										<div class="text-center">
 											<a href="<?php echo base_url('smartreportvoucher/unlock_voucher/'.$smartreport_vouchers->idvoucher);?>"
-											type="button" data-popup="tooltip" title="Unlock" class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2 unlock_voucher"><i class="icon-unlocked2"></i></a>
+											type="button" data-popup="tooltip" title="Unlock" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?> class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2 unlock_voucher"><i class="icon-unlocked2"></i></a>
 
-											<button type="button" data-popup="tooltip" title="Redeem" class="btn btn-outline bg-success border-success text-success-800 btn-icon border-2 ml-2"><i class="icon-checkmark3"></i></button>
+											<a href="<?php echo base_url('smartreportvoucher/redeem_voucher/'.$smartreport_vouchers->idvoucher);?>"
+											type="button" data-popup="tooltip" title="Redeem" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?> class="btn btn-outline bg-success border-success text-success-800 btn-icon border-2 ml-2 redeem_voucher"><i class="icon-checkmark3"></i></a>
+
+											
 										</div>
 									<?php } ?>
 								</td>
@@ -227,7 +267,7 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a data-toggle="modal" data-target="#modal_edit_hotel<?=$smartreport_vouchers->idvoucher;?>" class="dropdown-item"><i class="icon-pencil"></i><?php echo $lang_edit_hotel; ?></a>
+												<a data-toggle="modal" data-target="#modal_details_voucher<?=$smartreport_vouchers->idvoucher;?>" class="dropdown-item"><i class="icon-drawer3"></i><?php echo $lang_details_voucher; ?></a>
 												
 											</div>
 										</div>
@@ -300,46 +340,115 @@
 
 				<!-- Vertical form modal -->
 				<?php foreach ($smartreport_vouchers_data as $smartreport_vouchers){?>
-				<div id="modal_lock_voucher<?=$smartreport_vouchers->idvoucher;?>" class="modal fade" tabindex="-1" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title"><?php echo $lang_lock_voucher.' - '.$smartreport_vouchers->idvoucher; ?></h5>
-								<button type="button" class="close"  data-dismiss="modal" aria-hidden="true">&times;</button>
-							</div>
+					<div id="modal_lock_voucher<?=$smartreport_vouchers->idvoucher;?>" class="modal fade" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title"><?php echo $lang_lock_voucher.' - '.$smartreport_vouchers->idvoucher; ?></h5>
+									<button type="button" class="close"  data-dismiss="modal" aria-hidden="true">&times;</button>
+								</div>
 
-							<form action="<?=base_url()?>smartreportvoucher/lock_voucher"  method="post">
-								<div class="modal-body">
-								
+								<form action="<?=base_url()?>smartreportvoucher/lock_voucher"  method="post">
+									<div class="modal-body">
 									
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6">
-												<label><?php echo $lang_stay_date; ?></label>
-												<input type="text" data-mask="99-99-9999" name="stay_date"	class="form-control daterange-single" value="<?php echo date("d-m-Y");?>" required />											
-											</div>												
-											<div class="col-sm-6">
-												<label><?php echo $lang_hotel; ?></label>
-												<select name="idhotels" class="form-control" required autocomplete="off">
-													<option value=""><?php echo $lang_choose_hotels; ?></option>
-												<?php
-													$competitorData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
-													for ($p = 0; $p < count($competitorData); ++$p) {
-														$idcompetitor = $competitorData[$p]->idhotels;
-														$competitorname = $competitorData[$p]->hotels_name;?>
-														<option  value="<?php echo $idcompetitor; ?>">
-															<?php echo $competitorname; ?>
-														</option>
-												<?php
-														unset($idcompetitor);
-														unset($competitorname);
-													}
-												?>
-												</select>
+										
+										<div class="form-group">
+											<div class="row">
+												<div class="col-sm-6">
+													<label><?php echo $lang_stay_date; ?></label>
+													<input type="text" data-mask="99-99-9999" name="stay_date"	class="form-control daterange-single" value="<?php echo date("d-m-Y");?>" required />											
+												</div>												
+												<div class="col-sm-6">
+													<label><?php echo $lang_hotel; ?></label>
+													<select name="idhotels" class="form-control" required autocomplete="off">
+														<option value=""><?php echo $lang_choose_hotels; ?></option>
+													<?php
+														$competitorData = $this->Smartreport_hotels_model->getDataParent('smartreport_hotels', 'idhotels','PARENT', 'ASC');
+														for ($p = 0; $p < count($competitorData); ++$p) {
+															$idcompetitor = $competitorData[$p]->idhotels;
+															$competitorname = $competitorData[$p]->hotels_name;?>
+															<option  value="<?php echo $idcompetitor; ?>">
+																<?php echo $competitorname; ?>
+															</option>
+													<?php
+															unset($idcompetitor);
+															unset($competitorname);
+														}
+													?>
+													</select>
+												</div>
 											</div>
 										</div>
+									
 									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-link" aria-hidden="true" data-dismiss="modal"><?php echo $lang_close; ?></button>
+										<input type="hidden" name="idvoucher" class="form-control" value="<?=$smartreport_vouchers->idvoucher;?>" required>
+										<button type="submit" class="btn bg-primary"><?php echo $lang_submit; ?></button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+				<!-- /vertical form modal -->
+
+				<!-- Vertical form modal -->
+				<?php foreach ($smartreport_vouchers_data as $smartreport_vouchers){?>
+					<div id="modal_details_voucher<?=$smartreport_vouchers->idvoucher;?>" class="modal fade" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title"><?php echo $lang_details_voucher.' - '.$smartreport_vouchers->idvoucher; ?></h5>
+									<button type="button" class="close"  data-dismiss="modal" aria-hidden="true">&times;</button>
+								</div>
+
 								
+								<div class="modal-body">
+									<table class="table table-bordered table-hover table-xs  ">
+									<tr>
+										<th class="text-center"><?php echo $lang_voucher_info; ?></th>	
+										<th class="text-center"><?php echo $lang_username; ?></th>                                
+																	
+										
+									</tr>
+									<tr>
+										<td>
+											<?php 
+												$created_date = strtotime($smartreport_vouchers->created_at); 
+												echo $lang_created_at.": ".date('d M Y H:i:s',$created_date)."<br/>"; 
+											?>
+										</td>
+										<td>
+											<?php echo $smartreport_vouchers->user_generate;?>
+										</td>
+									</tr>
+
+									<tr>
+										<td>
+											<?php 
+												$last_lock_date = strtotime($smartreport_vouchers->lock_at);
+												echo $smartreport_vouchers->lock_at !== '0000-00-00 00:00:00' ? $lang_last_update.": ".date('d M Y H:i:s',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
+											?>
+										</td>
+										<td>
+											<?php echo $smartreport_vouchers->user_lock;?>
+										</td>
+									</tr>
+
+									<tr>
+										<td>
+											<?php 
+												$redeem_date = strtotime($smartreport_vouchers->redeem_at);
+												echo $smartreport_vouchers->redeem_at !== '0000-00-00 00:00:00' ? $lang_redeem_at.": ".date('d M Y H:i:s',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
+											?>
+										</td>
+										<td>
+											<?php echo $smartreport_vouchers->user_redeem;?>
+										</td>
+									</tr>
+									</table>								
 								</div>
 
 								<div class="modal-footer">
@@ -347,9 +456,9 @@
 									<input type="hidden" name="idvoucher" class="form-control" value="<?=$smartreport_vouchers->idvoucher;?>" required>
 									<button type="submit" class="btn bg-primary"><?php echo $lang_submit; ?></button>
 								</div>
-							</form>
+								
+							</div>
 						</div>
 					</div>
-				</div>
 				<?php } ?>
 				<!-- /vertical form modal -->

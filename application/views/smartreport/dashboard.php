@@ -260,7 +260,7 @@ $getbudget_roomsoldytd = $budget_roomsoldytd->BUDGET_ROOMSOLDYTD+($budget_roomso
 
 				<div class="table-responsive" style="min-height: 300px;">
 					<table
-						class="table table-bordered table-togglable table-hover table-sm customEryan datatable-nobutton-1column text-nowrap ">
+						class="table table-bordered table-hover table-sm customEryan datatable-nobutton-1column text-nowrap ">
 						<thead style="vertical-align: middle; text-align: center">
 							<tr>
 								<th rowspan="2">Report</th>

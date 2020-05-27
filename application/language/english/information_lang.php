@@ -349,6 +349,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['lock_voucher'] = "Lock Voucher";
     $lang['unlock_voucher'] = "Unlock Voucher";
     $lang['unlock_voucher_confirm'] = 'Yes, Unlock Voucher';
+    $lang['last_update'] = 'Last Update';
+    $lang['redeem_voucher'] = "Redeem Voucher";
+    $lang['redeem_voucher_confirm'] = 'Yes, Redeem Voucher';
+    $lang['details_voucher'] = 'Details Voucher';
+
 
 
     

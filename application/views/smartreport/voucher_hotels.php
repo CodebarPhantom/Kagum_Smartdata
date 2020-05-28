@@ -488,9 +488,7 @@
 								</div>
 
 								<div class="modal-footer">
-									<button type="button" class="btn btn-link" aria-hidden="true" data-dismiss="modal"><?php echo $lang_close; ?></button>
-									<input type="hidden" name="idvoucher" class="form-control" value="<?=$smartreport_vouchers->idvoucher;?>" required>
-									<button type="submit" class="btn bg-primary"><?php echo $lang_submit; ?></button>
+																		
 								</div>
 								
 							</div>

@@ -164,6 +164,9 @@ class Smartreportvoucher extends CI_Controller{
           'guest_email'=>$this->input->post('guest_email', TRUE),
           'fk_iduser_generate'=>$this->session->userdata('iduser'),
           'created_at'=>date("Y-m-d H:i:s"),
+          'lock_at' => '1970-01-01 00:00:00',
+          'redeem_at' => '1970-01-01 00:00:00',
+          'stay_date' => '1970-01-01 00:00:00',
           'status_voucher'=>1,
           'type_voucher'=>1,
           'type_sales'=>$type_sales
@@ -210,7 +213,8 @@ class Smartreportvoucher extends CI_Controller{
     if($check_permission->num_rows() == 1){
       $data = array(        
         'fk_idhotels' => '',
-        'stay_date' => '0000-00-00 00:00:00',
+        'lock_at' => date("Y-m-d H:i:s"),
+        'stay_date' => '1970-01-01 00:00:00',
         'fk_iduser_lock'=>$this->session->userdata('iduser'),
         'status_voucher' => 1
         );  

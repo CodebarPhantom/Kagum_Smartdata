@@ -255,15 +255,15 @@
 										$redeem_date = strtotime($smartreport_vouchers->redeem_at);
 
 										echo $lang_created_at.": ".date('d M Y',$created_date)."<br/>";
-										echo $smartreport_vouchers->lock_at !== '0000-00-00 00:00:00' ? $lang_last_update.": ".date('d M Y',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
-										echo $smartreport_vouchers->redeem_at !== '0000-00-00 00:00:00' ? $lang_redeem_at.": ".date('d M Y',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
+										echo $smartreport_vouchers->lock_at !== '1970-01-01 00:00:00' ? $lang_last_update.": ".date('d M Y',$last_lock_date)."<br/>" : $lang_last_update.": -"."<br/>";
+										echo $smartreport_vouchers->redeem_at !== '1970-01-01 00:00:00' ? $lang_redeem_at.": ".date('d M Y',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
 										?>
 								</td>
 								<td>
 									<?php 
 										$stay_date = strtotime($smartreport_vouchers->stay_date);
 										echo $smartreport_vouchers->fk_idhotels !== ''? $lang_hotel.": ".$smartreport_vouchers->hotels_name."<br/>" : $lang_hotel.": - <br/>";
-										echo $smartreport_vouchers->stay_date !== '0000-00-00 00:00:00' ? $lang_stay_date.": ".date('d M Y',$stay_date)."<br/>" : $lang_stay_date.": -"."<br/>";
+										echo $smartreport_vouchers->stay_date !== '1970-01-01 00:00:00' ? $lang_stay_date.": ".date('d M Y',$stay_date)."<br/>" : $lang_stay_date.": -"."<br/>";
 										?>
 										<?php if($smartreport_vouchers->status_voucher === '0') { ?>
 											<span class="badge badge-danger d-block">Used</span> 
@@ -352,10 +352,7 @@
 											<div class="col-sm-6">
 												<label><?php echo $lang_voucher_amount; ?></label>
 												<select name="voucher_amount" class="form-control" required autocomplete="off">													
-													<option value="1"><?php echo "1"; ?></option>
-													<option value="2"><?php echo "2"; ?></option>
-													<option value="3"><?php echo "3"; ?></option>
-													<option value="4"><?php echo "4"; ?></option>													
+													<option value="1"><?php echo "1"; ?></option>													
 													<option value="5"><?php echo "5"; ?></option>													
 
 												</select>
@@ -465,7 +462,7 @@
 										<td>
 											<?php 
 												$last_lock_date = strtotime($smartreport_vouchers->lock_at);
-												echo $smartreport_vouchers->lock_at !== '0000-00-00 00:00:00' ? $lang_last_update.": ".date('d M Y H:i:s',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
+												echo $smartreport_vouchers->lock_at !== '1970-01-01 00:00:00' ? $lang_last_update.": ".date('d M Y H:i:s',$last_lock_date)."<br/>" : $lang_last_lock_at.": -"."<br/>";
 											?>
 										</td>
 										<td>
@@ -477,7 +474,7 @@
 										<td>
 											<?php 
 												$redeem_date = strtotime($smartreport_vouchers->redeem_at);
-												echo $smartreport_vouchers->redeem_at !== '0000-00-00 00:00:00' ? $lang_redeem_at.": ".date('d M Y H:i:s',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
+												echo $smartreport_vouchers->redeem_at !== '1970-01-01 00:00:00' ? $lang_redeem_at.": ".date('d M Y H:i:s',$redeem_date)."<br/>" : $lang_redeem_at.": -"."<br/>";
 											?>
 										</td>
 										<td>

@@ -488,7 +488,7 @@
 								</div>
 
 								<div class="modal-footer">
-																		
+									<!--Eryan Fauzan-->									
 								</div>
 								
 							</div>

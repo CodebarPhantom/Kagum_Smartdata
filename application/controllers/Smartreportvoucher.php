@@ -247,11 +247,13 @@ class Smartreportvoucher extends CI_Controller{
       $voucher_data = $this->Smartreport_vouchers_model->get_info_voucher($idvoucher);
 
       $page_data['idvoucher'] = $idvoucher;
+      $page_data['status_voucher'] = $voucher_data->status_voucher;
+
       // $this->pdfgenerator->setPaper('A4', 'potrait');
       //$customPaper = array(0,0,800,250);
       //$this->pdfgenerator->set_paper($customPaper);   
       
-      $voucher_data->guest_name;
+      
       $this->pdfgenerator->set_option('isRemoteEnabled', TRUE); // enable image export
       $this->pdfgenerator->set_option('isHtml5ParserEnabled', true);
       $this->pdfgenerator->filename = "Voucher Hotel ".$voucher_data->guest_name." ".$idvoucher.".pdf";

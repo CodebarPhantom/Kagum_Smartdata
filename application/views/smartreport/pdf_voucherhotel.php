@@ -47,10 +47,12 @@
             <img src="<?php echo base_url();?>assets/backend/global_assets/images/voucher_kagum_hebat.jpg" alt="" >   
             <div class="text">
                 <strong><?php echo $idvoucher; ?></strong>
-            </div>         
+            </div>   
+            <?php if($status_voucher === '0'){ ?>      
             <div class="soldout">
                 <img src="<?php echo base_url();?>assets/backend/global_assets/images/soldout.png" alt="" > 
             </div>
+            <?php }?>
         </div>
     </body>
 </html>

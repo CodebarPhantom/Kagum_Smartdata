@@ -67,10 +67,8 @@ class Smartreport_vouchers_model extends CI_Model{
 
     function set_idvoucher(){
         $voucherdate = date("Ym");	
-        $check_voucher_date = $this->db->query("SELECT SUBSTR(idvoucher,7,6) AS datevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ");      
-
-        $row = $check_voucher_date->row();
-        if($row->datevoucher === $voucherdate){
+        $check_voucher_date = $this->db->query("SELECT SUBSTR(idvoucher,7,6) AS datevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ")->row();        
+        if(!empty($check_voucher_date->datevoucher) && $check_voucher_date->datevoucher === $voucherdate){
             $check = $this->db->query("SELECT SUBSTR(idvoucher,13,5) AS codevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ");
             if($check->num_rows()>0){
                 foreach($check->result() as $query){

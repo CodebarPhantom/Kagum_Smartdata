@@ -26,7 +26,8 @@ class Smartreportvoucher extends CI_Controller{
       $this->load->library('form_validation');
       $this->load->library('pagination');
       $this->load->library('session');
-      $this->load->library('uploadfile');
+      $this->load->library('uploadfile');      
+      $this->load->library('pdfgenerator');
      
       $this->load->helper('form');
       $this->load->helper('url');
@@ -119,10 +120,7 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_username'] = $this->lang->line('username');
         $page_data['lang_year'] = $this->lang->line('year');
         $page_data['lang_month'] = $this->lang->line('month');
-
-
-
-
+        $page_data['lang_export_voucher'] = $this->lang->line('export_voucher');
         $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
 
         $page_data['guestname'] = $this->input->get('guestname', TRUE);
@@ -149,13 +147,6 @@ class Smartreportvoucher extends CI_Controller{
     $user_level = $this->session->userdata('user_level');
     $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
     if($check_permission->num_rows() == 1){
-
-      //$idhotels = $_POST['idhotels'];
-     /* $guest_name = $_POST['guest_name'];
-      $guest_phone = $_POST['guest_phone'];
-      $guest_email = $_POST['guest_email'];
-      $data_analysis = array();
-      $count_anl = 0;*/
       $type_sales = $this->input->post('voucher_amount', TRUE) >= 5 ? 2 : 1; 
       for($h = 0; $h<$this->input->post('voucher_amount', TRUE); ++$h){
         $data = array(       
@@ -241,9 +232,32 @@ class Smartreportvoucher extends CI_Controller{
      
         $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $idvoucher);
         $this->session->set_flashdata('update_success','message');
-        //redirect(site_url('smartreport/competitor-hotel'));
         redirect($_SERVER['HTTP_REFERER']);
       }else{
+        redirect('errorpage/error403');
+    }
+  }
+
+  function export_voucher_pdf($idvoucher){
+    $user_level = $this->session->userdata('user_level');
+    //$user_hotel = $this->session->userdata('user_hotel');
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+    if($check_permission->num_rows() == 1){  
+
+      $voucher_data = $this->Smartreport_vouchers_model->get_info_voucher($idvoucher);
+
+      $page_data['idvoucher'] = $idvoucher;
+      // $this->pdfgenerator->setPaper('A4', 'potrait');
+      //$customPaper = array(0,0,800,250);
+      //$this->pdfgenerator->set_paper($customPaper);   
+      
+      $voucher_data->guest_name;
+      $this->pdfgenerator->set_option('isRemoteEnabled', TRUE); // enable image export
+      $this->pdfgenerator->set_option('isHtml5ParserEnabled', true);
+      $this->pdfgenerator->filename = "Voucher Hotel ".$voucher_data->guest_name." ".$idvoucher.".pdf";
+      $this->pdfgenerator->load_view('smartreport/pdf_voucherhotel', $page_data);
+      //$this->load->view('smartreport/pdf_voucherhotel',$page_data);
+    }else{
         redirect('errorpage/error403');
     }
   }

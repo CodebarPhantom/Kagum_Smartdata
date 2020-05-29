@@ -353,6 +353,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['redeem_voucher'] = "Redeem Voucher";
     $lang['redeem_voucher_confirm'] = 'Yes, Redeem Voucher';
     $lang['details_voucher'] = 'Details Voucher';
+    $lang['export_voucher'] = 'Export Voucher';
+
 
 
 

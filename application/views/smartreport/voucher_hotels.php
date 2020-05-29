@@ -304,7 +304,7 @@
 
 											<div class="dropdown-menu dropdown-menu-right">
 												<a data-toggle="modal" data-target="#modal_details_voucher<?=$smartreport_vouchers->idvoucher;?>" class="dropdown-item"><i class="icon-drawer3"></i><?php echo $lang_details_voucher; ?></a>
-												
+												<a href="<?php echo base_url('smartreportvoucher/export_voucher_pdf/'.$smartreport_vouchers->idvoucher);?>" class="dropdown-item "><i class="icon-ticket"></i><?php echo $lang_export_voucher; ?></a>
 											</div>
 										</div>
 									</div>

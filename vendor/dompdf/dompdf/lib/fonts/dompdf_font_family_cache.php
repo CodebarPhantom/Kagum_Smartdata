@@ -83,4 +83,7 @@
   'icomoon' => array(
     'normal' => $fontDir . '\e2dbdc593b7e5ab6676620248c94060a',
   ),
+  'advent pro' => array(
+    'normal' => $fontDir . '\49bd88e067439da77cb4777a07dbc005',
+  ),
 ) ?>

@@ -1314,7 +1314,7 @@ class Smartreport extends CI_Controller{
   }
 
 
-/*FUNCTION AJAX*/
+  /*FUNCTION AJAX*/
   function get_idhotels_availability() {
 		if (isset($_POST['idhotels'])) {
 			$idhotels = $_POST['idhotels'];

@@ -110,7 +110,12 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_submit'] = $this->lang->line('submit');
         $page_data['lang_close'] = $this->lang->line('close');     
         $page_data['lang_all_hotels'] = $this->lang->line('all_hotels');
+        $page_data['lang_type_room'] = $this->lang->line('type_room');
+        $page_data['lang_choose_type_room'] = $this->lang->line('choose_type_room');
+
         
+
+
         $page_data['lang_unlock_voucher_confirm'] = $this->lang->line('unlock_voucher_confirm');
         $page_data['lang_unlock_voucher'] = $this->lang->line('unlock_voucher');
         $page_data['lang_last_update'] = $this->lang->line('last_update');
@@ -185,7 +190,8 @@ class Smartreportvoucher extends CI_Controller{
         'lock_at' => date("Y-m-d H:i:s"),
         'stay_date' =>$stay_date,
         'fk_iduser_lock'=>$this->session->userdata('iduser'),
-        'status_voucher' => 2
+        'status_voucher' => 2,
+        'fk_idtyperoom'=>$this->input->post('idtyperoom',TRUE),
         );  
      
         $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $this->input->post('idvoucher', TRUE));
@@ -207,7 +213,9 @@ class Smartreportvoucher extends CI_Controller{
         'lock_at' => date("Y-m-d H:i:s"),
         'stay_date' => '1970-01-01 00:00:00',
         'fk_iduser_lock'=>$this->session->userdata('iduser'),
-        'status_voucher' => 1
+        'status_voucher' => 1,
+        'fk_idtyperoom'=>0
+
         );  
      
         $this->Smartreport_vouchers_model->update_data_voucher('smartreport_voucherhotels', $data, $idvoucher);

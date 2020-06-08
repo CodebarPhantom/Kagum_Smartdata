@@ -8,7 +8,7 @@ class Smartreport_vouchers_model extends CI_Model{
 
     // get total rows
     function total_rows_vouchers($guestname = NULL, $listhotel = NULL, $idvoucher = NULL, $month = NULL, $year = NULL) {
-        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
+        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_idtyperoom, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
         $this->db->from('smartreport_voucherhotels as vh');        
         $this->db->join('smartreport_hotels as ht', 'ht.idhotels=vh.fk_idhotels','left');
         $this->db->join('smartreport_users as ug', 'ug.iduser=vh.fk_iduser_generate ','left');
@@ -37,7 +37,7 @@ class Smartreport_vouchers_model extends CI_Model{
 
     // get data with limit and search
     function get_limit_data_vouchers($limit, $start = 0, $guestname = NULL,  $listhotel = NULL, $idvoucher = NULL, $month = NULL, $year = NULL) {
-        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
+        $this->db->select('vh.idvoucher, vh.guest_name, vh.guest_phone, vh.guest_email, vh.fk_iduser_generate, vh.fk_iduser_lock, vh.fk_idtyperoom, vh.fk_iduser_redeem, ug.user_name as user_generate, ul.user_name as user_lock, ur.user_name as user_redeem, vh.stay_date, vh.fk_idhotels, ht.hotels_name, vh.created_at, vh.lock_at, vh.redeem_at, vh.status_voucher, vh.type_voucher, vh.type_sales');       
         $this->db->from('smartreport_voucherhotels as vh');        
         $this->db->join('smartreport_hotels as ht', 'ht.idhotels=vh.fk_idhotels','left');
         

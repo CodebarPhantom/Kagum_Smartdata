@@ -29,8 +29,6 @@
                 left: 25%;        
                 text-align: left;
                 top: 35%; /* Adjust this value to move the positioned div up and down */
-               
-                font-size: 24px;
             }
             
         </style>

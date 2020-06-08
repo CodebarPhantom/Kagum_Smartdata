@@ -1,6 +1,9 @@
 <script src="<?php echo base_url();?>assets/backend/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 
-
+<?php
+$minDate = strtotime("+7 Day"); 
+$nextWeek = date("d-m-Y", $minDate);
+?>
 <script type="text/javascript">
 	    
 	$(document).ready(function() {
@@ -9,7 +12,9 @@
 			singleDatePicker: true,
 			locale: {
 				format: 'DD-MM-YYYY'
-			}
+			},
+			minDate: '<?php echo $nextWeek; ?>',
+			maxDate: '31-12-2021'
 			});
 
 			$('.table-togglable').footable();
@@ -262,9 +267,17 @@
 								<td>
 									<?php 
 										$stay_date = strtotime($smartreport_vouchers->stay_date);
-										echo $smartreport_vouchers->fk_idhotels !== ''? $lang_hotel.": ".$smartreport_vouchers->hotels_name."<br/>" : $lang_hotel.": - <br/>";
+										echo $smartreport_vouchers->fk_idhotels !== ''? $lang_hotel.": ".$smartreport_vouchers->hotels_name.' - ' : $lang_hotel.": - ";
+										if($smartreport_vouchers->fk_idtyperoom == 1 ){
+											echo 'Superior Room <br/>';
+										}else if($smartreport_vouchers->fk_idtyperoom == 2){
+											echo 'Deluxe Room <br/>';
+										}else{
+											echo '<br/>';
+										}
 										echo $smartreport_vouchers->stay_date !== '1970-01-01 00:00:00' ? $lang_stay_date.": ".date('d M Y',$stay_date)."<br/>" : $lang_stay_date.": -"."<br/>";
 										?>
+
 										<?php if($smartreport_vouchers->status_voucher === '0') { ?>
 											<span class="badge badge-danger d-block">Used</span> 
 										<?php }else if($smartreport_vouchers->status_voucher === '1') { ?>
@@ -410,8 +423,22 @@
 													?>
 													</select>
 												</div>
+											</div>											
+										</div>
+
+										<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6">
+												<label><?php echo $lang_type_room; ?></label>
+												<select name="idtyperoom" class="form-control" required autocomplete="off">
+													<option><?php echo $lang_choose_type_room; ?></option>
+													<option value="1">Superior Room</option>
+													<option value="2">Deluxe Room</option>
+													</select>											
 											</div>
 										</div>
+										</div>
+										
 									
 									</div>
 

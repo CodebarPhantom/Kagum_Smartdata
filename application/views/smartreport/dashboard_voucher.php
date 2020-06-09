@@ -162,7 +162,7 @@ $nextWeek = date("d-m-Y", $minDate);
             <div class="col-md-8"> 
                 <div class="card">                   
                     
-                    <table class="table table-bordered table-togglable table-hover table-xs customEryan datatable-nobutton-voucher text-nowrap" width="100%">
+                    <table class="table table-bordered table-togglable table-hover table-xs customEryan datatable-nobutton-voucher text-nowrap">
                         <thead>
                             <tr>
                                 <th><?php echo $lang_idvoucher; ?></th>

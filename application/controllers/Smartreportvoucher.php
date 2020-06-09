@@ -66,7 +66,7 @@ class Smartreportvoucher extends CI_Controller{
         $config['page_query_string'] = TRUE;
         $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel, $idvoucher, $monthvoucher, $yearvoucher);
         */
-        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers_lock(6, 2020);
+        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers_lock($monthvoucher, $yearvoucher);
         $count_voucher = $this->Smartreport_vouchers_model->count_voucher_create($monthvoucher, $yearvoucher);
         $count_voucher_lock = $this->Smartreport_vouchers_model->count_voucher_lock($monthvoucher, $yearvoucher);
         $count_voucher_redeem = $this->Smartreport_vouchers_model->count_voucher_redeem($monthvoucher, $yearvoucher);
@@ -136,13 +136,14 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_year'] = $this->lang->line('year');
         $page_data['lang_month'] = $this->lang->line('month');
         $page_data['lang_export_voucher'] = $this->lang->line('export_voucher');
-        $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
+        
 
         $page_data['guestname'] = $this->input->get('guestname', TRUE);
         $page_data['listhotel'] = $this->input->get('listhotel', TRUE);
         $page_data['idvoucher'] = $this->input->get('idvoucher', TRUE);
         $page_data['yearvoucher'] = $this->input->get('yearvoucher', TRUE);
         $page_data['monthvoucher'] = $this->input->get('monthvoucher', TRUE);
+        $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
         $page_data['count_voucher'] = $count_voucher;
         $page_data['count_voucher_lock'] = $count_voucher_lock;
         $page_data['count_voucher_redeem'] = $count_voucher_redeem;

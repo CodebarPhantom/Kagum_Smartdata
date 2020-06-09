@@ -103,7 +103,7 @@ $nextWeek = date("d-m-Y", $minDate);
         $yearvoucher = date('Y');
 		$monthvoucher = date('m');
 		}
-     $url_hotel = $listhotel;
+     //$url_hotel = $listhotel;
     ?>  
 		<!-- Page header -->
         <div class="page-header page-header-light">

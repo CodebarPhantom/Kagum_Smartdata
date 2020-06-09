@@ -66,7 +66,7 @@ class Smartreportvoucher extends CI_Controller{
         $config['page_query_string'] = TRUE;
         $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel, $idvoucher, $monthvoucher, $yearvoucher);
         */
-        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers_lock($monthvoucher, $yearvoucher);
+        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers_lock(6, 2020);
         $count_voucher = $this->Smartreport_vouchers_model->count_voucher_create($monthvoucher, $yearvoucher);
         $count_voucher_lock = $this->Smartreport_vouchers_model->count_voucher_lock($monthvoucher, $yearvoucher);
         $count_voucher_redeem = $this->Smartreport_vouchers_model->count_voucher_redeem($monthvoucher, $yearvoucher);

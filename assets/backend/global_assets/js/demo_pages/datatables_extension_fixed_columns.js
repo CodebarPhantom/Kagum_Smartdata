@@ -116,7 +116,7 @@ var DatatableFixedColumns = function() {
         // Adjust columns on window resize
         setTimeout(function() {
             $(window).on('resize', function () {
-                //tablevoucher.adjust();
+                tablevoucher.columns.adjust();
                 table.columns.adjust();
                 tablebudget.columns.adjust();
                 tabledsr.columns.adjust();

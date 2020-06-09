@@ -356,6 +356,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $lang['export_voucher'] = 'Export Voucher';
     $lang['type_room'] = 'Type Room';
     $lang['choose_type_room'] = 'Choose Type Room';
+    $lang['dashboard_voucher'] = 'Dashboard Voucher';
+    $lang['voucher_created'] = 'Voucher Created';
+    $lang['voucher_lock'] = 'Voucher Lock';
+    $lang['voucher_redeem'] = 'Voucher Redeem';
+
+    
 
 
 

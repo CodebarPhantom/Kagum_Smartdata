@@ -8,6 +8,7 @@
 	<meta name="robots" content="noindex, nofollow"/>
 	<meta name="author" content="KAGUMSmartdata - KAGUM HOTELS by Eryan Fauzan">
 	<title>Kagum Hotels Smart Data </title>
+	<link rel="icon" type="image/png" href="<?php echo base_url();?>assets/backend/global_assets/images/icon.png"/>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">

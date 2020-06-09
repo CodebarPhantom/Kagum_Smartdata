@@ -95,6 +95,20 @@ var DatatableFixedColumns = function() {
             }               
              
         });
+        var tablevoucher =$('.datatable-nobutton-voucher').DataTable({
+           
+            ordering: true,
+            autoWidth:true,            
+            scrollX: true,
+            scrollY: '400px',
+            scrollCollapse: true,
+            paging:  true,
+            bFilter: true,
+            fixedColumns:   {
+                leftColumns: 1
+            }               
+             
+        });
 
         //custom button biar ga makan banyak space buttons-excel, csv pdf dll bawaan dari datatable
         $("#ExportReporttoExcel").on("click", function() {
@@ -107,6 +121,7 @@ var DatatableFixedColumns = function() {
                 table.columns.adjust();
                 tablebudget.columns.adjust();
                 tabledsr.columns.adjust();
+                tablevoucher.coloumns.adjust();
             });
         }, 100);
     };

@@ -143,7 +143,7 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['idvoucher'] = $this->input->get('idvoucher', TRUE);
         $page_data['yearvoucher'] = $this->input->get('yearvoucher', TRUE);
         $page_data['monthvoucher'] = $this->input->get('monthvoucher', TRUE);
-        $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
+        $page_data['smartreport_vouchers_datas'] = $smartreport_vouchers;
         $page_data['count_voucher'] = $count_voucher;
         $page_data['count_voucher_lock'] = $count_voucher_lock;
         $page_data['count_voucher_redeem'] = $count_voucher_redeem;

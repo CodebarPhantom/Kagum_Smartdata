@@ -162,7 +162,7 @@ $nextWeek = date("d-m-Y", $minDate);
             <div class="col-md-8"> 
                 <div class="card">                   
                     
-                    <table class="table table-bordered table-togglable table-hover table-xs  text-nowrap">
+                    <table class="table table-bordered table-togglable table-hover table-xs datatable-nobutton-voucher text-nowrap">
                         <thead>
                             <tr>
                                 <th><?php echo $lang_idvoucher; ?></th>
@@ -174,7 +174,7 @@ $nextWeek = date("d-m-Y", $minDate);
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($smartreport_vouchers_data as $smartreport_vouchers){ ?>
+                        <?php foreach ($smartreport_vouchers_datas as $smartreport_vouchers){ ?>
                             <tr>
                                 <td><?php echo $smartreport_vouchers->idvoucher; ?></td>
                                 <td>

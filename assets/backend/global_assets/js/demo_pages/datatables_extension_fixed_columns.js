@@ -121,7 +121,6 @@ var DatatableFixedColumns = function() {
                 table.columns.adjust();
                 tablebudget.columns.adjust();
                 tabledsr.columns.adjust();
-                tablevoucher.coloumns.adjust();
             });
         }, 100);
     };

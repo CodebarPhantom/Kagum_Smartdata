@@ -95,15 +95,13 @@ var DatatableFixedColumns = function() {
             }               
              
         });
-        var tablevoucher =$('.datatable-nobutton-voucher').DataTable({
+        var tablevoucher = $('.datatable-nobutton-voucher').DataTable({
            
-            ordering: true,
-            autoWidth:true,            
+            ordering: true,           
             scrollX: true,
             scrollY: '400px',
             scrollCollapse: true,
             paging:  true,
-            bFilter: true,
             fixedColumns:   {
                 leftColumns: 1
             }               
@@ -118,6 +116,7 @@ var DatatableFixedColumns = function() {
         // Adjust columns on window resize
         setTimeout(function() {
             $(window).on('resize', function () {
+                tablevoucher.adjust();
                 table.columns.adjust();
                 tablebudget.columns.adjust();
                 tabledsr.columns.adjust();

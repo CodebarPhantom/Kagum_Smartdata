@@ -308,7 +308,7 @@ $nextWeek = date("d-m-Y", $minDate);
 							</div>
 						</td>
 					</tr>
-					<?php } ?>
+				<?php } ?>
 				</tbody>
 			</table>
 				

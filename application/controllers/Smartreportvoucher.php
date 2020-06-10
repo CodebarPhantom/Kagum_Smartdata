@@ -396,4 +396,34 @@ class Smartreportvoucher extends CI_Controller{
         redirect('errorpage/error403');
     }
   }
+
+
+  function voucher_hotels_pdf(){
+    $user_level = $this->session->userdata('user_level');
+    $check_permission =  $this->Rolespermissions_model->check_permissions($this->contoller_name,$this->function_name,$user_level);    
+
+    if($check_permission->num_rows() == 1){
+        $idvoucher = urldecode($this->input->get('idvoucher', TRUE));
+        $guestname = urldecode($this->input->get('guestname', TRUE));
+        $listhotel = urldecode($this->input->get('listhotel', TRUE));
+
+        $monthvoucher = $this->input->get('monthvoucher', TRUE);
+        $yearvoucher = $this->input->get('yearvoucher', TRUE);
+
+        $monthvoucher === NULL ? $monthvoucher = date('m') : $monthvoucher = urldecode($this->input->get('monthvoucher', TRUE));
+        $yearvoucher === NULL ? $yearvoucher = date('Y') : $yearvoucher = urldecode($this->input->get('yearvoucher', TRUE));
+        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_data_vouchers($guestname, $listhotel, $idvoucher, $monthvoucher, $yearvoucher);
+
+        $page_data['page_name'] = 'voucher_hotels';
+        $page_data['data_voucher_pdf'] = $smartreport_vouchers;
+
+       
+        $this->pdfgenerator->setPaper('A4', 'potrait');
+        $this->pdfgenerator->filename = "Report Statistic DSR ".$date_dsr.".pdf";
+        $this->pdfgenerator->load_view('smartreport/pdf_statisticdsr', $page_data);
+    }else{
+      redirect('errorpage/error403');
+    }
+
+  }
 }

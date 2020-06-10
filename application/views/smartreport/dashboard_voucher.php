@@ -169,7 +169,7 @@ $nextWeek = date("d-m-Y", $minDate);
                                 <th><?php echo $lang_guest_info; ?></th>
                                 <th><?php echo $lang_voucher_info; ?></th>
                                 <th><?php echo $lang_stay_info; ?></th>
-                                <th><?php echo $lang_action; ?></th>
+                                <th><?php echo 'Status'; ?></th>
                                 <th class="text-center" style="width: 30px;"><i class="icon-menu-open2"></i></th>
                             </tr>
                         </thead>
@@ -211,31 +211,15 @@ $nextWeek = date("d-m-Y", $minDate);
                                     echo $smartreport_vouchers->stay_date !== '1970-01-01 00:00:00' ? $lang_stay_date.": ".date('d M Y',$stay_date)."<br/>" : $lang_stay_date.": -"."<br/>";
                                     ?>
 
-                                    <?php if($smartreport_vouchers->status_voucher === '0') { ?>
+                                    
+                                </td>
+                                <td>
+                                <?php if($smartreport_vouchers->status_voucher === '0') { ?>
                                         <span class="badge badge-danger d-block">Used</span> 
                                     <?php }else if($smartreport_vouchers->status_voucher === '1') { ?>
                                         <span class="badge badge-success d-block">Not Used</span> 
                                     <?php }else if ($smartreport_vouchers->status_voucher === '2'){ ?>
                                         <span class="badge bg-orange d-block">Lock</span>
-                                    <?php } ?>
-                                </td>
-                                <td>
-                                    <?php if($smartreport_vouchers->status_voucher === '0') { ?>
-                                        <div class="text-center">	
-                                            <button type="button" data-popup="tooltip" title="Voucher Used" class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2"><i class="icon-cross2"></i></button>
-                                        </div>
-                                    <?php }else if($smartreport_vouchers->status_voucher === '1') { ?>
-                                        <div class="text-center">	
-                                            <button type="button" data-popup="tooltip" title="Lock" class="btn btn-outline bg-orange border-orange text-orange-800 btn-icon border-2 ml-2" data-toggle="modal" data-target="#modal_lock_voucher<?=$smartreport_vouchers->idvoucher;?>"><i class="icon-lock5"></i></button>
-                                        </div>
-                                    <?php } else if($smartreport_vouchers->status_voucher === '2') { ?>
-                                        <div class="text-center">
-                                            <a href="<?php echo base_url('smartreportvoucher/unlock_voucher/'.$smartreport_vouchers->idvoucher);?>"
-                                            type="button" data-popup="tooltip" title="Unlock" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?> class="btn btn-outline bg-danger border-danger text-danger-800 btn-icon border-2 ml-2 unlock_voucher"><i class="icon-unlocked2"></i></a>
-
-                                            <a href="<?php echo base_url('smartreportvoucher/redeem_voucher/'.$smartreport_vouchers->idvoucher);?>"
-                                            type="button" data-popup="tooltip" title="Redeem" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?> class="btn btn-outline bg-success border-success text-success-800 btn-icon border-2 ml-2 redeem_voucher"><i class="icon-checkmark3"></i></a>
-                                        </div>
                                     <?php } ?>
                                 </td>
                                 <td class="text-center">
@@ -246,6 +230,9 @@ $nextWeek = date("d-m-Y", $minDate);
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a href="<?php echo base_url('smartreportvoucher/export_voucher_pdf/'.$smartreport_vouchers->idvoucher);?>" class="dropdown-item "><i class="icon-ticket"></i><?php echo $lang_export_voucher; ?></a>
+                                                <a href="<?php echo base_url('smartreportvoucher/unlock_voucher/'.$smartreport_vouchers->idvoucher);?> " class="dropdown-item unlock_voucher" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?>><i class="icon-unlocked2"></i><?php echo 'Unlock Voucher'; ?></a>
+                                                <a href="<?php echo base_url('smartreportvoucher/redeem_voucher/'.$smartreport_vouchers->idvoucher);?>" class="dropdown-item redeem_voucher" idvoucher=<?php echo $smartreport_vouchers->idvoucher; ?>><i class="icon-checkmark3"></i><?php echo 'Redeem Voucher'; ?></a>
+
                                             </div>
                                         </div>
                                     </div>

@@ -70,7 +70,7 @@ class Smartreport_vouchers_model extends CI_Model{
         $check_voucher_date = $this->db->query("SELECT SUBSTR(idvoucher,7,6) AS datevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ")->row();
         
         if($check_voucher_date->datevoucher === $voucherdate){
-            $check = $this->db->query("SELECT RIGHT(idvoucher,6) AS codevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ");
+            $check = $this->db->query("SELECT SUBSTR(idvoucher,13,5) AS codevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ");
             if($check->num_rows()>0){
                 foreach($check->result() as $query){
                     $codevoucher = ((int)$query->codevoucher)+1;
@@ -81,8 +81,10 @@ class Smartreport_vouchers_model extends CI_Model{
         }else{
             $codevoucher = 1;	
         }
-        $uniquecode = str_pad($codevoucher,6,"0",STR_PAD_LEFT);
-		return "KGMHTL".$voucherdate.$uniquecode;
+        $random_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $uniquecode = str_pad($codevoucher,5,"0",STR_PAD_LEFT);
+
+		return "KGMHTL".$voucherdate.$uniquecode.substr(str_shuffle($random_chars), 18, 2);
         /*$check = $this->db->query("SELECT RIGHT(idvoucher,6) AS codevoucher  FROM smartreport_voucherhotels ORDER BY idvoucher DESC LIMIT 1 ");
 		   if($check->num_rows()>0){
 				foreach($check->result() as $query){

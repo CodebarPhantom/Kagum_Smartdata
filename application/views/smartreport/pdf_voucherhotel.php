@@ -18,7 +18,7 @@
                 top: 28%; /* Adjust this value to move the positioned div up and down */
                
                 font-family:  Courier, monospace;
-                font-size: 24px;
+                font-size: 23px;
                 color: #233B77;
                 width: 60%; /* Set the width of the positioned div */
             }

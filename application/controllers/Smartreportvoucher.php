@@ -257,8 +257,8 @@ class Smartreportvoucher extends CI_Controller{
       $this->pdfgenerator->set_option('isRemoteEnabled', TRUE); // enable image export
       $this->pdfgenerator->set_option('isHtml5ParserEnabled', true);
       $this->pdfgenerator->filename = "Voucher Hotel ".$voucher_data->guest_name." ".$idvoucher.".pdf";
-      $this->pdfgenerator->load_view('smartreport/pdf_voucherhotel', $page_data);
-      //$this->load->view('smartreport/pdf_voucherhotel',$page_data);
+      //$this->pdfgenerator->load_view('smartreport/pdf_voucherhotel', $page_data);
+      $this->load->view('smartreport/pdf_voucherhotel',$page_data);
     }else{
         redirect('errorpage/error403');
     }

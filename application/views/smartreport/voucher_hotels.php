@@ -98,10 +98,14 @@
 	<?php
     //initialization
      
-     $url_idvoucher = '';
-	 $url_hotel = '';
-	 $url_guestname = '';
+     //$url_idvoucher = '';
+	 //$url_hotel = '';
+	 //$url_guestname = '';
 
+	 if ($yearvoucher == NULL && $monthvoucher == NULL){
+        $yearvoucher = date('Y');
+		$monthvoucher = date('m');
+		}
      //get from function
 	 //$url_city = $city;
 	 
@@ -143,7 +147,7 @@
 									</div>
 								</div>
 								
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label><?php echo $lang_hotel; ?></label>
 											<select name="listhotel" class="form-control custom_category" required autocomplete="off">
@@ -164,6 +168,38 @@
 												}
 											?>
 											</select>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="form-group">
+										<label><?php echo $lang_month; ?></label>
+											<select name="monthvoucher" class="form-control" required>
+												<option <?php if ($monthvoucher === '01') {echo 'selected="selected"';} ?> value="01">January</option>
+												<option <?php if ($monthvoucher === '02') {echo 'selected="selected"';} ?> value="02">February</option>
+												<option <?php if ($monthvoucher === '03') {echo 'selected="selected"';} ?> value="03">March</option>
+												<option <?php if ($monthvoucher === '04') {echo 'selected="selected"';} ?> value="04">April</option>
+												<option <?php if ($monthvoucher === '05') {echo 'selected="selected"';} ?> value="05">May</option>
+												<option <?php if ($monthvoucher === '06') {echo 'selected="selected"';} ?> value="06">June</option>
+												<option <?php if ($monthvoucher === '07') {echo 'selected="selected"';} ?> value="07">July</option>
+												<option <?php if ($monthvoucher === '08') {echo 'selected="selected"';} ?> value="08">August</option>
+												<option <?php if ($monthvoucher === '09') {echo 'selected="selected"';} ?> value="09">September</option>
+												<option <?php if ($monthvoucher === '10') {echo 'selected="selected"';} ?> value="10">October</option>
+												<option <?php if ($monthvoucher === '11') {echo 'selected="selected"';} ?> value="11">November</option>
+												<option <?php if ($monthvoucher === '12') {echo 'selected="selected"';} ?> value="12">December</option>
+											</select>
+									</div>
+								</div>										
+								<div class="col-sm-2">
+									<div class="form-group">
+									<label><?php echo $lang_year ?></label>
+									<select name="yearvoucher" class="form-control" required>
+										<?php
+											for($i=date('Y'); $i>=2019; $i--) {
+											$selected = '';
+											if ($yearvoucher == $i) $selected = ' selected="selected"';
+											print('<option value="'.$i.'"'.$selected.'>'.$i.'</option>'."\n");
+										}?>
+									</select>  
 									</div>
 								</div>
 								<div class="col-md-1">

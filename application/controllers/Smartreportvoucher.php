@@ -43,11 +43,19 @@ class Smartreportvoucher extends CI_Controller{
         $idvoucher = urldecode($this->input->get('idvoucher', TRUE));
         $guestname = urldecode($this->input->get('guestname', TRUE));
         $listhotel = urldecode($this->input->get('listhotel', TRUE));
+
+        $monthvoucher = $this->input->get('monthvoucher', TRUE);
+        $yearvoucher = $this->input->get('yearvoucher', TRUE);
+
+        $monthvoucher === NULL ? $monthvoucher = date('m') : $monthvoucher = urldecode($this->input->get('monthvoucher', TRUE));
+        $yearvoucher === NULL ? $yearvoucher = date('Y') : $yearvoucher = urldecode($this->input->get('yearvoucher', TRUE));
+
+
         $start = intval($this->input->get('start'));
         
         if ($guestname <> '' || $listhotel <> '' ) {
-            $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) .'&idvoucher='.urlencode($idvoucher);
-            $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) .'&idvoucher='.urlencode($idvoucher);
+            $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) . '&idvoucher='.urlencode($idvoucher).'&monthvoucher='.urlencode($monthvoucher).'&yearvoucher='.urlencode($yearvoucher);
+            $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels?guestname=' . urlencode($guestname).'&listhotel='.urlencode($listhotel) .'&idvoucher='.urlencode($idvoucher).'&monthvoucher='.urlencode($monthvoucher).'&yearvoucher='.urlencode($yearvoucher);
         } else {
             $config['base_url'] = base_url() . 'smartreportvoucher/voucher-hotels';
             $config['first_url'] = base_url() . 'smartreportvoucher/voucher-hotels';
@@ -55,8 +63,8 @@ class Smartreportvoucher extends CI_Controller{
 
         $config['per_page'] = 10;
         $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel, $idvoucher);
-        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers($config['per_page'], $start, $guestname, $listhotel, $idvoucher);
+        $config['total_rows'] = $this->Smartreport_vouchers_model->total_rows_vouchers($guestname, $listhotel, $idvoucher, $monthvoucher, $yearvoucher);
+        $smartreport_vouchers = $this->Smartreport_vouchers_model->get_limit_data_vouchers($config['per_page'], $start, $guestname, $listhotel, $idvoucher, $monthvoucher, $yearvoucher);
 
         $this->load->library('pagination');
         $this->pagination->initialize($config);
@@ -109,14 +117,19 @@ class Smartreportvoucher extends CI_Controller{
         $page_data['lang_redeem_voucher'] = $this->lang->line('redeem_voucher');
         $page_data['lang_details_voucher'] = $this->lang->line('details_voucher');
         $page_data['lang_username'] = $this->lang->line('username');
+        $page_data['lang_year'] = $this->lang->line('year');
+        $page_data['lang_month'] = $this->lang->line('month');
+
 
 
 
         $page_data['smartreport_vouchers_data'] = $smartreport_vouchers;
-        
+
         $page_data['guestname'] = $this->input->get('guestname', TRUE);
         $page_data['listhotel'] = $this->input->get('listhotel', TRUE);
         $page_data['idvoucher'] = $this->input->get('idvoucher', TRUE);
+        $page_data['yearvoucher'] = $this->input->get('yearvoucher', TRUE);
+        $page_data['monthvoucher'] = $this->input->get('monthvoucher', TRUE);
 
 
 
